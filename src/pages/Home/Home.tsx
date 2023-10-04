@@ -1,6 +1,8 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
+import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
+
 const Home = () => {
 
   return (
@@ -15,6 +17,7 @@ const Home = () => {
       >
         Hello World!
       </Typography>
+      <WelcomeMessage name ='Diana'/>
 
     </Box>
   );
