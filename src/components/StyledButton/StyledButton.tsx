@@ -9,6 +9,7 @@ type Props = {
     borderRadius: string;
     border: string;
     cursor: string;
+    fontSize: string;
   onClick?: () => void;
   children?: React.ReactNode;
   startIcon?: React.ReactNode;
@@ -22,12 +23,14 @@ const StyledButton: React.FC<Props> = ({
     borderRadius,
     border,
     cursor,
+    fontSize,
     children,
     startIcon,
     onClick
   }) => {
   return (
     <Button
+      type="button"
       startIcon={startIcon}
       onClick={onClick}
       style={{
@@ -37,7 +40,9 @@ const StyledButton: React.FC<Props> = ({
         color: color,
         borderRadius: borderRadius,
         border: border,
-        cursor:cursor
+        cursor:cursor,
+        fontSize: fontSize,
+        textTransform: 'capitalize',
       }}
     >
     {children}
