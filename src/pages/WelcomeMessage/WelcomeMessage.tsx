@@ -20,16 +20,8 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
           </Typography>
       </Box>
       <Box ml="auto">
-        <StyledButton
+        <StyledButton buttonType='primary' buttonSize='medium' type='button'
           startIcon={<Add sx={{ fontSize: '24px' }} />}
-          width='158px'
-          height='38px'
-          backgroundColor='#0E166E'
-          borderRadius='30px'
-          color='white'
-          border='none'
-          cursor='pointer'
-          fontSize='14px'
         >
           Report Issue
         </StyledButton>
@@ -39,3 +31,5 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
 };
 
 export default WelcomeMessage;
+
+
