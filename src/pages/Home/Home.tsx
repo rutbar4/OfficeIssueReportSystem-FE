@@ -9,18 +9,7 @@ const Home = () => {
 
   return (
     <Box>
-      <Typography
-        variant="h4"
-        noWrap
-        sx={{
-          mt: 2,
-          mb: 2,
-          paddingLeft: 2,
-        }}
-      >
-        Hello World!
-      </Typography>
-      <WelcomeMessage name={name}/>
+      <WelcomeMessage name={name} />
     </Box>
   );
 };
