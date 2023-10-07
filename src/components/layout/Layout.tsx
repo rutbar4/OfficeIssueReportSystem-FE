@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { NavLink, Outlet } from 'react-router-dom';
+import { JSX } from 'react/jsx-runtime';
 
 import { AppRoutes } from 'src/types/routes';
 
