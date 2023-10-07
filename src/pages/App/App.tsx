@@ -1,18 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import Layout from 'src/components/layout/Layout';
-import Home from 'src/pages/Home/Home';
-import { AppRoutes } from 'src/types/routes';
+import { RouterProvider } from 'react-router-dom';
+
+import AppRouter from 'src/components/AppRouter/AppRouter';
+
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path={AppRoutes.HOME} element={<Home />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        <RouterProvider router={AppRouter} />
   );
 };
 
