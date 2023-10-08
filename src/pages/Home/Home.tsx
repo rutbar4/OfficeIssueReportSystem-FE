@@ -4,13 +4,16 @@ import { useState } from 'react';
 
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
 
+import Sidebar from 'src/components/sidebar/Sidebar';
 import IssueCard from 'src/components/Issue';
+
 
 const Home = () => {
   const [name, setName] = useState('Diana');
 
   return (
     <Box>
+      <Sidebar/>
       <WelcomeMessage name={name} />
       <IssueCard
         issueName="Example Issue"
