@@ -4,7 +4,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-//import UserMenuIcon from '@mui/icons-material/AccountCircle';
 
 import 'src/scss/Styles.scss';
 
@@ -42,9 +41,6 @@ function TopBar() {
             <IconButton color="inherit" aria-label="User" onClick={handleUserMenu}>
               <img src={userIcon} alt="MENU" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
             </IconButton>
-            {/* <IconButton color="inherit" aria-label="Account" onClick={handleUserMenu}>
-              <UserMenuIcon sx={iconStyle} />
-            </IconButton> */}
           </div>
         </Toolbar>
       </Container>

@@ -1,25 +1,16 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
-import IssueCard from 'src/components/Issue';
+
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
+
+import IssueCard from 'src/components/Issue';
 
 const Home = () => {
   const [name, setName] = useState('Diana');
 
   return (
     <Box>
-      <Typography
-        variant="h4"
-        noWrap
-        sx={{
-          mt: 2,
-          mb: 2,
-          paddingLeft: 2,
-        }}
-      >
-        Hello World!
-      </Typography>
       <WelcomeMessage name={name} />
       <IssueCard
         issueName="Example Issue"
