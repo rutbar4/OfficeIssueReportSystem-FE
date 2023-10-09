@@ -1,0 +1,76 @@
+variables:
+    # Change
+    TEAM_NAME: "asdf"
+    HOST: "asdf.devbstaging.com"
+    APP_TAG: "latest"
+    # DO NOT CHANGE
+    IMG_APP: harbor.devbridge.net/sourcery-academy/$TEAM_NAME/frontend
+
+stages:
+    - clone
+    - build
+    - deploy
+    - status
+
+clone:
+    stage: clone
+    image: alpine:latest
+    before_script:
+        - apk update
+        - apk add curl jq git
+    script:
+        - . ./build-status.gitlab-ci.sh
+        - $GIT_CLONE_AUTH_FE ./git-clone
+        - cd git-clone
+        - git checkout $SOURCE_BRANCH_NAME
+        - status INPROGRESS
+    artifacts:
+        paths:
+            - git-clone/*
+
+build:
+    stage: build
+    image: $ACR_URL/gitlab/packages:latest
+    script:
+        - /kaniko/executor
+            --context "git-clone"
+            --dockerfile "git-clone/Dockerfile"
+            --destination "harbor.devbridge.net/sourcery-academy/$TEAM_NAME/frontend:$APP_TAG"
+ 
+deploy:
+    stage: deploy
+    image: $ACR_URL/gitlab/packages:latest
+    script:
+        - cd git-clone/helm
+        - helm upgrade 
+            --install frontend frontend
+            --namespace $TEAM_NAME
+            --create-namespace
+            --values frontend/values.yaml 
+            --set ingress.hosts[0].host="$HOST"
+            --set image.repository=$IMG_APP 
+            --set image.tag=$APP_TAG 
+        - kubectl get secret regcred -n gitlab -o json | jq 'del(.metadata["namespace","creationTimestamp","resourceVersion","selfLink","uid"])' | kubectl apply -n $TEAM_NAME -f -
+        - kubectl rollout restart -n $TEAM_NAME deployment frontend-helm
+
+status_ok:
+    stage: status
+    image: alpine:latest
+    before_script:
+        - apk update
+        - apk add curl jq
+    script:
+        - . ./build-status.gitlab-ci.sh
+        - status SUCCESSFUL
+    when: on_success
+
+status_failed:
+    stage: status
+    image: alpine:latest
+    before_script:
+        - apk update
+        - apk add curl jq
+    script:
+        - . ./build-status.gitlab-ci.sh
+        - status FAILED
+    when: on_failure
