@@ -3,9 +3,10 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
-import UpButton from 'src/icons/UpvoteButtonIcon.png'
-import CommentIcon from 'src/icons/CommentIcon.png'
-import UpvoteIcon from 'src/icons/UpvoteIcon.png'
+
+import UpButton from 'src/icons/UpvoteButtonIcon.png';
+import CommentIcon from 'src/icons/CommentIcon.png';
+import UpvoteIcon from 'src/icons/UpvoteIcon.png';
 
 const BoxContainer = styled(Box)`
     display: flex;
@@ -19,18 +20,28 @@ const BoxContainer = styled(Box)`
     border-radius: 5px;
 `;
 
-const CustomBox = ({ issueName, issueDescription, issueStatus, upvoteCount, commentCount, date }) => {
+type Props = {
+  issueName: string;
+  issueDescription: string;
+  issueStatus: string;
+  upvoteCount: number;
+  commentCount: number;
+  date: string;
+}
+
+// eslint-disable-next-line react/prop-types
+const CustomBox: React.FC<Props> = ({ issueName, issueDescription, issueStatus, upvoteCount, commentCount, date }) => {
 
     return (
         <BoxContainer>
         <h2>{issueName}</h2>
         <div style={{display:'flex', flexDirection:'row', gap:'120px'}}>
-            <Typography sx={{width: '700px', // Set a fixed width for the description container
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    WebkitLineClamp: "2",
-                    WebkitBoxOrient: "vertical",
+            <Typography sx={{width: '700px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    WebkitLineClamp: '2',
+                    WebkitBoxOrient: 'vertical',
                     height: '39px',
                     fontSize: '14px'
                     }}>{issueDescription}</Typography>
@@ -38,7 +49,7 @@ const CustomBox = ({ issueName, issueDescription, issueStatus, upvoteCount, comm
               label={issueStatus}
               sx={{borderRadius:'17px', fontSize:'15px'}}
               color={
-                issueStatus === "Open" ? "success" : issueStatus === "In progress" ? "primary" :"default"
+                issueStatus === 'Open' ? 'success' : issueStatus === 'In progress' ? 'primary' :'default'
               }
             />
             <p><img src={UpvoteIcon} style={{height: '20px', marginRight: '5px' }} />{upvoteCount}</p>
@@ -48,7 +59,7 @@ const CustomBox = ({ issueName, issueDescription, issueStatus, upvoteCount, comm
                     Vote
             </Button>
         </div>
-              
+
         <p>{date}</p>
         </BoxContainer>
     );
