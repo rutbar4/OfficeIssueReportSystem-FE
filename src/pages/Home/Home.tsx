@@ -1,4 +1,3 @@
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +5,7 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
 
+import Sidebar from 'src/components/sidebar/Sidebar';
 import IssueCard from 'src/components/Issue';
 import { RootState } from 'src/store/store';
 import { getIssues } from 'src/actions/issues/IssuesAction';
@@ -23,17 +23,7 @@ const Home = () => {
 
   return (
     <Box>
-      <Typography
-        variant="h4"
-        noWrap
-        sx={{
-          mt: 2,
-          mb: 2,
-          paddingLeft: 2,
-        }}
-      >
-        Hello World!
-      </Typography>
+      <Sidebar/>
       <WelcomeMessage name={name}/>
       {issues.loading ? (
         <p>Loading...</p>
