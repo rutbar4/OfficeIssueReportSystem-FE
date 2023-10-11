@@ -1,4 +1,6 @@
 
+import axios from 'axios';
+
 import * as actions from './IssuesActionType';
 
 import { AppDispatch } from 'src/store/store';
@@ -15,8 +17,8 @@ const getIssuesSuccessAction = (issues) => ({
 export const getIssues = () => {
   return (dispatch: AppDispatch) => {
      dispatch(getIssuesAction());
-    fetch('http://localhost:8080/issue').then(async (result) => {
-      const resultJson = await result.json();
+    axios.get('http://localhost:8080/issue').then(async (result) => {
+      const resultJson = await result.data;
       dispatch(getIssuesSuccessAction(resultJson));
     });
   };
