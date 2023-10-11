@@ -1,28 +1,46 @@
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
 
 import Sidebar from 'src/components/sidebar/Sidebar';
 import IssueCard from 'src/components/Issue';
+import { RootState } from 'src/store/store';
+import { getIssues } from 'src/actions/issues/IssuesAction';
 
 
 const Home = () => {
   const [name, setName] = useState('Diana');
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+
+  const issues = useSelector((state: RootState) => state.issues);
+
+  useEffect(() => {
+    dispatch(getIssues());
+  }, [dispatch]);
 
   return (
     <Box>
       <Sidebar/>
-      <WelcomeMessage name={name} />
-      <IssueCard
-        issueName="Example Issue"
-        issueDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        issueStatus="Open"
-        upvoteCount={10}
-        commentCount={5}
-        date={new Date().toLocaleDateString()}
-      />
+      <WelcomeMessage name={name}/>
+      {issues.loading ? (
+        <p>Loading...</p>
+      ): ( <div>
+        {issues.issues.map((issue) => (
+          <IssueCard
+          key={issue.id}
+          issueName={issue.name}
+          issueDescription={issue.description}
+          issueStatus={issue.status}
+          upvoteCount={issue.upvoteCount}
+          commentCount={issue.commentCount}
+          date={issue.time}
+          />
+        ))}
+      </div>
+      )}
     </Box>
   );
 };
