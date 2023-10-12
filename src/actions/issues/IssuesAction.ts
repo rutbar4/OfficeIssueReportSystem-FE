@@ -20,6 +20,9 @@ export const getIssues = () => {
     axios.get('http://localhost:8080/issue').then(async (result) => {
       const resultJson = await result.data;
       dispatch(getIssuesSuccessAction(resultJson));
+    }).catch((error) => {
+      console.log(error);
+      dispatch(getIssuesAction);
     });
   };
 };
