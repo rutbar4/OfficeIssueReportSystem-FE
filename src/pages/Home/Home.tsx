@@ -23,7 +23,7 @@ const Home = () => {
 
   return (
     <Box>
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <WelcomeMessage name={name}/>
       {issues.loading ? (
         <p>Loading...</p>

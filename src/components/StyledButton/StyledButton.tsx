@@ -25,17 +25,21 @@ const StyledButton: React.FC<Props> = ({
         color: 'white',
       },
       secondary: {
-        backgroundColor: 'gray',
-        color: 'black',
+        backgroundColor: 'white',
+        color: '#0E166E',
+        borderColor: '#0E166E',
+        borderWidth: '2px',
+        borderStyle: 'solid'
       },
     };
 
     const buttonSizeStyles = {
       small: {
-        width: '100px',
+        width: '70px',
         height: '30px',
         fontSize: '12px',
-        borderRadius: '5px',
+        borderRadius: '35px',
+        marginLeft: '10px'
       },
       medium: {
         width: '158px',
@@ -61,7 +65,6 @@ const StyledButton: React.FC<Props> = ({
         ...buttonSizeStyles[buttonSize],
         cursor: 'pointer',
         textTransform: 'capitalize',
-        border: 'none',
       }}
     >
     {children}
