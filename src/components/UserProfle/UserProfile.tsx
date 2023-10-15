@@ -1,8 +1,11 @@
-import { Box, Button, Divider, Grid, TextField, Typography } from '@mui/material';
+import { Box, Divider, Grid, TextField, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
+import {  useNavigate } from 'react-router';
 
 import Sidebar from '../sidebar/Sidebar';
 import StyledButton from '../StyledButton/StyledButton';
+
+import { AppRoutes } from 'src/types/routes';
 
 
 const labelColor = { color: '#6B706D' };
@@ -15,6 +18,7 @@ const defaultImageUrl =
 
     const [image, setImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const navigate = useNavigate();
 
     const handleImageChange = () => {
       if (fileInputRef.current) {
@@ -117,9 +121,10 @@ const defaultImageUrl =
       </Grid>
   </Grid>
   <Grid container justifyContent="flex-end" sx={{ marginTop: '50px' }}>
-        <StyledButton buttonType='secondary' buttonSize='small' type='button'>Cancel</StyledButton>
-        <StyledButton buttonType='primary' buttonSize='small' type='button'>Save</StyledButton>
-      </Grid>
+    <StyledButton buttonType='secondary' buttonSize='small' type='button'
+      onClick={() => navigate(AppRoutes.HOME)}>Cancel</StyledButton>
+    <StyledButton buttonType='primary' buttonSize='small' type='button'>Save</StyledButton>
+  </Grid>
     </>
   );
 };
