@@ -60,7 +60,6 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           toggleDrawer(true, setIssueDetailsOpen, e);
         }}
       >
-
         <h2>{issueName}</h2>
         <div style={{ display: 'flex', flexDirection: 'row', gap: '120px' }}>
           <Typography
@@ -103,7 +102,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
         </div>
         <p>{date}</p>
       </BoxContainer>
-      <IssueDrawer wrapperSetState={wrapperSetDaitailsOpen} state={IssueDetailsOpen}></IssueDrawer>
+      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} IssueDetailsOpen={IssueDetailsOpen}></IssueDrawer>
     </>
   );
 };
