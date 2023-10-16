@@ -46,20 +46,21 @@ const CustomBox: React.FC<CustomBoxProps> = ({
   commentCount,
   date,
 }) => {
-  const [state, setState] = React.useState(false);
-  const wrapperSetState = useCallback(
+  const [IssueDetailsOpen, setIssueDetailsOpen] = React.useState(false);
+  const wrapperSetDaitailsOpen = useCallback(
     (val) => {
-      setState(val);
+      setIssueDetailsOpen(val);
     },
-    [setState]
+    [setIssueDetailsOpen]
   );
   return (
     <>
       <BoxContainer
         onClick={(e) => {
-          toggleDrawer(true, setState, e);
+          toggleDrawer(true, setIssueDetailsOpen, e);
         }}
       >
+
         <h2>{issueName}</h2>
         <div style={{ display: 'flex', flexDirection: 'row', gap: '120px' }}>
           <Typography
@@ -102,7 +103,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
         </div>
         <p>{date}</p>
       </BoxContainer>
-      <IssueDrawer wrapperSetState={wrapperSetState} state={state}></IssueDrawer>
+      <IssueDrawer wrapperSetState={wrapperSetDaitailsOpen} state={IssueDetailsOpen}></IssueDrawer>
     </>
   );
 };
