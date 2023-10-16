@@ -1,11 +1,13 @@
 import { Box, Divider, Grid, TextField, Typography } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {  useNavigate } from 'react-router';
 
 import Sidebar from '../sidebar/Sidebar';
 import StyledButton from '../StyledButton/StyledButton';
 
 import { AppRoutes } from 'src/types/routes';
+import { UserProfileModel } from 'src/models/UserProfileModel';
+import { fetchUserProfile } from 'src/api/UserProfileApi';
 
 
 const labelColor = { color: '#6B706D' };
@@ -19,6 +21,19 @@ const defaultImageUrl =
     const [image, setImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
+
+    const [userProfile, setUserProfile] = useState<UserProfileModel | null>(null);
+
+    useEffect(() => {
+      fetchUserProfile()
+        .then((data) => {
+          setUserProfile(data);
+        })
+        .catch((error) => {
+          console.error('Error fetching user profile:', error);
+          throw error;
+        });
+    }, []);
 
     const handleImageChange = () => {
       if (fileInputRef.current) {
@@ -77,15 +92,15 @@ const defaultImageUrl =
         <Grid container spacing={5} direction="row">
           <Grid item xs={12}>
             <label style={labelColor}>Full name</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.fullName || ''}/>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Department</label>
-              <TextField select fullWidth sx={{ marginTop: '7px' }}/>
+              <TextField select fullWidth sx={{ marginTop: '7px' }} value={userProfile?.department || ''}/>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Role</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.role || ''}/>
             </Grid>
         </Grid>
         <Grid item xs={12} md={12} style={{ marginTop: '50px', marginBottom: '40px' }}>
@@ -95,19 +110,19 @@ const defaultImageUrl =
        <Grid container spacing={5} direction="row">
          <Grid item xs={12}>
             <label style={labelColor}>Street address</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.address.street || ''}/>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>City</label>
-              <TextField select fullWidth sx={{ marginTop: '7px' }}/>
+              <TextField select fullWidth sx={{ marginTop: '7px' }} value={userProfile?.address.city || ''}/>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>State/ Province</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.address.state || ''}/>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Postcode</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.address.postcode || ''}/>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Country</label>
@@ -115,6 +130,7 @@ const defaultImageUrl =
                 select
                 fullWidth
                 sx={{ marginTop: '7px' }}
+                value={userProfile?.country.countryName || ''}
               />
             </Grid>
         </Grid>
