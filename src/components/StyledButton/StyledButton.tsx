@@ -27,7 +27,7 @@ const StyledButton: React.FC<Props> = ({
       secondary: {
         backgroundColor: 'white',
         color: '#0E166E',
-        borderColor: '#0E166E',
+        borderColor: '#6B706D',
         borderWidth: '2px',
         borderStyle: 'solid'
       },

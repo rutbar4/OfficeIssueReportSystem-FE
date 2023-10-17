@@ -161,11 +161,12 @@ const labelColor = { color: '#6B706D' };
         <Grid container spacing={5} direction="row">
           <Grid item xs={12}>
             <label style={labelColor}>Full name</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}
+              <TextField fullWidth
+               sx={{ marginTop: '7px' }}
                value={userProfile?.fullName || ''}
                onChange={(event) => {
-                setUserProfile((prevUpdatedProfile) => ({
-                  ...prevUpdatedProfile,
+                setUserProfile((userProfile) => ({
+                  ...userProfile,
                   fullName: event.target.value || '',
                 }));
               }}
@@ -179,10 +180,10 @@ const labelColor = { color: '#6B706D' };
               sx={{ marginTop: '7px' }}
               value={userProfile?.department.officeName || ''}
               onChange={(event) => {
-                setUserProfile((prevUpdatedProfile) => ({
-                  ...prevUpdatedProfile,
+                setUserProfile((userProfile) => ({
+                  ...userProfile,
                   department: {
-                    ...prevUpdatedProfile.department,
+                    ...userProfile.department,
                     officeName: event.target.value || '',
                   },
                 }));
@@ -197,11 +198,12 @@ const labelColor = { color: '#6B706D' };
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Role</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}
+              <TextField fullWidth
+               sx={{ marginTop: '7px' }}
                value={userProfile?.role || ''}
                onChange={(event) => {
-                setUserProfile((prevUpdatedProfile) => ({
-                  ...prevUpdatedProfile,
+                setUserProfile((userProfile) => ({
+                  ...userProfile,
                   role: event.target.value || '',
                 }));
               }}
@@ -215,13 +217,14 @@ const labelColor = { color: '#6B706D' };
        <Grid container spacing={5} direction="row">
          <Grid item xs={12}>
             <label style={labelColor}>Street address</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}
+              <TextField fullWidth
+               sx={{ marginTop: '7px' }}
               value={userProfile?.address.street || ''}
               onChange={(event) => {
-                setUserProfile((prevUpdatedProfile) => ({
-                  ...prevUpdatedProfile,
+                setUserProfile((userProfile) => ({
+                  ...userProfile,
                   address: {
-                    ...prevUpdatedProfile.address,
+                    ...userProfile.address,
                     street: event.target.value || '',
                   },
                 }));
@@ -231,36 +234,37 @@ const labelColor = { color: '#6B706D' };
             <Grid item xs={6}>
               <label style={labelColor}>City</label>
               <TextField
-                select
                 fullWidth
-                sx={{ marginTop: '7px' }}
+                select
                 value={userProfile?.address.city || ''}
+                sx={{ marginTop: '7px' }}
                 onChange={(event) => {
-                  setUserProfile((prevUpdatedProfile) => ({
-                    ...prevUpdatedProfile,
+                  setUserProfile((userProfile) => ({
+                    ...userProfile,
                     address: {
-                      ...prevUpdatedProfile.address,
+                      ...userProfile.address,
                       city: event.target.value || '',
                     },
                   }));
                 }}
               >
-                {addresses.map((address) => (
-                  <MenuItem key={address.id} value={address.city}>
-                    {address.city}
-                  </MenuItem>
-                ))}
+                  {addresses.map((address) => (
+                    <MenuItem key={address.id} value={address.city}>
+                      {address.city}
+                    </MenuItem>
+              ))}
               </TextField>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>State/ Province</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}
+              <TextField fullWidth
+               sx={{ marginTop: '7px' }}
                value={userProfile?.address.state || ''}
                onChange={(event) => {
-                setUserProfile((prevUpdatedProfile) => ({
-                  ...prevUpdatedProfile,
+                setUserProfile((userProfile) => ({
+                  ...userProfile,
                   address: {
-                    ...prevUpdatedProfile.address,
+                    ...userProfile.address,
                     state: event.target.value || '',
                   },
                 }));
@@ -269,13 +273,14 @@ const labelColor = { color: '#6B706D' };
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Postcode</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }}
+              <TextField fullWidth
+               sx={{ marginTop: '7px' }}
                value={userProfile?.address.postcode || ''}
                onChange={(event) => {
-                setUserProfile((prevUpdatedProfile) => ({
-                  ...prevUpdatedProfile,
+                setUserProfile((userProfile) => ({
+                  ...userProfile,
                   address: {
-                    ...prevUpdatedProfile.address,
+                    ...userProfile.address,
                     postcode: event.target.value || '',
                   },
                 }));
@@ -288,13 +293,13 @@ const labelColor = { color: '#6B706D' };
                 select
                 fullWidth
                 sx={{ marginTop: '7px' }}
-                value={userProfile?.country.countryName}
+                value={userProfile?.country.countryName || ''}
                 onChange={(event) => {
-                  setUserProfile((prevUpdatedProfile) => ({
-                    ...prevUpdatedProfile,
+                  setUserProfile((userProfile) => ({
+                    ...userProfile,
                     country: {
-                      ...prevUpdatedProfile.country,
-                      countryName: event.target.value,
+                      ...userProfile.country,
+                      countryName: event.target.value || '',
                     },
                   }));
                 }}
