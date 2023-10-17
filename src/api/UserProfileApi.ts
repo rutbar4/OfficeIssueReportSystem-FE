@@ -11,3 +11,10 @@ export const fetchUserProfile = async (): Promise<UserProfileModel> => {
     });
 };
 
+
+export const updateUserProfile = async (data: UserProfileModel): Promise<number> => {
+  const response = await axios.put<UserProfileModel>(`http://localhost:8080/user/${data.id}`, data);
+  return response.status;
+};
+
+

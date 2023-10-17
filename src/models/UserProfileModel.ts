@@ -7,5 +7,12 @@ export interface UserProfileModel {
   role: string;
   address: Address;
   country: Country;
+  picture: Picture;
+}
+
+
+export interface Picture {
+  id?: string;
+  link: string;
 }
 

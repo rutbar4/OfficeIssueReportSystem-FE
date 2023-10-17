@@ -7,13 +7,10 @@ import StyledButton from '../StyledButton/StyledButton';
 
 import { AppRoutes } from 'src/types/routes';
 import { UserProfileModel } from 'src/models/UserProfileModel';
-import { fetchUserProfile } from 'src/api/UserProfileApi';
+import { fetchUserProfile, updateUserProfile } from 'src/api/UserProfileApi';
 
 
 const labelColor = { color: '#6B706D' };
-const defaultImageUrl =
-    'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80';
-
 
 
   const UserProfile = () => {
@@ -23,11 +20,57 @@ const defaultImageUrl =
     const navigate = useNavigate();
 
     const [userProfile, setUserProfile] = useState<UserProfileModel | null>(null);
+    const [updatedUserProfile, setUpdatedUserProfile] = useState<UserProfileModel>({
+      id: '',
+      fullName: '',
+      department: '',
+      role: '',
+      address: {
+        id: '',
+        street: '',
+        city: '',
+        state: '',
+        postcode: '',
+      },
+      country: {
+        id: '',
+        countryName: '',
+      },
+      picture: {
+        id: '',
+        link: '',
+      },
+    });
+
+    const handleUpdateUserClick = () => {
+      if (updatedUserProfile) {
+        if (updatedUserProfile.picture) {
+          if (image) {
+            updatedUserProfile.picture.link = image;
+          }
+        }
+        if (userProfile) {
+          updatedUserProfile.id = userProfile.id;
+          userProfile.address && (updatedUserProfile.address.id = userProfile.address.id);
+          userProfile.country && (updatedUserProfile.country.id = userProfile.country.id);
+          userProfile.picture && (updatedUserProfile.picture.id = userProfile.picture.id);
+        }
+        updateUserProfile(updatedUserProfile)
+          .then((status) => {
+            if (status === 201) {
+              navigate(AppRoutes.HOME);
+            }
+        });
+      }
+    };
 
     useEffect(() => {
       fetchUserProfile()
         .then((data) => {
           setUserProfile(data);
+          if (data.picture && data.picture.link) {
+            setImage(data.picture.link);
+          }
         })
         .catch((error) => {
           console.error('Error fetching user profile:', error);
@@ -92,15 +135,39 @@ const defaultImageUrl =
         <Grid container spacing={5} direction="row">
           <Grid item xs={12}>
             <label style={labelColor}>Full name</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.fullName || ''}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }}
+               value={userProfile?.fullName || ''}
+               onChange={(event) => {
+                setUpdatedUserProfile((updatedUserProfile) => ({
+                  ...updatedUserProfile,
+                  fullName: event.target.value || '',
+                }));
+              }}
+               />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Department</label>
-              <TextField select fullWidth sx={{ marginTop: '7px' }} value={userProfile?.department || ''}/>
+              <TextField select fullWidth sx={{ marginTop: '7px' }}
+              value={userProfile?.department || ''}
+              onChange={(event) => {
+                setUpdatedUserProfile((updatedUserProfile) => ({
+                  ...updatedUserProfile,
+                  department: event.target.value || '',
+                }));
+              }}
+              />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Role</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.role || ''}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }}
+               value={userProfile?.role || ''}
+               onChange={(event) => {
+                setUpdatedUserProfile((updatedUserProfile) => ({
+                  ...updatedUserProfile,
+                  role: event.target.value || '',
+                }));
+              }}
+               />
             </Grid>
         </Grid>
         <Grid item xs={12} md={12} style={{ marginTop: '50px', marginBottom: '40px' }}>
@@ -110,19 +177,63 @@ const defaultImageUrl =
        <Grid container spacing={5} direction="row">
          <Grid item xs={12}>
             <label style={labelColor}>Street address</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.address.street || ''}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }}
+              value={userProfile?.address.street || ''}
+              onChange={(event) => {
+                setUpdatedUserProfile((updatedUserProfile) => ({
+                  ...updatedUserProfile,
+                  address: {
+                    ...updatedUserProfile.address,
+                    street: event.target.value || '',
+                  },
+                }));
+              }}
+              />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>City</label>
-              <TextField select fullWidth sx={{ marginTop: '7px' }} value={userProfile?.address.city || ''}/>
+              <TextField select fullWidth sx={{ marginTop: '7px' }}
+               value={userProfile?.address.city || ''}
+               onChange={(event) => {
+                setUpdatedUserProfile((updatedUserProfile) => ({
+                  ...updatedUserProfile,
+                  address: {
+                    ...updatedUserProfile.address,
+                    city: event.target.value || '',
+                  },
+                }));
+              }}
+               />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>State/ Province</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.address.state || ''}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }}
+               value={userProfile?.address.state || ''}
+               onChange={(event) => {
+                setUpdatedUserProfile((updatedUserProfile) => ({
+                  ...updatedUserProfile,
+                  address: {
+                    ...updatedUserProfile.address,
+                    state: event.target.value || '',
+                  },
+                }));
+              }}
+               />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Postcode</label>
-              <TextField fullWidth sx={{ marginTop: '7px' }} value={userProfile?.address.postcode || ''}/>
+              <TextField fullWidth sx={{ marginTop: '7px' }}
+               value={userProfile?.address.postcode || ''}
+               onChange={(event) => {
+                setUpdatedUserProfile((updatedUserProfile) => ({
+                  ...updatedUserProfile,
+                  address: {
+                    ...updatedUserProfile.address,
+                    postcode: event.target.value || '',
+                  },
+                }));
+              }}
+               />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Country</label>
@@ -131,6 +242,15 @@ const defaultImageUrl =
                 fullWidth
                 sx={{ marginTop: '7px' }}
                 value={userProfile?.country.countryName || ''}
+                onChange={(event) => {
+                  setUpdatedUserProfile((updatedUserProfile) => ({
+                    ...updatedUserProfile,
+                    country: {
+                      ...updatedUserProfile.address,
+                      countryName: event.target.value || '',
+                    },
+                  }));
+                }}
               />
             </Grid>
         </Grid>
@@ -139,7 +259,9 @@ const defaultImageUrl =
   <Grid container justifyContent="flex-end" sx={{ marginTop: '50px' }}>
     <StyledButton buttonType='secondary' buttonSize='small' type='button'
       onClick={() => navigate(AppRoutes.HOME)}>Cancel</StyledButton>
-    <StyledButton buttonType='primary' buttonSize='small' type='button'>Save</StyledButton>
+    <StyledButton buttonType='primary' buttonSize='small' type='button'
+    onClick={handleUpdateUserClick}
+    >Save</StyledButton>
   </Grid>
     </>
   );
