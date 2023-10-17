@@ -10,6 +10,8 @@ const Layout = (): JSX.Element => {
     <>
       <TopHeader />
       <Container maxWidth="xl">
+        {/* Used to make space under the header so the content doesn't go under it */}
+        <div style={{ paddingTop: '120px' }} />
         <Outlet />
       </Container>
     </>
