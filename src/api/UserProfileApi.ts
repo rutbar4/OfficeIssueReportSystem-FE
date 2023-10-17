@@ -19,22 +19,30 @@ export const updateUserProfile = async (data: UserProfileModel): Promise<number>
   return response.status;
 };
 
-export const fetchAllFoodCountries = async (): Promise<Country[]> => {
-  const response = await axios.get<Country[]>('http://localhost:8080/country');
-
-  return response.data;
+export const fetchAllCountries = async (): Promise<Country[]> => {
+  try {
+    const response = await axios.get<Country[]>('http://localhost:8080/country');
+    return response.data;
+  } catch (error) {
+    return [];
+  }
 };
 
-export const fetchAllFoodAddresses = async (): Promise<Address[]> => {
-  const response = await axios.get<Address[]>('http://localhost:8080/address');
-
-  return response.data;
+export const fetchAllAddresses = async (): Promise<Address[]> => {
+  try {
+    const response = await axios.get<Address[]>('http://localhost:8080/address');
+    return response.data;
+  } catch (error) {
+    return [];
+  }
 };
 
-export const fetchAllFoodOfficies = async (): Promise<Office[]> => {
-  const response = await axios.get<Office[]>('http://localhost:8080/address');
-
-  return response.data;
+export const fetchAllOfficies = async (): Promise<Office[]> => {
+  try {
+    const response = await axios.get<Office[]>('http://localhost:8080/office');
+    return response.data;
+  } catch (error) {
+    return [];
+  }
 };
-
 
