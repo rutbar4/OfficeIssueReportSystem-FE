@@ -23,11 +23,11 @@ const labelColor = { color: '#6B706D' };
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
 
+
     const [offices, setOffices] = useState<Office[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
     const[addresses, setAddresses] = useState<Address[]>([]);
-    const [userProfile, setUserProfile] = useState<UserProfileModel | null>(null);
-    const [updatedUserProfile, setUpdatedUserProfile] = useState<UserProfileModel>({
+    const [userProfile, setUserProfile] = useState<UserProfileModel>({
       id: '',
       fullName: '',
       role: '',
@@ -89,19 +89,13 @@ const labelColor = { color: '#6B706D' };
 
 
     const handleUpdateUserClick = () => {
-      if (updatedUserProfile) {
-        if (updatedUserProfile.picture) {
+      if (userProfile) {
+        if (userProfile.picture) {
           if (image) {
-            updatedUserProfile.picture.link = image;
+            userProfile.picture.link = image;
           }
         }
-        if (userProfile) {
-          updatedUserProfile.id = userProfile.id;
-          userProfile.address && (updatedUserProfile.address.id = userProfile.address.id);
-          userProfile.country && (updatedUserProfile.country.id = userProfile.country.id);
-          userProfile.picture && (updatedUserProfile.picture.id = userProfile.picture.id);
-        }
-        updateUserProfile(updatedUserProfile)
+        updateUserProfile(userProfile)
           .then((status) => {
             if (status === 201) {
               navigate(AppRoutes.HOME);
@@ -170,8 +164,8 @@ const labelColor = { color: '#6B706D' };
               <TextField fullWidth sx={{ marginTop: '7px' }}
                value={userProfile?.fullName || ''}
                onChange={(event) => {
-                setUpdatedUserProfile((updatedUserProfile) => ({
-                  ...updatedUserProfile,
+                setUserProfile((prevUpdatedProfile) => ({
+                  ...prevUpdatedProfile,
                   fullName: event.target.value || '',
                 }));
               }}
@@ -179,32 +173,35 @@ const labelColor = { color: '#6B706D' };
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Department</label>
-              <TextField select fullWidth sx={{ marginTop: '7px' }}
+              <TextField
+              fullWidth
+              select
+              sx={{ marginTop: '7px' }}
               value={userProfile?.department.officeName || ''}
               onChange={(event) => {
-                setUpdatedUserProfile((updatedUserProfile) => ({
-                  ...updatedUserProfile,
+                setUserProfile((prevUpdatedProfile) => ({
+                  ...prevUpdatedProfile,
                   department: {
-                    ...updatedUserProfile.department,
+                    ...prevUpdatedProfile.department,
                     officeName: event.target.value || '',
                   },
                 }));
               }}
               >
-                {offices.map((office) => (
+              {offices.map((office) => (
                 <MenuItem key={office.id} value={office.officeName}>
                   {office.officeName}
                 </MenuItem>
               ))}
-                </ TextField>
+            </TextField>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Role</label>
               <TextField fullWidth sx={{ marginTop: '7px' }}
                value={userProfile?.role || ''}
                onChange={(event) => {
-                setUpdatedUserProfile((updatedUserProfile) => ({
-                  ...updatedUserProfile,
+                setUserProfile((prevUpdatedProfile) => ({
+                  ...prevUpdatedProfile,
                   role: event.target.value || '',
                 }));
               }}
@@ -221,10 +218,10 @@ const labelColor = { color: '#6B706D' };
               <TextField fullWidth sx={{ marginTop: '7px' }}
               value={userProfile?.address.street || ''}
               onChange={(event) => {
-                setUpdatedUserProfile((updatedUserProfile) => ({
-                  ...updatedUserProfile,
+                setUserProfile((prevUpdatedProfile) => ({
+                  ...prevUpdatedProfile,
                   address: {
-                    ...updatedUserProfile.address,
+                    ...prevUpdatedProfile.address,
                     street: event.target.value || '',
                   },
                 }));
@@ -233,34 +230,37 @@ const labelColor = { color: '#6B706D' };
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>City</label>
-              <TextField select fullWidth sx={{ marginTop: '7px' }}
-               value={userProfile?.address.city || ''}
-               onChange={(event) => {
-                setUpdatedUserProfile((updatedUserProfile) => ({
-                  ...updatedUserProfile,
-                  address: {
-                    ...updatedUserProfile.address,
-                    city: event.target.value || '',
-                  },
-                }));
-              }}
+              <TextField
+                select
+                fullWidth
+                sx={{ marginTop: '7px' }}
+                value={userProfile?.address.city || ''}
+                onChange={(event) => {
+                  setUserProfile((prevUpdatedProfile) => ({
+                    ...prevUpdatedProfile,
+                    address: {
+                      ...prevUpdatedProfile.address,
+                      city: event.target.value || '',
+                    },
+                  }));
+                }}
               >
                 {addresses.map((address) => (
                   <MenuItem key={address.id} value={address.city}>
                     {address.city}
                   </MenuItem>
                 ))}
-                </TextField>
+              </TextField>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>State/ Province</label>
               <TextField fullWidth sx={{ marginTop: '7px' }}
                value={userProfile?.address.state || ''}
                onChange={(event) => {
-                setUpdatedUserProfile((updatedUserProfile) => ({
-                  ...updatedUserProfile,
+                setUserProfile((prevUpdatedProfile) => ({
+                  ...prevUpdatedProfile,
                   address: {
-                    ...updatedUserProfile.address,
+                    ...prevUpdatedProfile.address,
                     state: event.target.value || '',
                   },
                 }));
@@ -272,10 +272,10 @@ const labelColor = { color: '#6B706D' };
               <TextField fullWidth sx={{ marginTop: '7px' }}
                value={userProfile?.address.postcode || ''}
                onChange={(event) => {
-                setUpdatedUserProfile((updatedUserProfile) => ({
-                  ...updatedUserProfile,
+                setUserProfile((prevUpdatedProfile) => ({
+                  ...prevUpdatedProfile,
                   address: {
-                    ...updatedUserProfile.address,
+                    ...prevUpdatedProfile.address,
                     postcode: event.target.value || '',
                   },
                 }));
@@ -288,13 +288,13 @@ const labelColor = { color: '#6B706D' };
                 select
                 fullWidth
                 sx={{ marginTop: '7px' }}
-                value={userProfile?.country.countryName || ''}
+                value={userProfile?.country.countryName}
                 onChange={(event) => {
-                  setUpdatedUserProfile((updatedUserProfile) => ({
-                    ...updatedUserProfile,
+                  setUserProfile((prevUpdatedProfile) => ({
+                    ...prevUpdatedProfile,
                     country: {
-                      ...updatedUserProfile.address,
-                      countryName: event.target.value || '',
+                      ...prevUpdatedProfile.country,
+                      countryName: event.target.value,
                     },
                   }));
                 }}
@@ -304,7 +304,7 @@ const labelColor = { color: '#6B706D' };
                     {country.countryName}
                   </MenuItem>
                 ))}
-                </TextField>
+              </TextField>
             </Grid>
         </Grid>
       </Grid>
