@@ -23,8 +23,11 @@ const labelColor = { color: '#6B706D' };
     const [updatedUserProfile, setUpdatedUserProfile] = useState<UserProfileModel>({
       id: '',
       fullName: '',
-      department: '',
       role: '',
+      department: {
+        id: '',
+        officeName: '',
+      },
       address: {
         id: '',
         street: '',
@@ -143,16 +146,19 @@ const labelColor = { color: '#6B706D' };
                   fullName: event.target.value || '',
                 }));
               }}
-               />
+              />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Department</label>
               <TextField select fullWidth sx={{ marginTop: '7px' }}
-              value={userProfile?.department || ''}
+              value={userProfile?.department.officeName || ''}
               onChange={(event) => {
                 setUpdatedUserProfile((updatedUserProfile) => ({
                   ...updatedUserProfile,
-                  department: event.target.value || '',
+                  department: {
+                    ...updatedUserProfile.department,
+                    officeName: event.target.value || '',
+                  },
                 }));
               }}
               />
@@ -167,7 +173,7 @@ const labelColor = { color: '#6B706D' };
                   role: event.target.value || '',
                 }));
               }}
-               />
+              />
             </Grid>
         </Grid>
         <Grid item xs={12} md={12} style={{ marginTop: '50px', marginBottom: '40px' }}>
@@ -203,7 +209,7 @@ const labelColor = { color: '#6B706D' };
                   },
                 }));
               }}
-               />
+              />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>State/ Province</label>
@@ -218,7 +224,7 @@ const labelColor = { color: '#6B706D' };
                   },
                 }));
               }}
-               />
+              />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Postcode</label>
@@ -233,7 +239,7 @@ const labelColor = { color: '#6B706D' };
                   },
                 }));
               }}
-               />
+              />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Country</label>
