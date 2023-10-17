@@ -42,7 +42,7 @@ const Home = () => {
         ))}
       </div>
       )}
-      <ModalContent/>
+      <ModalContent title='Just some random testing words' reportedBy='Vardenis Pavardenis' reported='23 January 2023, 11:34' status='Open' upvotes={2} office='Kaunas, Lithuania' />
     </Box>
 
   );
