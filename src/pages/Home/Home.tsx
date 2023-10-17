@@ -9,6 +9,7 @@ import Sidebar from 'src/components/sidebar/Sidebar';
 import IssueCard from 'src/components/Issue';
 import { RootState } from 'src/store/store';
 import { getIssues } from 'src/actions/issues/IssuesAction';
+import ModalContent from 'src/components/ModalContent'
 
 
 const Home = () => {
@@ -41,7 +42,9 @@ const Home = () => {
         ))}
       </div>
       )}
+      <ModalContent/>
     </Box>
+
   );
 };
 
