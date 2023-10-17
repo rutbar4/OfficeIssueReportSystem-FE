@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, TextField, Typography } from '@mui/material';
+import { Box, Divider, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import {  useNavigate } from 'react-router';
 
@@ -8,10 +8,14 @@ import StyledButton from '../StyledButton/StyledButton';
 import { AppRoutes } from 'src/types/routes';
 import { UserProfileModel } from 'src/models/UserProfileModel';
 import { fetchUserProfile, updateUserProfile } from 'src/api/UserProfileApi';
+import { Address, Country } from 'src/models/AddressModel';
+import { fetchAllOffices } from 'src/api/OfficeApi';
+import { Office } from 'src/models/OfficeModel';
+import { fetchAllCountries } from 'src/api/CountryApi';
+import { fetchAllAddresses } from 'src/api/AddressApi';
 
 
 const labelColor = { color: '#6B706D' };
-
 
   const UserProfile = () => {
 
@@ -19,6 +23,9 @@ const labelColor = { color: '#6B706D' };
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
 
+    const [offices, setOffices] = useState<Office[]>([]);
+    const [countries, setCountries] = useState<Country[]>([]);
+    const[addresses, setAddresses] = useState<Address[]>([]);
     const [userProfile, setUserProfile] = useState<UserProfileModel | null>(null);
     const [updatedUserProfile, setUpdatedUserProfile] = useState<UserProfileModel>({
       id: '',
@@ -45,6 +52,42 @@ const labelColor = { color: '#6B706D' };
       },
     });
 
+
+    useEffect(() => {
+      fetchUserProfile()
+        .then((data) => {
+          setUserProfile(data);
+          if (data.picture && data.picture.link) {
+            setImage(data.picture.link);
+          }
+        });
+    }, []);
+
+
+    useEffect(() => {
+      fetchAllOffices()
+      .then((data) => {
+        setOffices(data);
+      });
+    }, []);
+
+
+    useEffect(() => {
+      fetchAllAddresses()
+      .then((data) => {
+        setAddresses(data);
+      });
+    }, []);
+
+
+    useEffect(() => {
+      fetchAllCountries()
+      .then((data) => {
+        setCountries(data);
+      });
+    }, []);
+
+
     const handleUpdateUserClick = () => {
       if (updatedUserProfile) {
         if (updatedUserProfile.picture) {
@@ -66,20 +109,6 @@ const labelColor = { color: '#6B706D' };
         });
       }
     };
-
-    useEffect(() => {
-      fetchUserProfile()
-        .then((data) => {
-          setUserProfile(data);
-          if (data.picture && data.picture.link) {
-            setImage(data.picture.link);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching user profile:', error);
-          throw error;
-        });
-    }, []);
 
     const handleImageChange = () => {
       if (fileInputRef.current) {
@@ -161,7 +190,13 @@ const labelColor = { color: '#6B706D' };
                   },
                 }));
               }}
-              />
+              >
+                {offices.map((office) => (
+                <MenuItem key={office.id} value={office.officeName}>
+                  {office.officeName}
+                </MenuItem>
+              ))}
+                </ TextField>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Role</label>
@@ -209,7 +244,13 @@ const labelColor = { color: '#6B706D' };
                   },
                 }));
               }}
-              />
+              >
+                {addresses.map((address) => (
+                  <MenuItem key={address.id} value={address.city}>
+                    {address.city}
+                  </MenuItem>
+                ))}
+                </TextField>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>State/ Province</label>
@@ -257,7 +298,13 @@ const labelColor = { color: '#6B706D' };
                     },
                   }));
                 }}
-              />
+              >
+                {countries.map((country) => (
+                  <MenuItem key={country.id} value={country.countryName}>
+                    {country.countryName}
+                  </MenuItem>
+                ))}
+                </TextField>
             </Grid>
         </Grid>
       </Grid>
