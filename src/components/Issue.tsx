@@ -46,7 +46,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
   commentCount,
   date,
 }) => {
-  const [IssueDetailsOpen, setIssueDetailsOpen] = React.useState(false);
+  const [issueDetailsOpen, setIssueDetailsOpen] = React.useState(false);
   const wrapperSetDaitailsOpen = useCallback(
     (val) => {
       setIssueDetailsOpen(val);
@@ -102,7 +102,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
         </div>
         <p>{date}</p>
       </BoxContainer>
-      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} IssueDetailsOpen={IssueDetailsOpen}></IssueDrawer>
+      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen}></IssueDrawer>
     </>
   );
 };
