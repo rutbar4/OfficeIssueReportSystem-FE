@@ -8,11 +8,10 @@ import StyledButton from '../StyledButton/StyledButton';
 import { AppRoutes } from 'src/types/routes';
 import { UserProfileModel } from 'src/models/UserProfileModel';
 import { fetchUserProfile, updateUserProfile } from 'src/api/UserProfileApi';
-import { Address, Country } from 'src/models/AddressModel';
+import {  Country } from 'src/models/AddressModel';
 import { fetchAllOffices } from 'src/api/OfficeApi';
 import { Office } from 'src/models/OfficeModel';
 import { fetchAllCountries } from 'src/api/CountryApi';
-import { fetchAllAddresses } from 'src/api/AddressApi';
 
 
 const labelColor = { color: '#6B706D' };
@@ -26,7 +25,6 @@ const labelColor = { color: '#6B706D' };
 
     const [offices, setOffices] = useState<Office[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
-    const[addresses, setAddresses] = useState<Address[]>([]);
     const [userProfile, setUserProfile] = useState<UserProfileModel>({
       id: '',
       fullName: '',
@@ -54,37 +52,15 @@ const labelColor = { color: '#6B706D' };
 
 
     useEffect(() => {
-      fetchUserProfile()
-        .then((data) => {
-          setUserProfile(data);
-          if (data.picture && data.picture.link) {
-            setImage(data.picture.link);
+      Promise.all([fetchUserProfile(), fetchAllOffices(), fetchAllCountries()])
+        .then(([profile, fetchedOffices, fetchedCountries]) => {
+          setUserProfile(profile);
+          if (profile.picture && profile.picture.link) {
+            setImage(profile.picture.link);
           }
+          setOffices(fetchedOffices);
+          setCountries(fetchedCountries);
         });
-    }, []);
-
-
-    useEffect(() => {
-      fetchAllOffices()
-      .then((data) => {
-        setOffices(data);
-      });
-    }, []);
-
-
-    useEffect(() => {
-      fetchAllAddresses()
-      .then((data) => {
-        setAddresses(data);
-      });
-    }, []);
-
-
-    useEffect(() => {
-      fetchAllCountries()
-      .then((data) => {
-        setCountries(data);
-      });
     }, []);
 
 
@@ -103,6 +79,15 @@ const labelColor = { color: '#6B706D' };
         });
       }
     };
+
+
+    const updateUserProperty = (userProperty: string, value: string) => {
+      setUserProfile((user) => ({
+        ...user,
+        [userProperty]: value,
+      }));
+    };
+
 
     const handleImageChange = () => {
       if (fileInputRef.current) {
@@ -138,8 +123,7 @@ const labelColor = { color: '#6B706D' };
           <Grid item xs={4} md={4}>
           <div onClick={handleImageChange} style={{ cursor: 'pointer', position: 'relative', width: '300px', height: '300px' }}>
             {image ? (
-              // eslint-disable-next-line jsx-a11y/img-redundant-alt
-              <img src={image} alt="Selected Photo" style={{ width: '100%', height: '100%' }} />
+              <img src={image} alt="Selected" style={{ width: '100%', height: '100%' }} />
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
                 <label style={labelColor} id="photoLabel">
@@ -164,12 +148,7 @@ const labelColor = { color: '#6B706D' };
               <TextField fullWidth
                sx={{ marginTop: '7px' }}
                value={userProfile?.fullName || ''}
-               onChange={(event) => {
-                setUserProfile((userProfile) => ({
-                  ...userProfile,
-                  fullName: event.target.value || '',
-                }));
-              }}
+               onChange={(event) => updateUserProperty('fullName', event.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
@@ -179,15 +158,7 @@ const labelColor = { color: '#6B706D' };
               select
               sx={{ marginTop: '7px' }}
               value={userProfile?.department.officeName || ''}
-              onChange={(event) => {
-                setUserProfile((userProfile) => ({
-                  ...userProfile,
-                  department: {
-                    ...userProfile.department,
-                    officeName: event.target.value || '',
-                  },
-                }));
-              }}
+              onChange={(event) => updateUserProperty('department.officeName', event.target.value)}
               >
               {offices.map((office) => (
                 <MenuItem key={office.id} value={office.officeName}>
@@ -201,12 +172,7 @@ const labelColor = { color: '#6B706D' };
               <TextField fullWidth
                sx={{ marginTop: '7px' }}
                value={userProfile?.role || ''}
-               onChange={(event) => {
-                setUserProfile((userProfile) => ({
-                  ...userProfile,
-                  role: event.target.value || '',
-                }));
-              }}
+               onChange={(event) => updateUserProperty('role', event.target.value)}
               />
             </Grid>
         </Grid>
@@ -220,55 +186,24 @@ const labelColor = { color: '#6B706D' };
               <TextField fullWidth
                sx={{ marginTop: '7px' }}
               value={userProfile?.address.street || ''}
-              onChange={(event) => {
-                setUserProfile((userProfile) => ({
-                  ...userProfile,
-                  address: {
-                    ...userProfile.address,
-                    street: event.target.value || '',
-                  },
-                }));
-              }}
+              onChange={(event) => updateUserProperty('address.street', event.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>City</label>
               <TextField
                 fullWidth
-                select
                 value={userProfile?.address.city || ''}
                 sx={{ marginTop: '7px' }}
-                onChange={(event) => {
-                  setUserProfile((userProfile) => ({
-                    ...userProfile,
-                    address: {
-                      ...userProfile.address,
-                      city: event.target.value || '',
-                    },
-                  }));
-                }}
-              >
-                  {addresses.map((address) => (
-                    <MenuItem key={address.id} value={address.city}>
-                      {address.city}
-                    </MenuItem>
-              ))}
-              </TextField>
+                onChange={(event) => updateUserProperty('address.city', event.target.value)}
+              />
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>State/ Province</label>
               <TextField fullWidth
                sx={{ marginTop: '7px' }}
                value={userProfile?.address.state || ''}
-               onChange={(event) => {
-                setUserProfile((userProfile) => ({
-                  ...userProfile,
-                  address: {
-                    ...userProfile.address,
-                    state: event.target.value || '',
-                  },
-                }));
-              }}
+               onChange={(event) => updateUserProperty('address.state', event.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
@@ -276,15 +211,7 @@ const labelColor = { color: '#6B706D' };
               <TextField fullWidth
                sx={{ marginTop: '7px' }}
                value={userProfile?.address.postcode || ''}
-               onChange={(event) => {
-                setUserProfile((userProfile) => ({
-                  ...userProfile,
-                  address: {
-                    ...userProfile.address,
-                    postcode: event.target.value || '',
-                  },
-                }));
-              }}
+               onChange={(event) => updateUserProperty('address.postcode', event.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
@@ -294,15 +221,7 @@ const labelColor = { color: '#6B706D' };
                 fullWidth
                 sx={{ marginTop: '7px' }}
                 value={userProfile?.country.countryName || ''}
-                onChange={(event) => {
-                  setUserProfile((userProfile) => ({
-                    ...userProfile,
-                    country: {
-                      ...userProfile.country,
-                      countryName: event.target.value || '',
-                    },
-                  }));
-                }}
+                onChange={(event) => updateUserProperty('country.countryName', event.target.value)}
               >
                 {countries.map((country) => (
                   <MenuItem key={country.id} value={country.countryName}>

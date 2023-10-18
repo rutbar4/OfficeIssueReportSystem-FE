@@ -32,7 +32,7 @@ function emptyUserProfile(): UserProfileModel {
 
 
 export const fetchUserProfile = async (): Promise<UserProfileModel> => {
-  return await axios.get<UserProfileModel>('http://localhost:8080/user')
+  return await axios.get<UserProfileModel>('http://localhost:9090/user')
     .then((response) => response.data)
     .catch(() => {
       return emptyUserProfile();
