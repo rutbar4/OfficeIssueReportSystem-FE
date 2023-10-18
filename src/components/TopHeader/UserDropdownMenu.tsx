@@ -6,6 +6,8 @@ import { Box, Divider, MenuList, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import 'src/scss/DropdownMenuStyles.scss';
 
+import { AppRoutes } from 'src/types/routes';
+
 type Props = {
   fullName: string;
   jobTitle: string;
@@ -41,7 +43,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => 
             color: 'var(--primary-color)',
           }}
           onClick={() => {
-            navigate('/profile');
+            navigate(AppRoutes.PROFILE);
           }}
         >
           <PersonIcon
