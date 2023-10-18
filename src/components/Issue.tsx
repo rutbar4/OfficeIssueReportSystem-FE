@@ -22,7 +22,6 @@ const BoxContainer = styled(Box)`
   flex-direction: column;
   justify-content: left;
   align-items: left;
-  width: 150x;
   height: 100%;
   padding: 20px;
   padding-right: 50px;
