@@ -19,7 +19,8 @@ const tableStyle = {
   Width: '10px',
 };
 const firstCellStyle = {
-    color: '#B3B3B3'
+    color: '#B3B3B3',
+    width: '170px'
 };
 
 interface ModalContentProps {
@@ -35,10 +36,10 @@ function ModalContent(props: ModalContentProps) {
   const { title, reportedBy, reported, status, upvotes, office } = props;
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
+    <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
       <Typography variant="h1" sx={{color:'#0E166E'}}>{title}</Typography>
       <Divider variant='middle'/>
-      <Table sx={{tableLayout:'fixed', width: 450}}>
+      <Table sx={{tableLayout:'fixed', width: 650}}>
         <TableBody sx={{border:0}}>
           <TableRow>
             <TableCell style={{...tableStyle, ...firstCellStyle}}>Reported by</TableCell>
