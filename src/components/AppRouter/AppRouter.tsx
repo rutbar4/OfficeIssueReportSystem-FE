@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 
 import Layout from '../layout/Layout';
@@ -13,14 +12,13 @@ const TemporarySignInComponent = () => {
   return <div>This is the Sign In</div>;
 };
 
-
 const AppRouter = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<Layout />} >
-    <Route path={AppRoutes.HOME} element={<Home />} />
-    <Route path={AppRoutes.USER_PROFILE} element={<UserProfile />} />
-    <Route path={AppRoutes.SIGN_IN} element={<TemporarySignInComponent />} />
-    </ Route>
+    <Route element={<Layout />}>
+      <Route path={AppRoutes.HOME} element={<Home />} />
+      <Route path={AppRoutes.USER_PROFILE} element={<UserProfile />} />
+      <Route path={AppRoutes.SIGN_IN} element={<TemporarySignInComponent />} />
+    </Route>
   )
 );
 
