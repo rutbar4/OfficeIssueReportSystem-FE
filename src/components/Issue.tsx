@@ -8,6 +8,7 @@ import Chip from '@mui/material/Chip';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { BiSolidUpArrowAlt } from 'react-icons/bi';
+import { COLORS } from '../values/colors';
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -62,7 +63,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
         }}
       >
         <Box>
-          <Typography variant="h4" sx={{ color: '#0E166E', marginTop: 2, marginBottom: 2, fontWeight: 500 }}>
+          <Typography variant="h4" sx={{ color: COLORS.blue, marginTop: 2, marginBottom: 2, fontWeight: 500 }}>
             {issueName}
           </Typography>
         </Box>
@@ -78,7 +79,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                   WebkitBoxOrient: 'vertical',
                   height: '39px',
                   fontSize: '14px',
-                  color: '#6B706D',
+                  color: COLORS.gray,
                 }}
               >
                 {issueDescription}
@@ -103,7 +104,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                     <Typography
                       sx={{
                         fontSize: '15px',
-                        color: '#6B706D',
+                        color: COLORS.gray,
                       }}
                     >
                       {upvoteCount}
@@ -120,7 +121,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                     <Typography
                       sx={{
                         fontSize: '15px',
-                        color: '#6B706D',
+                        color: COLORS.gray,
                       }}
                     >
                       {commentCount}
@@ -135,7 +136,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                     borderRadius: '17px',
                     borderColor: 'lightgray',
                     fontSize: '15px',
-                    color: '#0E166E',
+                    color: COLORS.blue,
                     fontWeight: 'bold',
                   }}
                   startIcon={<BiSolidUpArrowAlt color="#0E166E" />}
@@ -154,7 +155,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
             <Typography
               sx={{
                 fontSize: '15px',
-                color: '#6B706D',
+                color: COLORS.gray,
                 marginTop: 1,
               }}
             >
