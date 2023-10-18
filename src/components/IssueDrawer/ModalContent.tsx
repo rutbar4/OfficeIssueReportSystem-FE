@@ -7,8 +7,8 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { Divider } from '@mui/material';
-import UserChip from './Chip/UserChip';
-import UpvoteChip from './Chip/UpvoteChip';
+import UserChip from '../Chip/UserChip';
+import UpvoteChip from '../Chip/UpvoteChip';
 
 const tableStyle = { 
   border: 'none',

@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import DrawerToolbar from './DrawerToolbar';
-import ModalContent from 'src/components/ModalContent';
+import ModalContent from 'src/components/IssueDrawer/ModalContent';
 
 export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen }) {
   return (
