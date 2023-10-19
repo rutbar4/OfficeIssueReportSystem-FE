@@ -3,7 +3,6 @@ FROM node:18.14.2 as builder
 COPY . /code
 WORKDIR /code
 RUN npm ci
-RUN npm run lint
 RUN npm run build
 
 FROM nginx:1.25.1-alpine
