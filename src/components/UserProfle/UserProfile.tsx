@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, MenuItem, TextField, Typography } from '@mui/material';
+import { Box, Divider, Grid, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import {  useNavigate } from 'react-router';
 
@@ -16,6 +16,30 @@ import { fetchAllCountries } from 'src/api/CountryApi';
 
 const labelColor = { color: '#6B706D' };
 
+const emptyUserProfile: UserProfileModel = {
+  fullName: '',
+  department: {
+    id: '',
+    officeName: '',
+  },
+  role: '',
+  address: {
+    id: '',
+    street: '',
+    city: '',
+    state: '',
+    postcode: '',
+  },
+  country: {
+    id: '',
+    countryName: '',
+  },
+  picture: {
+    id: '',
+    link: '',
+  },
+};
+
   const UserProfile = () => {
 
     const [image, setImage] = useState<string | null>(null);
@@ -25,30 +49,7 @@ const labelColor = { color: '#6B706D' };
 
     const [offices, setOffices] = useState<Office[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
-    const [userProfile, setUserProfile] = useState<UserProfileModel>({
-      id: '',
-      fullName: '',
-      role: '',
-      department: {
-        id: '',
-        officeName: '',
-      },
-      address: {
-        id: '',
-        street: '',
-        city: '',
-        state: '',
-        postcode: '',
-      },
-      country: {
-        id: '',
-        countryName: '',
-      },
-      picture: {
-        id: '',
-        link: '',
-      },
-    });
+    const [userProfile, setUserProfile] = useState<UserProfileModel>(emptyUserProfile);
 
 
     useEffect(() => {
@@ -166,6 +167,21 @@ const labelColor = { color: '#6B706D' };
                 </MenuItem>
               ))}
             </TextField>
+
+{/* <Select
+    fullWidth
+    sx={{ marginTop: '7px' }}
+    value={userProfile?.department.officeName || ''}
+    onChange={(event) => updateUserProperty('department.officeName', event.target.value)}
+    id={userProfile?.department.id}
+  >
+    {offices.map((office) => (
+      <option key={office.id} value={office.officeName}>
+        {office.officeName}
+      </option>
+    ))}
+  </Select> */}
+
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Role</label>
