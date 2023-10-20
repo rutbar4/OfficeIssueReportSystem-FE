@@ -7,12 +7,12 @@ import { fetchIssueDetails } from './DetailFetcher';
 
 const initialDetails = {
   name: "Loading...",
-  description: "",
-  status: "",
+  description: "Loading...",
+  status: "Loading...",
   rating: 0,
-  dateCreated: "",
-  employeeName: "",
-  officeName: "",
+  dateCreated: "Loading...",
+  employeeName: "Loading...",
+  officeName: "Loading...",
 }
 
 
@@ -21,8 +21,9 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
   const handleDrawerOpen = () => {
       fetchIssueDetails(issueID)
         .then((data) => {
-          console.log(data);
-          setIssueDetailData(data);
+          if(data != null){
+             setIssueDetailData(data);
+          }
         });
   };
 
@@ -32,12 +33,15 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
     }
   }, [issueDetailsOpen]);
 
+  
   const date = new Date(issueDetailData.dateCreated);
   const formattedDate = date.toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   });
+  issueDetailData.dateCreated = formattedDate;
+
 
   return (
     <div>
@@ -45,7 +49,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
         <Drawer anchor={'right'} open={issueDetailsOpen} onClose={() => wrapperSetDaitailsOpen(false)}>
           <DrawerToolbar wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} />
           <Box sx={{ width: 660 , margin: 5}}>
-          <IssueDetails title={issueDetailData.name} description={issueDetailData.description} reportedBy={issueDetailData.employeeName} reported={formattedDate} status={issueDetailData.status} upvotes={issueDetailData.rating} office={issueDetailData.officeName} />
+          <IssueDetails title={issueDetailData.name} description={issueDetailData.description} reportedBy={issueDetailData.employeeName} reported={issueDetailData.dateCreated} status={issueDetailData.status} upvotes={issueDetailData.rating} office={issueDetailData.officeName} />
             </Box>;
         </Drawer>
       </React.Fragment>
