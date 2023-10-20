@@ -31,6 +31,7 @@ const Home = () => {
         {issues.issues.map((issue) => (
           <IssueCard
           key={issue.id}
+          issueId={issue.id}
           issueName={issue.name}
           issueDescription={issue.description}
           issueStatus={issue.status}
