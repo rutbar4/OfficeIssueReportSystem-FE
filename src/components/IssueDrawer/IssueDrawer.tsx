@@ -19,7 +19,7 @@ const initialDetails = {
 export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueID }) {
   const [issueDetailData, setIssueDetailData] = useState(initialDetails);
   const handleDrawerOpen = () => {
-      fetchIssueDetails('abdee4f9-5763-4afc-85ed-98b2fdefb35d')
+      fetchIssueDetails(issueID)
         .then((data) => {
           console.log(data);
           setIssueDetailData(data);
