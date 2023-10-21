@@ -1,13 +1,16 @@
 import { Box, Divider, Grid, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import {  useNavigate } from 'react-router';
+import * as Yup from 'yup';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+
 
 import Sidebar from '../sidebar/Sidebar';
 import StyledButton from '../StyledButton/StyledButton';
 
 import { AppRoutes } from 'src/types/routes';
 import { UserProfileModel } from 'src/models/UserProfileModel';
-import { fetchUserProfile, updateUserProfile } from 'src/api/UserProfileApi';
+import { fetchUserProfile, updateUserProfile, emptyUserProfile } from 'src/api/UserProfileApi';
 import {  Country } from 'src/models/AddressModel';
 import { fetchAllOffices } from 'src/api/OfficeApi';
 import { Office } from 'src/models/OfficeModel';
@@ -16,36 +19,23 @@ import { fetchAllCountries } from 'src/api/CountryApi';
 
 const labelColor = { color: '#6B706D' };
 
-const emptyUserProfile: UserProfileModel = {
-  fullName: '',
-  department: {
-    id: '',
-    officeName: '',
-  },
-  role: '',
-  address: {
-    id: '',
-    street: '',
-    city: '',
-    state: '',
-    postcode: '',
-  },
-  country: {
-    id: '',
-    countryName: '',
-  },
-  picture: {
-    id: '',
-    link: '',
-  },
-};
 
   const UserProfile = () => {
+
+    const UserProfileValidationSchema = Yup.object().shape({
+      fullName: Yup.string().required('Full name is required!'),
+      officeName: Yup.string().required('Department is required!'),
+      role: Yup.string().required('Role is required!'),
+      street: Yup.string().required('Street Address is required!'),
+      city: Yup.string().required('City is required!'),
+      state: Yup.string().required('State is required!'),
+      postcode: Yup.string().required('Postcode is required!'),
+      countryName: Yup.string().required('Country is required!'),
+    });
 
     const [image, setImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
-
 
     const [offices, setOffices] = useState<Office[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
@@ -65,28 +55,19 @@ const emptyUserProfile: UserProfileModel = {
     }, []);
 
 
-    const handleUpdateUserClick = () => {
+    const handleUpdateUserSubmit = (values) => {
       if (userProfile) {
         if (userProfile.picture) {
           if (image) {
             userProfile.picture.link = image;
           }
         }
-        updateUserProfile(userProfile)
-          .then((status) => {
-            if (status === 201) {
-              navigate(AppRoutes.HOME);
-            }
+        updateUserProfile({ ...userProfile, ...values }).then((status) => {
+          if (status === 201) {
+            navigate(AppRoutes.HOME);
+          }
         });
       }
-    };
-
-
-    const updateUserProperty = (userProperty: string, value: string) => {
-      setUserProfile((user) => ({
-        ...user,
-        [userProperty]: value,
-      }));
     };
 
 
@@ -96,26 +77,52 @@ const emptyUserProfile: UserProfileModel = {
       }
     };
 
-    const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>, formikBag: any) => {
       const file = event.target.files && event.target.files[0];
       if (file) {
         const imageUrl = URL.createObjectURL(file);
         setImage(imageUrl);
+        formikBag.setFieldValue('image', imageUrl);
       }
     };
 
+
   return (
+    <Formik
+      initialValues={{
+        fullName: userProfile?.fullName || '',
+        department: {
+          officeName: userProfile?.department.officeName || '',
+        },
+        role: userProfile?.role || '',
+        address: {
+          street: userProfile?.address.street || '',
+          city: userProfile?.address.city || '',
+          state: userProfile?.address.state || '',
+          postcode: userProfile?.address.postcode || '',
+        },
+        country: {
+          countryName: userProfile?.country.countryName || ''
+      }
+    }}
+    validationSchema={UserProfileValidationSchema}
+    onSubmit={handleUpdateUserSubmit}
+    enableReinitialize
+    >
+  {(formikProps) => (
+    <Form onSubmit={formikProps.handleSubmit}>
     <>
     <Sidebar />
     <Box paddingBottom='10px'>
-    <Typography variant="h3" gutterBottom sx={{ color: '#0E166E' }}>
+    <Typography variant='h3' gutterBottom sx={{ color: '#0E166E' }}>
           My Profile
         </Typography>
-        <Typography variant="h5" sx={{ color: '#6B706D', marginBottom: '10px' }}>
+        <Typography variant='h5' sx={{ color: '#6B706D', marginBottom: '10px' }}>
           Edit your personal information, position and working address
           </Typography>
+
           </Box>
-          <Typography variant="h5" sx={{ color: '#6B706D', marginBottom: '10px' }}>
+          <Typography variant='h5' sx={{ color: '#6B706D', marginBottom: '10px' }}>
             Photo
           </Typography>
 
@@ -133,63 +140,64 @@ const emptyUserProfile: UserProfileModel = {
               </div>
             )}
             <input
-              type="file"
-              accept="image/*"
-              capture="environment"
+              type='button'
+              accept='image/*'
+              capture='environment'
               style={{ display: 'none' }}
               ref={fileInputRef}
-              onChange={handleFileInputChange}
+              onChange={(event) => handleFileInputChange(event, formikProps)}
             />
           </div>
       </Grid>
         <Grid item xs={8} md={8}>
-        <Grid container spacing={5} direction="row">
+        <Grid container spacing={5} direction='row'>
           <Grid item xs={12}>
             <label style={labelColor}>Full name</label>
-              <TextField fullWidth
-               sx={{ marginTop: '7px' }}
-               value={userProfile?.fullName || ''}
-               onChange={(event) => updateUserProperty('fullName', event.target.value)}
-              />
+            <Field
+              fullWidth
+              sx={{ marginTop: '7px' }}
+              as={TextField}
+              id='fullName'
+              name='fullName'
+            />
+            <Typography sx={{ color: 'red' }}>
+              <ErrorMessage name="fullName" />
+            </Typography>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Department</label>
-              <TextField
-              fullWidth
-              select
-              sx={{ marginTop: '7px' }}
-              value={userProfile?.department.officeName || ''}
-              onChange={(event) => updateUserProperty('department.officeName', event.target.value)}
+              <Field
+                fullWidth
+                sx={{ marginTop: '7px' }}
+                as={Select}
+                id='department.officeName'
+                name='department.officeName'
+                value={formikProps.values.department.officeName}
+                onChange={formikProps.handleChange}
+                onBlur={formikProps.handleBlur}
               >
               {offices.map((office) => (
                 <MenuItem key={office.id} value={office.officeName}>
                   {office.officeName}
                 </MenuItem>
               ))}
-            </TextField>
-
-{/* <Select
-    fullWidth
-    sx={{ marginTop: '7px' }}
-    value={userProfile?.department.officeName || ''}
-    onChange={(event) => updateUserProperty('department.officeName', event.target.value)}
-    id={userProfile?.department.id}
-  >
-    {offices.map((office) => (
-      <option key={office.id} value={office.officeName}>
-        {office.officeName}
-      </option>
-    ))}
-  </Select> */}
-
+              </Field>
+              <Typography sx={{ color: 'red' }}>
+                <ErrorMessage name="department.officeName"/>
+              </Typography>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Role</label>
-              <TextField fullWidth
+              <Field
+               fullWidth
                sx={{ marginTop: '7px' }}
-               value={userProfile?.role || ''}
-               onChange={(event) => updateUserProperty('role', event.target.value)}
+               as={TextField}
+               id='role'
+               name='role'
               />
+              <Typography sx={{ color: 'red' }}>
+                <ErrorMessage name='role'/>
+              </Typography>
             </Grid>
         </Grid>
         <Grid item xs={12} md={12} style={{ marginTop: '50px', marginBottom: '40px' }}>
@@ -199,64 +207,93 @@ const emptyUserProfile: UserProfileModel = {
        <Grid container spacing={5} direction="row">
          <Grid item xs={12}>
             <label style={labelColor}>Street address</label>
-              <TextField fullWidth
+              <Field
+               fullWidth
                sx={{ marginTop: '7px' }}
-              value={userProfile?.address.street || ''}
-              onChange={(event) => updateUserProperty('address.street', event.target.value)}
+               as={TextField}
+               id='street'
+               name='address.street'
               />
+              <ErrorMessage name='address.street'/>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>City</label>
-              <TextField
+              <Field
                 fullWidth
-                value={userProfile?.address.city || ''}
                 sx={{ marginTop: '7px' }}
-                onChange={(event) => updateUserProperty('address.city', event.target.value)}
+                as={TextField}
+                id='city'
+                name='address.city'
               />
+              <Typography sx={{ color: 'red' }}>
+                <ErrorMessage name='address.city'/>
+              </Typography>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>State/ Province</label>
-              <TextField fullWidth
+              <Field
+               fullWidth
                sx={{ marginTop: '7px' }}
-               value={userProfile?.address.state || ''}
-               onChange={(event) => updateUserProperty('address.state', event.target.value)}
+               as={TextField}
+               id='state'
+               name='address.state'
               />
+              <Typography sx={{ color: 'red' }}>
+                <ErrorMessage name='address.state'/>
+              </Typography>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Postcode</label>
-              <TextField fullWidth
+              <Field
+               fullWidth
                sx={{ marginTop: '7px' }}
-               value={userProfile?.address.postcode || ''}
-               onChange={(event) => updateUserProperty('address.postcode', event.target.value)}
+               as={TextField}
+               id='postcode'
+               name='address.postcode'
               />
+              <Typography sx={{ color: 'red' }}>
+                <ErrorMessage name='address.postcode'/>
+              </Typography>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Country</label>
-              <TextField
-                select
+              <Field
                 fullWidth
                 sx={{ marginTop: '7px' }}
-                value={userProfile?.country.countryName || ''}
-                onChange={(event) => updateUserProperty('country.countryName', event.target.value)}
+                as={Select}
+                id='country'
+                name='country.countryName'
+                value={formikProps.values.country.countryName}
+                onChange={formikProps.handleChange}
+                onBlur={formikProps.handleBlur}
               >
-                {countries.map((country) => (
-                  <MenuItem key={country.id} value={country.countryName}>
-                    {country.countryName}
-                  </MenuItem>
-                ))}
-              </TextField>
+              {countries.map((country) => (
+                <MenuItem key={country.id} value={country.countryName}>
+                  {country.countryName}
+                </MenuItem>
+              ))}
+              </Field>
+              <Typography sx={{ color: 'red' }}>
+                <ErrorMessage name='country.countryName'/>
+              </Typography>
             </Grid>
         </Grid>
       </Grid>
   </Grid>
   <Grid container justifyContent="flex-end" sx={{ marginTop: '50px' }}>
     <StyledButton buttonType='secondary' buttonSize='small' type='button'
-      onClick={() => navigate(AppRoutes.HOME)}>Cancel</StyledButton>
-    <StyledButton buttonType='primary' buttonSize='small' type='button'
-    onClick={handleUpdateUserClick}
+      onClick={() => navigate(AppRoutes.HOME)}
+    >Cancel</StyledButton>
+    <StyledButton
+      buttonType='primary'
+      buttonSize='small'
+      type='submit'
     >Save</StyledButton>
   </Grid>
-    </>
+  </>
+  </Form>
+  )}
+</Formik>
   );
 };
 

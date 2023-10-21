@@ -3,8 +3,7 @@ import axios from 'axios';
 import { UserProfileModel } from 'src/models/UserProfileModel';
 
 
-function emptyUserProfile(): UserProfileModel {
-  return {
+export const emptyUserProfile: UserProfileModel = {
     id: '',
     fullName: '',
     role: '',
@@ -28,14 +27,14 @@ function emptyUserProfile(): UserProfileModel {
       link: '',
     }
   };
-}
+
 
 
 export const fetchUserProfile = async (): Promise<UserProfileModel> => {
-  return await axios.get<UserProfileModel>('http://localhost:8080/user')
+  return await axios.get<UserProfileModel>('http://localhost:9090/user')
     .then((response) => response.data)
     .catch(() => {
-      return emptyUserProfile();
+      return emptyUserProfile;
     });
 };
 
