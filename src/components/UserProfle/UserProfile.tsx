@@ -26,7 +26,7 @@ const labelColor = { color: '#6B706D' };
       fullName: Yup.string().required('Full name is required!'),
       officeName: Yup.string().required('Department is required!'),
       role: Yup.string().required('Role is required!'),
-      street: Yup.string().required('Street Address is required!'),
+      street: Yup.string().required('Street address is required!'),
       city: Yup.string().required('City is required!'),
       state: Yup.string().required('State is required!'),
       postcode: Yup.string().required('Postcode is required!'),
@@ -90,24 +90,18 @@ const labelColor = { color: '#6B706D' };
   return (
     <Formik
       initialValues={{
-        fullName: userProfile?.fullName || '',
-        department: {
-          officeName: userProfile?.department.officeName || '',
-        },
-        role: userProfile?.role || '',
-        address: {
-          street: userProfile?.address.street || '',
-          city: userProfile?.address.city || '',
-          state: userProfile?.address.state || '',
-          postcode: userProfile?.address.postcode || '',
-        },
-        country: {
-          countryName: userProfile?.country.countryName || ''
-      }
-    }}
-    validationSchema={UserProfileValidationSchema}
-    onSubmit={handleUpdateUserSubmit}
-    enableReinitialize
+        fullName: userProfile?.fullName,
+        department: userProfile.department.officeName,
+        role: userProfile?.role,
+        street: userProfile?.address.street,
+        city: userProfile?.address.city,
+        state: userProfile?.address.state,
+        postcode: userProfile?.address.postcode,
+        countryName: userProfile?.country.countryName
+      }}
+      validationSchema={UserProfileValidationSchema}
+      onSubmit={handleUpdateUserSubmit}
+      enableReinitialize
     >
   {(formikProps) => (
     <Form onSubmit={formikProps.handleSubmit}>
@@ -170,11 +164,8 @@ const labelColor = { color: '#6B706D' };
                 fullWidth
                 sx={{ marginTop: '7px' }}
                 as={Select}
-                id='department.officeName'
-                name='department.officeName'
-                value={formikProps.values.department.officeName}
-                onChange={formikProps.handleChange}
-                onBlur={formikProps.handleBlur}
+                id='officeName'
+                name='officeName'
               >
               {offices.map((office) => (
                 <MenuItem key={office.id} value={office.officeName}>
@@ -183,7 +174,7 @@ const labelColor = { color: '#6B706D' };
               ))}
               </Field>
               <Typography sx={{ color: 'red' }}>
-                <ErrorMessage name="department.officeName"/>
+                <ErrorMessage name="officeName"/>
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -212,9 +203,11 @@ const labelColor = { color: '#6B706D' };
                sx={{ marginTop: '7px' }}
                as={TextField}
                id='street'
-               name='address.street'
+               name='street'
               />
-              <ErrorMessage name='address.street'/>
+              <Typography sx={{ color: 'red' }}>
+                <ErrorMessage name='street'/>
+              </Typography>
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>City</label>
@@ -223,10 +216,10 @@ const labelColor = { color: '#6B706D' };
                 sx={{ marginTop: '7px' }}
                 as={TextField}
                 id='city'
-                name='address.city'
+                name='city'
               />
               <Typography sx={{ color: 'red' }}>
-                <ErrorMessage name='address.city'/>
+                <ErrorMessage name='city'/>
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -236,10 +229,10 @@ const labelColor = { color: '#6B706D' };
                sx={{ marginTop: '7px' }}
                as={TextField}
                id='state'
-               name='address.state'
+               name='state'
               />
               <Typography sx={{ color: 'red' }}>
-                <ErrorMessage name='address.state'/>
+                <ErrorMessage name='state'/>
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -249,10 +242,10 @@ const labelColor = { color: '#6B706D' };
                sx={{ marginTop: '7px' }}
                as={TextField}
                id='postcode'
-               name='address.postcode'
+               name='postcode'
               />
               <Typography sx={{ color: 'red' }}>
-                <ErrorMessage name='address.postcode'/>
+                <ErrorMessage name='postcode'/>
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -262,10 +255,7 @@ const labelColor = { color: '#6B706D' };
                 sx={{ marginTop: '7px' }}
                 as={Select}
                 id='country'
-                name='country.countryName'
-                value={formikProps.values.country.countryName}
-                onChange={formikProps.handleChange}
-                onBlur={formikProps.handleBlur}
+                name='countryName'
               >
               {countries.map((country) => (
                 <MenuItem key={country.id} value={country.countryName}>
@@ -274,7 +264,7 @@ const labelColor = { color: '#6B706D' };
               ))}
               </Field>
               <Typography sx={{ color: 'red' }}>
-                <ErrorMessage name='country.countryName'/>
+                <ErrorMessage name='countryName'/>
               </Typography>
             </Grid>
         </Grid>
