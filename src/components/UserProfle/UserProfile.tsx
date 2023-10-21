@@ -56,19 +56,39 @@ const labelColor = { color: '#6B706D' };
 
 
     const handleUpdateUserSubmit = (values) => {
-      if (userProfile) {
-        if (userProfile.picture) {
-          if (image) {
-            userProfile.picture.link = image;
-          }
+      const updatedUserProfile = {
+        ...userProfile,
+        id: userProfile.id,
+        fullName: values.fullName,
+        role: values.role,
+        address: {
+          id: userProfile.address.id,
+          street: values.street,
+          city: values.city,
+          state: values.state,
+          postcode: values.postcode,
+        },
+        department: {
+          id: userProfile.department.id,
+          officeName: values.department
+        },
+        country: {
+          id: userProfile.country.id,
+          countryName: values.countryName,
         }
-        updateUserProfile({ ...userProfile, ...values }).then((status) => {
-          if (status === 201) {
-            navigate(AppRoutes.HOME);
-          }
-        });
+      };
+      if (userProfile.picture && image) {
+        userProfile.picture.link = image;
       }
+      updateUserProfile(updatedUserProfile).then((status) => {
+        if (status === 201) {
+          navigate(AppRoutes.HOME);
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     };
+
 
 
     const handleImageChange = () => {
@@ -166,6 +186,7 @@ const labelColor = { color: '#6B706D' };
                 as={Select}
                 id='officeName'
                 name='officeName'
+                defaultValue={userProfile.department.officeName}
               >
               {offices.map((office) => (
                 <MenuItem key={office.id} value={office.officeName}>
@@ -256,6 +277,7 @@ const labelColor = { color: '#6B706D' };
                 as={Select}
                 id='country'
                 name='countryName'
+                defaultValue={userProfile.country.countryName}
               >
               {countries.map((country) => (
                 <MenuItem key={country.id} value={country.countryName}>
