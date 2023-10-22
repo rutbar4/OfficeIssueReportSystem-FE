@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Box, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import Button from '@mui/material/Button';
@@ -12,29 +12,20 @@ import DialogContent from '@mui/material/DialogContent';
 import Divider from '@mui/material/Divider';
 import DialogActions from '@mui/material/DialogActions';
 import IssueForm from '../../components/forms/IssueForm';
+import ReportIssueModal from '../../components/forms/ReportIssueModal';
 
 type Props =  {
   name: string;
 }
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
-
 const WelcomeMessage: React.FC<Props> = ({ name }) => {
 
-  const [open, setOpen] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false)
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const openDialog = () => {
+    setDialogOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const closeDialog = () => {
+    setDialogOpen(false);
   };
 
   // @ts-ignore
@@ -49,48 +40,14 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
           </Typography>
       </Box>
       <Box ml="auto">
-        <StyledButton onClick={handleClickOpen} buttonType='primary' buttonSize='medium' type='button'
+        <StyledButton onClick={openDialog} buttonType='primary' buttonSize='medium' type='button'
           startIcon={<Add sx={{ fontSize: '24px' }} />}
         >
           Report Issue
         </StyledButton>
+        <ReportIssueModal dialogueState = {dialogOpen} close = {closeDialog}/>
       </Box>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle sx={{ m: 3, p: 2 }} id="customized-dialog-title">
-          <Typography variant="h4" gutterBottom sx={{ color: '#0E166E' }}>
-            Report issue
-          </Typography>
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: 'black',
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent sx = {{width: '550px'}}>
-          <IssueForm></IssueForm>
 
-        </DialogContent>
-        <Divider/>
-        <DialogActions>
-          <StyledButton  buttonSize={"medium"} buttonType={"secondary"} type={"button"} onClick={handleClose}>
-            Cancel
-          </StyledButton>
-          <StyledButton   buttonSize={"medium"} buttonType={"primary"} type={"submit"}>
-            Report issue
-          </StyledButton>
-        </DialogActions>
-      </BootstrapDialog>
     </Box>
   );
 };
