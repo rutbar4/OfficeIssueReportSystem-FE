@@ -14,7 +14,7 @@ import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
 const tableStyle = {
   border: 'none',
-  fontSize: '20px',
+  fontSize: '14px',
   itemsAllign: 'left',
   padding: '3px',
   overFlow: 'hidden',
