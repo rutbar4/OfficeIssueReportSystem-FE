@@ -1,16 +1,18 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import StatusChip from 'src/components/Chip/StatusChip';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { Divider } from '@mui/material';
+
 import UserChip from '../Chip/UserChip';
 import UpvoteChip from '../Chip/UpvoteChip';
 
-const tableStyle = { 
+import StatusChip from 'src/components/Chip/StatusChip';
+import Tabs from 'src/components/IssueDrawer/ModalTabs';
+const tableStyle = {
   border: 'none',
   fontSize: '20px',
   itemsAllign: 'left',
@@ -66,6 +68,7 @@ function IssueDetails(props: issueDetailsProps) {
           </TableRow>
         </TableBody>
       </Table>
+      <Tabs description={description}/>
     </Box>
   );
 }

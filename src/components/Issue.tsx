@@ -5,10 +5,13 @@ import { styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 
+import IssueDrawer from './IssueDrawer/IssueDrawer';
+
 import UpButton from 'src/icons/UpvoteButtonIcon.png';
 import CommentIcon from 'src/icons/CommentIcon.png';
 import UpvoteIcon from 'src/icons/UpvoteIcon.png';
-import IssueDrawer from './IssueDrawer/IssueDrawer';
+
+
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -104,7 +107,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
         </div>
         <p>{date}</p>
       </BoxContainer>
-      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueID={issueId}></IssueDrawer>
+      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueID={issueId} />
     </>
   );
 };
