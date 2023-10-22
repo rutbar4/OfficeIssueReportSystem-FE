@@ -6,7 +6,7 @@ import Layout from '../layout/Layout';
 import Home from 'src/pages/Home/Home';
 import { AppRoutes } from 'src/types/routes';
 
-const TemporaryUserFrofilecomponent = () => {
+const TemporaryUserFroFileComponent = () => {
   return <div>This is the User Profile</div>;
 };
 
@@ -20,7 +20,7 @@ const AppRouter = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Layout />} >
     <Route path={AppRoutes.HOME} element={<Home />} />
-    <Route path={AppRoutes.USER_PROFILE} element={<TemporaryUserFrofilecomponent />} />
+    <Route path={AppRoutes.USER_PROFILE} element={<TemporaryUserFroFileComponent />} />
     <Route path={AppRoutes.SIGN_IN} element={<TemporarySignInComponent />} />
     </ Route>
   )

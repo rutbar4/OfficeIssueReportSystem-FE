@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DialogContent from '@mui/material/DialogContent';
 import Divider from '@mui/material/Divider';
 import DialogActions from '@mui/material/DialogActions';
+import IssueForm from '../../components/forms/IssueForm';
 
 type Props =  {
   name: string;
@@ -76,8 +77,9 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent>
-          <Box sx = {{width: '500px'}}></Box>
+        <DialogContent sx = {{width: '550px'}}>
+          <IssueForm></IssueForm>
+
         </DialogContent>
         <Divider/>
         <DialogActions>
