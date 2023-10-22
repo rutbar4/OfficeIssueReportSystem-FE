@@ -1,19 +1,8 @@
 import React, {useState} from 'react';
 import { Box, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
-import Button from '@mui/material/Button';
 import StyledButton from 'src/components/StyledButton/StyledButton';
-import {styled} from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import DialogContent from '@mui/material/DialogContent';
-import Divider from '@mui/material/Divider';
-import DialogActions from '@mui/material/DialogActions';
 import IssueForm from '../../components/forms/IssueForm';
-import ReportIssueModal from '../../components/forms/ReportIssueModal';
-
 type Props =  {
   name: string;
 }
@@ -45,7 +34,7 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
         >
           Report Issue
         </StyledButton>
-        <ReportIssueModal dialogueState = {dialogOpen} close = {closeDialog}/>
+        <IssueForm dialogueState = {dialogOpen} close = {closeDialog}/>
       </Box>
 
     </Box>
