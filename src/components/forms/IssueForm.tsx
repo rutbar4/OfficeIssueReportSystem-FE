@@ -30,7 +30,7 @@ const IssueForm = ({dialogueState, close},) => (
         >
           <DialogTitle sx={{m: 3, p: 2}} id="customized-dialog-title">
             <Typography variant="h4" gutterBottom sx={{color: '#0E166E'}}>
-              Report issue
+              Report issue:
             </Typography>
           </DialogTitle>
           <IconButton
