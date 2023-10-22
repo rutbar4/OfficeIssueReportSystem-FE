@@ -12,7 +12,7 @@ import UpvoteChip from '../Chip/UpvoteChip';
 
 const tableStyle = { 
   border: 'none',
-  fontSize: '20px',
+  fontSize: '14px',
   itemsAllign: 'left',
   padding: '3px',
   overFlow: 'hidden',
