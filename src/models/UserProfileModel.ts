@@ -13,7 +13,6 @@ export interface UserProfileModel {
 
 
 export interface Picture {
-  id?: string;
   link: string;
 }
 
