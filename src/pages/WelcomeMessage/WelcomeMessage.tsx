@@ -16,7 +16,7 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
           Welcome, {name}
         </Typography>
         <Typography variant="h5" sx={{ color: '#6B706D', marginBottom: '10px' }}>
-          Discover, report and vote for office issuethat requires our attention and fix
+          Discover, report and vote for office issue that requires our attention and fix
           </Typography>
       </Box>
       <Box ml="auto">
