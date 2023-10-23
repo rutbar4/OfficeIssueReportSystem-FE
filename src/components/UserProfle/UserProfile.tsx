@@ -19,96 +19,96 @@ import { fetchAllCountries } from 'src/api/CountryApi';
 const labelColor = { color: '#6B706D' };
 
 
-  const UserProfile = () => {
+const UserProfile = () => {
 
-    const UserProfileValidationSchema = Yup.object().shape({
-      fullName: Yup.string().max(150, 'Full name must be max 150 symbols!')
-      .required('Full name is required!'),
-      officeName: Yup.string().max(50, 'Department must be max 50 symbols!')
-      .required('Department is required!'),
-      role: Yup.string().max(50, 'Role must be max 50 symbols!')
-      .required('Role is required!'),
-      street: Yup.string().max(150, 'Street address must be max 150 symbols!')
-      .required('Street address is required!'),
-      city: Yup.string().max(50, 'City must be max 50 symbols!')
-      .required('City is required!'),
-      state: Yup.string().max(150, 'State must be max 150 symbols!')
-      .required('State is required!'),
-      postcode: Yup.string().max(10, 'Postcode must be max 10 symbols!')
-      .required('Postcode is required!'),
-      countryName: Yup.string().max(50, 'Country must be max 50 symbols!')
-      .required('Country is required!'),
-    });
+  const UserProfileValidationSchema = Yup.object().shape({
+    fullName: Yup.string().max(150, 'Full name must be max 150 symbols!')
+    .required('Full name is required!'),
+    officeName: Yup.string().max(50, 'Department must be max 50 symbols!')
+    .required('Department is required!'),
+    role: Yup.string().max(50, 'Role must be max 50 symbols!')
+    .required('Role is required!'),
+    street: Yup.string().max(150, 'Street address must be max 150 symbols!')
+    .required('Street address is required!'),
+    city: Yup.string().max(50, 'City must be max 50 symbols!')
+    .required('City is required!'),
+    state: Yup.string().max(150, 'State must be max 150 symbols!')
+    .required('State is required!'),
+    postcode: Yup.string().max(10, 'Postcode must be max 10 symbols!')
+    .required('Postcode is required!'),
+    countryName: Yup.string().max(50, 'Country must be max 50 symbols!')
+    .required('Country is required!'),
+  });
 
-    const [image, setImage] = useState<string | null>(null);
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const navigate = useNavigate();
+  const [image, setImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
 
-    const [offices, setOffices] = useState<Office[]>([]);
-    const [countries, setCountries] = useState<Country[]>([]);
-    const [userProfile, setUserProfile] = useState<UserProfileModel>(emptyUserProfile);
-    const [loading, setLoading] = useState(false);
-
-
-    useEffect(() => {
-      Promise.all([fetchUserProfile(), fetchAllOffices(), fetchAllCountries()])
-        .then(([profile, fetchedOffices, fetchedCountries]) => {
-          setUserProfile(profile);
-          if (profile.picture && profile.picture.link) {
-            setImage(profile.picture.link);
-          }
-          setOffices(fetchedOffices);
-          setCountries(fetchedCountries);
-        });
-    }, []);
+  const [offices, setOffices] = useState<Office[]>([]);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [userProfile, setUserProfile] = useState<UserProfileModel>(emptyUserProfile);
+  const [loading, setLoading] = useState(false);
 
 
-    const handleUpdateUserSubmit = (values) => {
-      const updatedUserProfile = {
-        ...userProfile,
-        id: userProfile.id,
-        fullName: values.fullName,
-        role: values.role,
-        address: {
-          street: values.street,
-          city: values.city,
-          state: values.state,
-          postcode: values.postcode,
-        },
-        department: {
-          officeName: values.department
-        },
-        country: {
-          countryName: values.countryName,
+  useEffect(() => {
+    Promise.all([fetchUserProfile(), fetchAllOffices(), fetchAllCountries()])
+      .then(([profile, fetchedOffices, fetchedCountries]) => {
+        setUserProfile(profile);
+        if (profile.picture && profile.picture.link) {
+          setImage(profile.picture.link);
         }
-      };
-      if (userProfile.picture && image) {
-        userProfile.picture.link = image;
-      }
-      updateUserProfile(updatedUserProfile).then((status) => {
-        if (status === 201) {
-          navigate(AppRoutes.HOME);
-        }
-      }).catch(() => {
-        setLoading(true);
+        setOffices(fetchedOffices);
+        setCountries(fetchedCountries);
       });
-    };
+  }, []);
 
 
-    const handleImageChange = () => {
-      if (fileInputRef.current) {
-        fileInputRef.current.click();
+  const handleUpdateUserSubmit = (values) => {
+    const updatedUserProfile = {
+      ...userProfile,
+      id: userProfile.id,
+      fullName: values.fullName,
+      role: values.role,
+      address: {
+        street: values.street,
+        city: values.city,
+        state: values.state,
+        postcode: values.postcode,
+      },
+      department: {
+        officeName: values.department
+      },
+      country: {
+        countryName: values.countryName,
       }
     };
-
-
-    const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files && event.target.files[0];
-      if (file) {
-        const imageUrl = URL.createObjectURL(file);
-        setImage(imageUrl);
+    if (userProfile.picture && image) {
+      userProfile.picture.link = image;
+    }
+    updateUserProfile(updatedUserProfile).then((status) => {
+      if (status === 201) {
+        navigate(AppRoutes.HOME);
       }
-    };
+    }).catch(() => {
+      setLoading(true);
+    });
+  };
+
+
+  const handleImageChange = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+
+  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
+    }
+  };
 
 
   return (
