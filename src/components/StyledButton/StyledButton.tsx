@@ -25,8 +25,10 @@ const StyledButton: React.FC<Props> = ({
         color: 'white',
       },
       secondary: {
-        backgroundColor: 'gray',
-        color: 'black',
+        color: '#0E166E',
+        variant: 'outlined',
+        outlined: 'grey',
+        border: 'grey'
       },
     };
 
