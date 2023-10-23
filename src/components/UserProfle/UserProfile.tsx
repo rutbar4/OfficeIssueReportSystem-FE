@@ -306,7 +306,7 @@ const labelColor = { color: '#6B706D' };
                   padding: '8px',
                 }}
                       >
-                Loading...
+                Saving...
               </div>}
           <StyledButton buttonType='secondary' buttonSize='small' type='button'
             onClick={() => navigate(AppRoutes.HOME)}
