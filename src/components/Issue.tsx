@@ -6,8 +6,9 @@ import { styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { BiSolidUpArrowAlt } from 'react-icons/bi';
+
+import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { COLORS } from '../values/colors';
 
 const toggleDrawer = (open, setState, event) => {
@@ -99,7 +100,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
               <Grid item xs={3}>
                 <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
                   <Grid item>
-                    <BiSolidUpArrowAlt fontSize={25} color="grey"></BiSolidUpArrowAlt>
+                    <BiSolidUpArrowAlt fontSize={25} color="grey" />
                   </Grid>
                   <Grid item>
                     <Typography
