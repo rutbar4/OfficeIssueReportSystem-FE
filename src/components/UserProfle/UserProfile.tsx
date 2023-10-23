@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Divider, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import {  useNavigate } from 'react-router';
 import * as Yup from 'yup';
@@ -47,6 +47,7 @@ const labelColor = { color: '#6B706D' };
     const [offices, setOffices] = useState<Office[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
     const [userProfile, setUserProfile] = useState<UserProfileModel>(emptyUserProfile);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -91,8 +92,8 @@ const labelColor = { color: '#6B706D' };
         if (status === 201) {
           navigate(AppRoutes.HOME);
         }
-      }).catch((error) => {
-        console.log(error);
+      }).catch(() => {
+        setLoading(true);
       });
     };
 
@@ -117,7 +118,7 @@ const labelColor = { color: '#6B706D' };
     <Formik
       initialValues={{
         fullName: userProfile?.fullName,
-        department: userProfile.department.officeName,
+        officeName: userProfile.department.officeName,
         role: userProfile?.role,
         street: userProfile?.address.street,
         city: userProfile?.address.city,
@@ -186,19 +187,21 @@ const labelColor = { color: '#6B706D' };
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Department</label>
-              <Field
-                fullWidth
-                sx={{ marginTop: '7px' }}
-                as={Select}
-                id='officeName'
-                name='officeName'
-                defaultValue={userProfile.department.officeName}
-              >
-              {offices.map((office) => (
-                <MenuItem key={office.id} value={office.officeName}>
-                  {office.officeName}
-                </MenuItem>
-              ))}
+              <Field name="officeName">
+                {({ field, form }) => (
+                  <Autocomplete
+                    fullWidth
+                    sx={{ marginTop: '7px' }}
+                    id="officeName"
+                    options={offices.map((office) => office.officeName)}
+                    value={field.value}
+                    renderInput={(params) => <TextField {...params}/>}
+                    onChange={(_, newValue) => {
+                      form.setFieldValue('officeName', newValue);
+
+                    }}
+                  />
+                )}
               </Field>
               <Typography sx={{ color: 'red' }}>
                 <ErrorMessage name="officeName"/>
@@ -277,19 +280,20 @@ const labelColor = { color: '#6B706D' };
             </Grid>
             <Grid item xs={6}>
               <label style={labelColor}>Country</label>
-              <Field
-                fullWidth
-                sx={{ marginTop: '7px' }}
-                as={Select}
-                id='countryName'
-                name='countryName'
-                defaultValue={userProfile.country.countryName}
-              >
-              {countries.map((country) => (
-                <MenuItem key={country.id} value={country.countryName}>
-                  {country.countryName}
-                </MenuItem>
-              ))}
+              <Field name="countryName">
+                {({ field, form }) => (
+                  <Autocomplete
+                    fullWidth
+                    sx={{ marginTop: '7px' }}
+                    id="country"
+                    options={countries.map((country) => country.countryName)}
+                    value={field.value}
+                    renderInput={(params) => <TextField {...params}/>}
+                    onChange={(_, newValue) => {
+                      form.setFieldValue('countryName', newValue);
+                    }}
+                  />
+                )}
               </Field>
               <Typography sx={{ color: 'red' }}>
                 <ErrorMessage name='countryName'/>
@@ -299,6 +303,18 @@ const labelColor = { color: '#6B706D' };
       </Grid>
   </Grid>
   <Grid container justifyContent="flex-end" sx={{ marginTop: '50px' }}>
+    {loading && <div
+          style={{
+            position: 'absolute',
+            bottom: '20%',
+            left: '50%',
+            transform: 'translate(-50%, 0%)',
+            color: labelColor.color,
+            padding: '8px',
+          }}
+                >
+          Loading...
+        </div>}
     <StyledButton buttonType='secondary' buttonSize='small' type='button'
       onClick={() => navigate(AppRoutes.HOME)}
     >Cancel</StyledButton>
