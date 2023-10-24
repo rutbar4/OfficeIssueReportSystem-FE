@@ -3,7 +3,7 @@ import {Editor} from '@tinymce/tinymce-react'
 const RichTextComponent = () => {
 
   return(
-    <div className="App">
+    <div className="App">gi
       <Editor
         apiKey="no-api-key"
         initialValue="Enter issue description"
