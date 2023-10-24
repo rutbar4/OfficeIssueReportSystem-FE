@@ -12,7 +12,7 @@ import UpvoteChip from '../Chip/UpvoteChip';
 
 const tableStyle = { 
   border: 'none',
-  fontSize: '20px',
+  fontSize: '14px',
   itemsAllign: 'left',
   padding: '3px',
   overFlow: 'hidden',
@@ -23,8 +23,9 @@ const firstCellStyle = {
     width: '170px'
 };
 
-interface ModalContentProps {
+interface issueDetailsProps {
   title: string;
+  description: string;
   reportedBy: string;
   reported: string;
   status: string;
@@ -32,8 +33,8 @@ interface ModalContentProps {
   office: string;
 }
 
-function ModalContent(props: ModalContentProps) {
-  const { title, reportedBy, reported, status, upvotes, office } = props;
+function IssueDetails(props: issueDetailsProps) {
+ const { title, description, reportedBy, reported, status, upvotes, office } = props;
 
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
@@ -69,4 +70,4 @@ function ModalContent(props: ModalContentProps) {
   );
 }
 
-export default ModalContent;
+export default IssueDetails;
