@@ -6,10 +6,9 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
 
 import Sidebar from 'src/components/sidebar/Sidebar';
-import IssueCard from 'src/components/Issue';
+import IssueCard from 'src/components/IssueCard/Issue';
 import { RootState } from 'src/store/store';
 import { getIssues } from 'src/actions/issues/IssuesAction';
-
 
 const Home = () => {
   const [name, setName] = useState('Diana');
@@ -23,28 +22,27 @@ const Home = () => {
 
   return (
     <Box>
-      <Sidebar/>
-      <WelcomeMessage name={name}/>
+      <Sidebar />
+      <WelcomeMessage name={name} />
       {issues.loading ? (
         <p>Loading...</p>
-      ): ( <div>
-        {issues.issues.map((issue) => (
-          <IssueCard
-          key={issue.id}
-          issueId={issue.id}
-          issueName={issue.name}
-          issueDescription={issue.description}
-          issueStatus={issue.status}
-          upvoteCount={issue.upvoteCount}
-          commentCount={issue.commentCount}
-          date={issue.time}
-          />
-        ))}
-      </div>
+      ) : (
+        <div>
+          {issues.issues.map((issue) => (
+            <IssueCard
+              key={issue.id}
+              issueId={issue.id}
+              issueName={issue.name}
+              issueDescription={issue.description}
+              issueStatus={issue.status}
+              upvoteCount={issue.upvoteCount}
+              commentCount={issue.commentCount}
+              date={issue.time}
+            />
+          ))}
+        </div>
       )}
-    
     </Box>
-
   );
 };
 

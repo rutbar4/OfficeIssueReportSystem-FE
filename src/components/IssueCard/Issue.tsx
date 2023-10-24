@@ -9,7 +9,7 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import { BiSolidUpArrowAlt } from 'react-icons/bi';
 
 import IssueDrawer from './IssueDrawer/IssueDrawer';
-import { COLORS } from '../values/colors';
+import { COLORS } from '../../values/colors';
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -166,7 +166,11 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           </Grid>
         </Grid>
       </BoxContainer>
-      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueID={issueId}></IssueDrawer>
+      <IssueDrawer
+        wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
+        issueDetailsOpen={issueDetailsOpen}
+        issueID={issueId}
+      ></IssueDrawer>
     </>
   );
 };
