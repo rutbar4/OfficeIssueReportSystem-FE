@@ -6,8 +6,9 @@ import { styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { BiSolidUpArrowAlt } from 'react-icons/bi';
+
+import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { COLORS } from '../values/colors';
 
 const toggleDrawer = (open, setState, event) => {
@@ -31,6 +32,7 @@ const BoxContainer = styled(Box)`
 `;
 
 type CustomBoxProps = {
+  issueId: number;
   issueName: string;
   issueDescription: string;
   issueStatus: string;
@@ -40,6 +42,7 @@ type CustomBoxProps = {
 };
 
 const CustomBox: React.FC<CustomBoxProps> = ({
+  issueId,
   issueName,
   issueDescription,
   issueStatus,
@@ -97,7 +100,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
               <Grid item xs={3}>
                 <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
                   <Grid item>
-                    <BiSolidUpArrowAlt fontSize={25} color="grey"></BiSolidUpArrowAlt>
+                    <BiSolidUpArrowAlt fontSize={25} color="grey" />
                   </Grid>
                   <Grid item>
                     <Typography
@@ -163,7 +166,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           </Grid>
         </Grid>
       </BoxContainer>
-      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen}></IssueDrawer>
+      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueID={issueId}></IssueDrawer>
     </>
   );
 };
