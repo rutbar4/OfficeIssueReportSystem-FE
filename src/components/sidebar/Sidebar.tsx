@@ -3,7 +3,7 @@ import 'src/scss/SideBarStyles.scss';
 import Logo from 'public/Logo.png';
 import HomeImage from 'public/HomeJ.png';
 import HomeImageActive from 'public/HomePageActive.png';
-import MyProfileActive from 'public/HomePageActive.png';
+import MyProfileActive from 'public/MyProfileActive.png';
 import ProfileImage from 'public/Profile.png';
 import Typography from '@mui/material/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';

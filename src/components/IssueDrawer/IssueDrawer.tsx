@@ -5,8 +5,11 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
 import DrawerToolbar from './DrawerToolbar';
-import IssueDetails from 'src/components/IssueDrawer/IssueDetails';
 import { fetchIssueDetails } from '../../api/DetailApi';
+
+import IssueDetails from 'src/components/IssueDrawer/IssueDetails';
+
+
 
 const initialDetails = {
   name: 'Loading...',

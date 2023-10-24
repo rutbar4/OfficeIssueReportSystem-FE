@@ -18,13 +18,13 @@
     border-right: 1px solid #DDDDDD;
     padding: 16px 0px 16px 0px;
     gap: 8px;
-    z-index: 1; /* Above all content */
+    z-index: 2;
   }
 
   .sidebar-content-wrapper {
     width: 48px;
     height: 208px;
-    gap: 40px; /* Gap between elements inside the content */
+    gap: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;

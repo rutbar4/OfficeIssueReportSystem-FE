@@ -19,7 +19,7 @@ const customTabTheme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'Inter, sans-serif',
-          fontSize: '20px',
+          fontSize: '14px',
           fontWeight: 400,
           lineHeight: '24px',
           letterSpacing: '0em',
@@ -85,16 +85,18 @@ export default function BasicTabs({ description }: { description: string }) {
        <Typography className="Description">
          Description
        </Typography>
-       <Typography>
+       <Typography className="ActualDescription">
         {description}
        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+        Busimi Komentarai
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        Busimi Logai
       </CustomTabPanel>
     </Box>
   );
+
+
 }

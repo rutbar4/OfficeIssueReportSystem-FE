@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 import React, { useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -6,8 +7,9 @@ import { styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { BiSolidUpArrowAlt } from 'react-icons/bi';
+
+import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { COLORS } from '../values/colors';
 
 const toggleDrawer = (open, setState, event) => {

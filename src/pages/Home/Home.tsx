@@ -5,7 +5,7 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
 
-import Sidebar from 'src/components/sidebar/Sidebar';
+
 import IssueCard from 'src/components/Issue';
 import { RootState } from 'src/store/store';
 import { getIssues } from 'src/actions/issues/IssuesAction';
@@ -23,7 +23,6 @@ const Home = () => {
 
   return (
     <Box>
-      <Sidebar/>
       <WelcomeMessage name={name}/>
       {issues.loading ? (
         <p>Loading...</p>
@@ -42,7 +41,7 @@ const Home = () => {
         ))}
       </div>
       )}
-    
+
     </Box>
 
   );
