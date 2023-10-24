@@ -7,9 +7,9 @@ const StatusChip = ({ issueStatus }: { issueStatus: string }) => {
             label={issueStatus}
             sx={{ borderRadius: '17px', fontSize: '15px' }}
             color={
-                issueStatus === 'Open' || issueStatus === 'open'
+                issueStatus === 'Open'
                     ? 'success'
-                    : issueStatus === 'In progress' || issueStatus === 'in progress'
+                    : issueStatus === 'In progress'
                     ? 'primary'
                     : 'default'
             }
