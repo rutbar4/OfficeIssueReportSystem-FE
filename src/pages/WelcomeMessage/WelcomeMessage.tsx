@@ -1,14 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Box, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
 
 import StyledButton from 'src/components/StyledButton/StyledButton';
+import IssueForm from '../../components/form/IssueForm';
 
 type Props =  {
   name: string;
 }
 
 const WelcomeMessage: React.FC<Props> = ({ name }) => {
+
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const openDialog = () => {
+    setDialogOpen(true);
+  };
+  const closeDialog = () => {
+    setDialogOpen(false);
+  };
+
   return (
     <Box display="flex" alignItems="center" p={2}>
       <Box>
@@ -16,7 +27,7 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
           Welcome, {name}
         </Typography>
         <Typography variant="h5" sx={{ color: '#6B706D', marginBottom: '10px' }}>
-          Discover, report and vote for office issuethat requires our attention and fix
+          Discover, report and vote for office issue that requires our attention and fix
           </Typography>
       </Box>
       <Box ml="auto">
@@ -25,6 +36,7 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
         >
           Report Issue
         </StyledButton>
+        <IssueForm open={openDialog} close={dialogOpen}/>
       </Box>
     </Box>
   );
