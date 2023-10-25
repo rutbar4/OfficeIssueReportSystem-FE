@@ -8,6 +8,8 @@ import ProfileImage from 'public/Profile.png';
 import Typography from '@mui/material/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { AppRoutes } from 'src/types/routes';
+
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ const Sidebar: React.FC = () => {
         </button>
 
         {/* My Profile Button */}
-        <button className="Profile button" onClick={() => {navigate('/profile'); }}>
+        <button className="Profile button" onClick={() => navigate(AppRoutes.USER_PROFILE)}>
 
           {
           location.pathname === '/profile' ?

@@ -100,7 +100,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
               <Grid item xs={3}>
                 <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
                   <Grid item>
-                    <BiSolidUpArrowAlt fontSize={25} color="grey"></BiSolidUpArrowAlt>
+                    <BiSolidUpArrowAlt fontSize={25} color="grey" />
                   </Grid>
                   <Grid item>
                     <Typography
