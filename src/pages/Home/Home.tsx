@@ -22,8 +22,7 @@ const Home = () => {
 
   return (
     <Box>
-      <Sidebar />
-      <WelcomeMessage name={name} />
+      <WelcomeMessage name={name}/>
       {issues.loading ? (
         <p>Loading...</p>
       ) : (

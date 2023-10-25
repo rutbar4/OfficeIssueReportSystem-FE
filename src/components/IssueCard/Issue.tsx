@@ -132,7 +132,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                 </Grid>
               </Grid>
               <Grid item xs={3}>
-                <VoteToggleButton/>
+                <VoteToggleButton />
               </Grid>
             </Grid>
           </Grid>
