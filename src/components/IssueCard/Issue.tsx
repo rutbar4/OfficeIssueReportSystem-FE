@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
@@ -10,6 +9,7 @@ import { BiSolidUpArrowAlt } from 'react-icons/bi';
 
 import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { COLORS } from '../../values/colors';
+import VoteToggleButton from './VoteToggleButton';
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -132,22 +132,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                 </Grid>
               </Grid>
               <Grid item xs={3}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderRadius: '17px',
-                    borderColor: 'lightgray',
-                    fontSize: '15px',
-                    color: COLORS.blue,
-                    fontWeight: 'bold',
-                  }}
-                  startIcon={<BiSolidUpArrowAlt color="#0E166E" />}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  Vote
-                </Button>
+                <VoteToggleButton/>
               </Grid>
             </Grid>
           </Grid>
