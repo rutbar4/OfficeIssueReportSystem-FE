@@ -23,7 +23,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const IssueForm = ({ open, close }) => (
   <BootstrapDialog onClose={close} aria-labelledby="customized-dialog-title" open={open}>
     <DialogTitle sx={{ m: 3, p: 2 }} id="customized-dialog-title">
-      <Typography variant="h4" gutterBottom sx={{ color: '#0E166E' }}>
+      <Typography variant="h4" gutterBottom sx={{ color: 'var(--primary-color)' }}>
         Report issue:
       </Typography>
     </DialogTitle>
