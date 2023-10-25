@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+
 import DrawerToolbar from './DrawerToolbar';
-import IssueDetails from 'src/components/IssueDrawer/IssueDetails';
 import { fetchIssueDetails } from '../../api/DetailApi';
 
+import IssueDetails from 'src/components/IssueDrawer/IssueDetails';
+
+
+
 const initialDetails = {
-  name: "Loading...",
-  description: "Loading...",
-  status: "Loading...",
+  name: 'Loading...',
+  description: 'Loading...',
+  status: 'Loading...',
   rating: 0,
-  dateCreated: "Loading...",
-  employeeName: "Loading...",
-  officeName: "Loading...",
-}
+  dateCreated: 'Loading...',
+  employeeName: 'Loading...',
+  officeName: 'Loading...',
+};
 
 
 export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueID }) {
@@ -33,7 +37,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
     }
   }, [issueDetailsOpen]);
 
-  
+
   const date = new Date(issueDetailData.dateCreated);
   const formattedDate = date.toLocaleDateString('en-GB', {
     day: 'numeric',

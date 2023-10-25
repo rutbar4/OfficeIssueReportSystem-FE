@@ -166,7 +166,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           </Grid>
         </Grid>
       </BoxContainer>
-      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueID={issueId}></IssueDrawer>
+      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueID={issueId} />
     </>
   );
 };
