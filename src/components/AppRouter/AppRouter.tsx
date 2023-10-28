@@ -6,6 +6,8 @@ import UserProfile from '../UserProfle/UserProfile';
 import Home from 'src/pages/Home/Home';
 import { AppRoutes } from 'src/types/routes';
 
+import SignIn from 'src/pages/SignIn/SignIn'
+
 
 // eslint-disable-next-line react/no-multi-comp
 const TemporarySignInComponent = () => {
@@ -17,7 +19,7 @@ const AppRouter = createBrowserRouter(
     <Route element={<Layout />}>
       <Route path={AppRoutes.HOME} element={<Home />} />
       <Route path={AppRoutes.USER_PROFILE} element={<UserProfile />} />
-      <Route path={AppRoutes.SIGN_IN} element={<TemporarySignInComponent />} />
+      <Route path={AppRoutes.SIGN_IN} element={<SignIn />} />
     </Route>
   )
 );
