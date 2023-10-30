@@ -29,7 +29,6 @@ export const getSignIn = () => {
 
         login.signIn('test1', 'test2').then(async (response) => {
                 const resultJson = await response;
-                console.log(response);
                 dispatch(getSignInActionSuccess(resultJson));
         }).catch((error) => {
             console.log(error);
