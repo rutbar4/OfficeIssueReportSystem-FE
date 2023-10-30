@@ -1,7 +1,7 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { Configuration } from 'webpack';
+import { DefinePlugin, Configuration } from 'webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
@@ -78,6 +78,9 @@ const config: Configuration = {
     }),
     new ForkTsCheckerWebpackPlugin({
       async: false,
+    }),
+    new DefinePlugin({
+      process: { 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) },
     }),
   ],
 };
