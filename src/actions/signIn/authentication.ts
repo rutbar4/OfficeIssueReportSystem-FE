@@ -4,17 +4,23 @@ import login from '../../services/authService';
 export enum SignInActionTypes {
     SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS',
     SIGN_IN_FAIL = 'SIGN_IN_FAIL',
+    SIGN_OUT = 'SIGN_OUT',
 }
 
 
 const getSignInAction = () => ({
-    type: SignInActionTypes.SIGN_IN_FAIL,
+    type: SignInActionTypes.SIGN_IN_FAIL, 
 });
 
 const getSignInActionSuccess = (user) => ({
     type: SignInActionTypes.SIGN_IN_SUCCESS,
     payload: { user },
 });
+
+const getSignOutAction = () => ({
+    type: SignInActionTypes.SIGN_OUT,
+});
+
 
 
 export const getSignIn = () => {
@@ -29,5 +35,17 @@ export const getSignIn = () => {
             console.log(error);
             dispatch(getSignInAction());
         });
+    }
+};
+
+export const getSignOut = () => {
+    return(dispatch : AppDispatch) => {
+        dispatch(getSignOutAction());
+        try{
+            localStorage.removeItem('user');
+        }
+        catch(error){
+            console.log(error);
+        }
     }
 };

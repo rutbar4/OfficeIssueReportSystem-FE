@@ -1,19 +1,34 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'src/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'src/store/store';
 import { getSignIn } from 'src/actions/signIn/authentication';
+import { useNavigate} from 'react-router-dom';
+import { AppRoutes } from 'src/types/routes';
+import { useEffect } from 'react';
 
 const SignIn = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const state = useSelector((state : RootState) => state.authentication);
 
-  const handleLogin = () => {
-    console.log("Login was pressed");
+  const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigate();
+
+  useEffect(() => {
+    if(state.isLoggedIn){
+      navigation(AppRoutes.HOME);
+    }
+  }, [state.isLoggedIn]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
     dispatch(getSignIn());
-    };
+  };
 
   return (
-    <Button variant="outlined" onClick={handleLogin}>Login</Button>
+    <div>
+      <Button variant="outlined" onClick={(e)=>handleLogin(e)}>Login</Button>
+    </div>
+    
   );
 };
 

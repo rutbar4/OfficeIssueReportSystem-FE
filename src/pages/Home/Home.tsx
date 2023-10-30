@@ -2,10 +2,7 @@ import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
-
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
-
-
 import IssueCard from 'src/components/Issue';
 import { RootState } from 'src/store/store';
 import { getIssues } from 'src/actions/issues/IssuesAction';
