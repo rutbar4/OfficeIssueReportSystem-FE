@@ -27,7 +27,7 @@ export const getSignIn = () => {
     return(dispatch : AppDispatch) => {
         dispatch(getSignInAction());
 
-        login.signIn('test1', 'test2').then(async (response) => {
+        login.signIn('sarunas@devbridge.com', 'password').then(async (response) => {
                 const resultJson = await response;
                 dispatch(getSignInActionSuccess(resultJson));
         }).catch((error) => {
