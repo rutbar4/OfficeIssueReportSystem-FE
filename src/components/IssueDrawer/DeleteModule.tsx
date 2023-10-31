@@ -1,3 +1,5 @@
+import 'src/scss/DeleteIssueStyles.scss';
+
 import * as React from 'react';
 import clsx from 'clsx';
 import { styled, Box } from '@mui/system';
@@ -15,39 +17,15 @@ export default function ModalUnstyled({ id, title }: { id: string; title: string
     try {
       await deleteIssueById(id);
       handleClose();
+      window.location.reload();
     } catch (error) {
       console.error('Failed to delete the issue:', error);
     }
   };
   return (
     <div>
-      <TriggerButton
-        type="button"
-        onClick={handleOpen}
-        style={{
-          width: '116px',
-          height: '32px',
-          padding: '8px 16px',
-          gap: '8px',
-          border: 'none',
-          boxShadow: 'none',
-          borderRadius: '0',
-        }}
-      >
-        <Typography
-          className="Popup"
-          style={{
-            fontFamily: 'Inter, sans-serif !important',
-            fontSize: '14px',
-            fontWeight: 600,
-            lineHeight: '16px',
-            letterSpacing: '0em',
-            textAlign: 'center',
-            color: '#000048',
-          }}
-        >
-          Delete Issue
-        </Typography>
+      <TriggerButton type="button" onClick={handleOpen} className="trigger-button">
+        <Typography className="popup">Delete Issue</Typography>
       </TriggerButton>
       <Modal
         aria-labelledby="unstyled-modal-title"
@@ -67,98 +45,24 @@ export default function ModalUnstyled({ id, title }: { id: string; title: string
           <div style={{ position: 'relative', top: '-25px', left: 40 }}>
             <div>
               <h3 id="unstyled-modal-title" className="modal-title">
-                <Typography
-                  style={{
-                    fontFamily: 'Inter, sans-serif !important',
-                    fontSize: '24px',
-                    fontWeight: 400,
-                    letterSpacing: '0em',
-                    textAlign: 'left',
-                    color: '#000048',
-                  }}
-                >
-                  Delete issue
-                </Typography>
+                <Typography className="title">Delete issue</Typography>
               </h3>
             </div>
           </div>
-          <div
-            style={{
-              width: '472px',
-              height: '72px',
-              top: '-10px',
-              left: 40,
-              position: 'relative',
-            }}
-          >
+          <div className="desc-wrap">
             <p id="unstyled-modal-description" className="modal-description">
-              <Typography
-                style={{
-                  fontFamily: 'Inter, sans-serif !important',
-                  fontSize: '17px',
-                  fontWeight: 400,
-                  lineHeight: '16px',
-                  letterSpacing: '0em',
-                  color: '#000048',
-                }}
-              >
+              <Typography className="description">
                 Are you sure you want to delete issue<span style={{ fontWeight: 700 }}> ‘{title}’ </span>? Item will be
                 deleted permanently and cannot be restored.
               </Typography>
             </p>
           </div>
           <div className="modal-footer">
-            <Button
-              onClick={handleClose}
-              variant="outlined"
-              sx={{
-                width: '96px',
-                height: '40px',
-                padding: '8px 24px',
-                borderRadius: '100px',
-                border: '1px',
-                gap: '8px',
-              }}
-            >
-              <Typography
-                style={{
-                  fontFamily: 'Inter, sans-serif !important',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  lineHeight: '24px',
-                  letterSpacing: '0em',
-                  textAlign: 'center',
-                  color: '#000048',
-                }}
-              >
-                Cancel
-              </Typography>
+            <Button onClick={handleClose} variant="outlined" className="cancel-button">
+              <Typography className="cancel">Cancel</Typography>
             </Button>
-            <Button
-              variant="contained"
-              color="error"
-              sx={{
-                width: '132px',
-                height: '40px',
-                padding: '8px 24px',
-                borderRadius: '100px',
-                gap: '8px',
-              }}
-              onClick={handleDelete}
-            >
-              <Typography
-                style={{
-                  fontFamily: 'Inter, sans-serif !important',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  lineHeight: '24px',
-                  letterSpacing: '0em',
-                  textAlign: 'center',
-                  color: '#FFFFFF',
-                }}
-              >
-                Delete Issue
-              </Typography>
+            <Button variant="contained" color="error" className="delete-button" onClick={handleDelete}>
+              <Typography className="delete-issue">Delete Issue</Typography>
             </Button>
           </div>
         </ModalContent>
@@ -233,7 +137,6 @@ const ModalContent = styled(Box)(
   text-align: start;
   position: relative;
 
-  // Header
 & .modal-header {
   display: flex;
   height:50px;
@@ -249,7 +152,6 @@ const ModalContent = styled(Box)(
   color: #000048;
 }
 
-  // Footer
   & .modal-footer {
     width: 600px;
     height: 72px;
