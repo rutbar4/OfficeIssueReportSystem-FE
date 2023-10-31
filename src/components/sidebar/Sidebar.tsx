@@ -21,41 +21,41 @@ const Sidebar: React.FC = () => {
         <img src={Logo} alt="Logo" className="sidebar-logo-1" />
 
         {/* Home Button */}
-        <button className="Home button" onClick={() => {navigate('/'); }}>
-
-          {
-          location.pathname === '/' ?
-          <div className="border-styles-active">
-            <img src={HomeImageActive} alt="Home" className="home-image" />
-          </div>
-           :
-          <div className="border-styles-inactive">
-            <img src={HomeImage} alt="Home" className="home-image" />
-          </div>
-          }
+        <button
+          className="Home button"
+          onClick={() => {
+            navigate('/');
+          }}
+        >
+          {location.pathname === '/' ? (
+            <div className="border-styles-active">
+              <img src={HomeImageActive} alt="Home" className="home-image" />
+            </div>
+          ) : (
+            <div className="border-styles-inactive">
+              <img src={HomeImage} alt="Home" className="home-image" />
+            </div>
+          )}
 
           <div className="home-text-wrapper-styles">
-            <Typography className='text-styles'>Home</Typography>
+            <Typography className="text-styles">Home</Typography>
           </div>
-
         </button>
 
         {/* My Profile Button */}
         <button className="Profile button" onClick={() => navigate(AppRoutes.USER_PROFILE)}>
-
-          {
-          location.pathname === '/profile' ?
-          <div className="border-styles-active">
-            <img src={MyProfileActive} alt="Profile" className="profile-image" />
-          </div>
-           :
-          <div className="border-styles-inactive">
-            <img src={ProfileImage} alt="Profile" className="profile-image" />
-          </div>
-          }
+          {location.pathname === '/user-profile' ? (
+            <div className="border-styles-active">
+              <img src={MyProfileActive} alt="Profile" className="profile-image" />
+            </div>
+          ) : (
+            <div className="border-styles-inactive">
+              <img src={ProfileImage} alt="Profile" className="profile-image" />
+            </div>
+          )}
 
           <div className="profile-text-wrapper-styles">
-            <Typography className='text-styles'>My Profile</Typography>
+            <Typography className="text-styles">My Profile</Typography>
           </div>
         </button>
       </div>
