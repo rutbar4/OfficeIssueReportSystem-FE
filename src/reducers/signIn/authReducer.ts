@@ -16,11 +16,6 @@ const authReducer = (state = initialState, action) => {
                 user: payload.user,
             };
         case SignInActionTypes.SIGN_IN_FAIL:
-            return {
-                ...initialState,
-                isLoggedIn: false,
-                user: null,
-            };
         case SignInActionTypes.SIGN_OUT:
             return {
                 ...initialState,

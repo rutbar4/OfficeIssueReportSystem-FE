@@ -10,8 +10,7 @@ type Props = {
 };
 
 const ProtectedRoute: React.FC<Props> = ( {isAllowed, children}) => {
-    const state = useSelector((state : RootState) => state.authentication);
-    if(!state.isLoggedIn) {
+    if(!isAllowed) {
         return <Navigate to={AppRoutes.SIGN_IN} />;
     }
     return children;
