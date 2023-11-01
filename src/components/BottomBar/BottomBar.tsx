@@ -12,7 +12,7 @@ const BottomBar: React.FC = () => {
       display="flex"
       alignItems="center"
       p={2}
-      style={{ paddingLeft: '160px', paddingRight: '96px' }}
+      style={{ paddingLeft: '180px', paddingRight: '100px' }}
     >
       <Box>
         <Typography variant="h6">Copyright © {new Date().getFullYear()} Cognizant</Typography>

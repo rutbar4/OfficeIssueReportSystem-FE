@@ -67,7 +67,7 @@ function TopHeader() {
       }}
     >
       <Container maxWidth={false}>
-        <Toolbar disableGutters sx={{ paddingLeft: '130px', paddingRight: '60px' }}>
+        <Toolbar disableGutters sx={{ paddingLeft: '130px', paddingRight: '70px' }}>
           <div style={{ flexGrow: 1 }} />
           <div style={iconSpacing}>
             <IconButton color="inherit" aria-label="Notifications" onClick={handleNotifications}>

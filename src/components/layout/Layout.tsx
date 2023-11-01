@@ -17,10 +17,7 @@ const Layout = (): JSX.Element => {
       <Box className="main-box">
         <Sidebar />
         <TopHeader />
-        <Container
-          maxWidth={false}
-          style={{ paddingLeft: '160px', paddingRight: '96px', paddingTop: '120px', paddingBottom: '30px' }}
-        >
+        <Container maxWidth="xl" style={{ paddingLeft: '100px', paddingTop: '120px', paddingBottom: '30px' }}>
           <Outlet />
         </Container>
         <BackgroundLogo className="background-logo" />
