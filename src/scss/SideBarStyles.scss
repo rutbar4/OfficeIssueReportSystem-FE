@@ -9,36 +9,32 @@
 //Sidebar
 
 .sidebar {
+    //width: 4vw;
     width: 72px;
-    height: 3155px;
+    height: 100%;
     position: fixed;
     top: 0;
     left: 0;
     background-color: white;
-    border-right: 1px solid #DDDDDD;
+    border-right: 1px solid #dddddd;
     padding: 16px 0px 16px 0px;
     gap: 8px;
     z-index: 2;
-  }
+    overflow: auto;
+}
 
-  .sidebar-content-wrapper {
-    width: 48px;
-    height: 208px;
+.sidebar-content-wrapper {
+    //width: 48px;
     gap: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-left: 12px;
     margin-right: 12px;
-  }
+}
 
-  .sidebar-logo-1 {
-    width: 40px;
-    height: 40px;
-  }
-
-  .Home.button,
-  .Profile.button {
+.Home.button,
+.Profile.button {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,44 +42,51 @@
     text-align: center;
     border: none;
     background-color: transparent;
+    color: #000048;
 }
 
 .text-styles {
-  font-family: 'Inter';
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 12px;
-  text-align: center;
+    font-family: 'Inter';
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+    text-align: center;
 }
 
 .home-text-wrapper-styles {
-  width: 29px;
-  height: 12px;
+    width: 29px;
+    height: 12px;
+    color: #000048;
 }
 
 .profile-text-wrapper-styles {
-  width: 48px;
-  height: 12px;
+    width: 48px;
+    height: 12px;
+    color: #000048;
 }
 
 .border-styles-active {
-  width:  36px;
-  height: 36px;
-  left: 6px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(90deg, rgba(61, 84, 206, 0.12) 0.02%, rgba(53, 202, 207, 0.12) 100.04%);
+    width: 36px;
+    height: 36px;
+    left: 6px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, rgba(61, 84, 206, 12%) 0%, rgba(53, 202, 207, 12%) 100%);
 }
 
 .border-styles-inactive {
-  width:  36px;
-  height: 36px;
-  left: 6px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
+    width: 36px;
+    height: 36px;
+    left: 6px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+}
+
+.border-styles-inactive:hover {
+    background: linear-gradient(90deg, rgba(61, 84, 206, 12%) 0%, rgba(53, 202, 207, 12%) 100%);
 }

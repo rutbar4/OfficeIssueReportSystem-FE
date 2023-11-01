@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.2" viewBox="0 0 763 645" xmlns="http://www.w3.org/2000/svg">
+<title>Cognizant-logo-svg</title>
+<defs>
+<clipPath id="e">
+<path d="m0 0h1525.3v1290h-1525.3z"/>
+</clipPath>
+<clipPath id="d">
+<path d="m649.95 645 260.56 366.48-462.57 278.52-447.94-645z"/>
+</clipPath>
+<clipPath id="c">
+<path d="m1525.3 645-439.15 645h-638.23z"/>
+</clipPath>
+<clipPath id="b">
+<path d="m910.51 278.52-260.56 366.48h-649.95l447.94-645z"/>
+</clipPath>
+<clipPath id="a">
+<path d="m1086.2 0 439.15 645-1077.4-645z"/>
+</clipPath>
+</defs>
+<g id="Clip-Path" transform="translate(-302.9 -395)" clip-path="url(#e)">
+<g id="Layer">
+<g id="Clip-Path" transform="matrix(.31311 0 0 .31311 313.52 444.08)" clip-path="url(#d)" style="">
+<g id="Layer">
+<path id="Layer" class="s0" d="m0 645h910.5v645h-910.5z" fill="#f7fafd"/>
+</g>
+</g>
+<g id="Clip-Path" transform="matrix(.31311 0 0 .31311 313.52 444.08)" clip-path="url(#c)" style="">
+<g id="Layer">
+<path id="Layer" class="s1" d="m447.9 645h1077.4v645h-1077.4z" fill="#f6fafb"/>
+</g>
+</g>
+<g id="g" transform="matrix(.31311 0 0 .31311 313.52 444.08)" clip-path="url(#b)" style="">
+<g id="Layer">
+<path id="Layer" class="s2" d="m0 0h910.5v645h-910.5z" fill="#f6f8fb"/>
+</g>
+</g>
+<g transform="matrix(.31311 0 0 .31311 313.52 444.08)" clip-path="url(#a)" style="">
+<g id="f">
+<path class="s3" d="m447.9 0h1077.4v645h-1077.4z" fill="#f9fbfd"/>
+</g>
+</g>
+</g>
+</g>
+</svg>
