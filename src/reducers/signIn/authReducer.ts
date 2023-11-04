@@ -1,6 +1,6 @@
 import { SignInActionTypes } from 'src/actions/signIn/authentication';
 
-const user = JSON.parse(localStorage.getItem("user") || "null");
+const user = JSON.parse(localStorage.getItem('user') || 'null');
 
 const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
 
@@ -25,5 +25,5 @@ const authReducer = (state = initialState, action) => {
         default:
             return state;
     }
-}
+};
 export default authReducer;

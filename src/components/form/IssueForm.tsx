@@ -8,8 +8,10 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import StyledButton from '../StyledButton/StyledButton';
 import { Stack } from '@mui/material';
+
+import StyledButton from '../StyledButton/StyledButton';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -20,6 +22,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+// eslint-disable-next-line react/prop-types
 const IssueForm = ({ open, close }) => (
   <BootstrapDialog onClose={close} aria-labelledby="customized-dialog-title" open={open}>
     <DialogTitle sx={{ m: 3, p: 2 }} id="customized-dialog-title">

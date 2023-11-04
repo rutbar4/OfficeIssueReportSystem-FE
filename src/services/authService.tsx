@@ -1,15 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
-const login_URL = "http://localhost:8080/login";
+const login_URL = 'http://localhost:9090/login';
 
 const signIn = (email: string, password: string) => {
     return axios.post(login_URL, { email, password },
         )
         .then((response) => {
-                localStorage.setItem("user", JSON.stringify(response.data));
+                localStorage.setItem('user', JSON.stringify(response.data));
             return response.data;
         });
-}
+};
 export default {
     signIn
-}
+};

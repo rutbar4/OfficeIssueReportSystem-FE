@@ -1,5 +1,7 @@
-import { AppDispatch } from 'src/store/store';
 import login from '../../services/authService';
+
+import { AppDispatch } from 'src/store/store';
+
 
 export enum SignInActionTypes {
     SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS',
@@ -9,7 +11,7 @@ export enum SignInActionTypes {
 
 
 const getSignInAction = () => ({
-    type: SignInActionTypes.SIGN_IN_FAIL, 
+    type: SignInActionTypes.SIGN_IN_FAIL,
 });
 
 const getSignInActionSuccess = (user) => ({
@@ -34,7 +36,7 @@ export const getSignIn = () => {
             console.log(error);
             dispatch(getSignInAction());
         });
-    }
+    };
 };
 
 export const getSignOut = () => {
@@ -46,5 +48,5 @@ export const getSignOut = () => {
         catch(error){
             console.log(error);
         }
-    }
+    };
 };

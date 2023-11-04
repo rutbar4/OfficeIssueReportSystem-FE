@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router';
+import { useSelector } from 'react-redux';
+
 import { AppRoutes } from 'src/types/routes';
 import store, { RootState } from 'src/store/store';
-import { useSelector } from 'react-redux';
+
 
 type Props = {
     isAllowed: boolean;
@@ -14,6 +16,6 @@ const ProtectedRoute: React.FC<Props> = ( {isAllowed, children}) => {
         return <Navigate to={AppRoutes.SIGN_IN} />;
     }
     return children;
-}
+};
 
 export default ProtectedRoute;

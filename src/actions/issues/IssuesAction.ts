@@ -17,7 +17,7 @@ const getIssuesSuccessAction = (issues) => ({
 export const getIssues = () => {
   return (dispatch: AppDispatch) => {
      dispatch(getIssuesAction());
-    axios.get('http://localhost:8080/issue').then(async (result) => {
+    axios.get('http://localhost:9090/issue').then(async (result) => {
       const resultJson = await result.data;
       dispatch(getIssuesSuccessAction(resultJson));
     }).catch((error) => {

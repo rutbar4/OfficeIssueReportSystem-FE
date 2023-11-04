@@ -5,7 +5,12 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import Comment from '../comment/Comment';
+
 import 'src/scss/ModalTabsStyles.scss';
+
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -62,6 +67,16 @@ function a11yProps(index: number) {
   };
 }
 
+
+const userIcon =
+    'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80';
+
+const Employee = {
+    fullName: 'Sarunas Jurevicius',
+    avatar: userIcon,
+};
+
+// eslint-disable-next-line react/no-multi-comp
 export default function BasicTabs({ description }: { description: string }) {
   const [value, setValue] = React.useState(0);
 
@@ -75,7 +90,7 @@ export default function BasicTabs({ description }: { description: string }) {
       <ThemeProvider theme={customTabTheme}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab {...a11yProps(0)} label="Details" />
-            <Tab {...a11yProps(1)} label="Comments" />
+            <Tab {...a11yProps(1)} label={`Comments (${0})`}/>
             <Tab {...a11yProps(2)} label="Activity log" />
         </Tabs>
        </ThemeProvider>
@@ -89,13 +104,12 @@ export default function BasicTabs({ description }: { description: string }) {
        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Busimi Komentarai
+        <Comment text='To much wait PR aprove. Please dont be so apatic, make more moves. All work stopes.' time='04 November 2023, 11:48' votes={0} replies={[]} employee={Employee}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
     </Box>
   );
-
-
 }
+

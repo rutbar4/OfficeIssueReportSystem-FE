@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
 
-import StyledButton from 'src/components/StyledButton/StyledButton';
 import IssueForm from '../../components/form/IssueForm';
+
+import StyledButton from 'src/components/StyledButton/StyledButton';
 
 type Props = {
   name: string;
