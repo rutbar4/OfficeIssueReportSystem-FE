@@ -22,7 +22,7 @@ const initialState: IssuesState = {
   issues: [],
 };
 
-const issuesReducer = (state = initialState, action: { type: string, payload: Issue[] }) => {
+const issuesReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.GET_ISSUES:
       return {
