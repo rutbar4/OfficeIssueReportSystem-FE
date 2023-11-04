@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+@use 'sass:math';
+@use 'sass:list';
+
+// Core
+
+@import 'core/normalize';
+
+.main-box {
+    min-height: 100vh;
+}
+
+.background-logo {
+    width: 100vw;
+    position: fixed;
+    top: 40%;
+    left: 0;
+    z-index: -999;
+    padding: 0;
+    margin: 0;
+}
+
+.main-container {
+    padding-left: 160px;
+    padding-right: 160px;
+    padding-top: 120px;
+}

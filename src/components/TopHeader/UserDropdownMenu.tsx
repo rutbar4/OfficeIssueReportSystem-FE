@@ -5,9 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { Box, Divider, MenuList, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import 'src/scss/DropdownMenuStyles.scss';
+import { useDispatch } from 'react-redux';
 
 import { AppRoutes } from 'src/types/routes';
-import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'src/store/store';
 import { getSignOut } from 'src/actions/signIn/authentication';
 
@@ -20,8 +20,8 @@ type Props = {
 const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  
-  const useLogout = (e) => { 
+
+  const useLogout = (e) => {
     e.preventDefault();
     dispatch(getSignOut());
     navigate(AppRoutes.SIGN_IN);
@@ -51,7 +51,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => 
             color: 'var(--primary-color)',
           }}
           onClick={() => {
-            navigate(AppRoutes.PROFILE);
+            navigate(AppRoutes.USER_PROFILE);
           }}
         >
           <PersonIcon
@@ -72,7 +72,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => 
             fontSize: '12px',
             color: 'var(--primary-color)',
           }}
-            onClick={(e)=>useLogout(e)}
+          onClick={(e) => useLogout(e)}
         >
           <LogoutIcon
             style={{
