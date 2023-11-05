@@ -2,36 +2,45 @@ import axios from 'axios';
 
 import { VoteModel } from 'src/models/VoteModel';
 
-
 export const emptyVote: VoteModel = {
-    isVoted: false,
-  };
+  isVoted: false,
+};
 
 export async function IsVoted(issueId: string, userId: string) {
-    try {
-      const response = await axios.get(`http://localhost:8080/vote/${issueId}/${userId}`);
-      return response.data.isVoted;
-    } catch (error) {
-      console.log('Failed to fetch issue details in src/components/IssueDrawer/DetailFetcher.tsx');
-    }
+  try {
+    const response = await axios.get(`http://localhost:8080/vote/${issueId}/${userId}`);
+    return response.data.isVoted;
+  } catch (error) {
+    console.log('Failed to fetch issue details');
   }
-  
-  export async function getVoteCount(issueId: string) {
-    try {
-      const response = await axios.get(`http://localhost:8080/vote/count/${issueId}`);
-      return response.data;
-    } catch (error) {
-      console.log('Failed to fetch issue details in src/components/IssueDrawer/DetailFetcher.tsx');
-    }
+}
+
+export async function GetVoteCount(issueId) {
+  try {
+    const response = await axios.get(`http://localhost:8080/vote/count/${issueId}`);
+    return response.data.count;
+  } catch (error) {
+    console.log('Failed to fetch issue count');
   }
+}
 
-// export const updateVote = async (data: VoteModel): Promise<number> => {
-//   const response = await axios.put<VoteModel>(`http://localhost:8080/vote/${data.id}`, data);
-//   return response.status;
-// };
+export async function PostVote(issueId, userId) {
+  try {
+    const response = await axios.post(`http://localhost:8080/vote`, {
+      issueId: issueId,
+      employeeId: userId,
+    });
+    return response.data.count;
+  } catch (error) {
+    console.log('Failed to create a vote for the issue: ' + { issueId } + ' and userId: ' + { userId });
+  }
+}
 
-
-
-
-
-
+export async function DeleteVote(issueId, userId) {
+  try {
+    const response = await axios.delete(`http://localhost:8080/vote/${issueId}/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.log('Failed to delete issue vote');
+  }
+}

@@ -1,10 +1,8 @@
-import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
 import { BiSolidUpArrowAlt } from 'react-icons/bi';
-import { COLORS } from '../../values/colors';
-import { IsVoted } from '../../api/VoteApi';
-
-// reikia is issue korteles gauti voted/notVoted variebles, tada displayint atitinkama mygutuka ir jei paspaudzia isiusti (i DB) statuso pakeitima ir atnaujinti mygtuko busen
+import { COLORS } from '../../../values/colors';
+import { IsVoted, DeleteVote, PostVote } from '../../../api/VoteApi';
 
 export default function VoteToggleButton({ issueId, userId }) {
   useEffect(() => {
@@ -14,6 +12,13 @@ export default function VoteToggleButton({ issueId, userId }) {
   const [isVoted, setVoted] = useState(false);
 
   const handleclick = (event) => {
+    if(isVoted)
+    {
+      DeleteVote(issueId, userId);
+    }
+    else {
+      PostVote(issueId, userId);
+    }
     setVoted(!isVoted);
   };
 

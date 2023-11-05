@@ -5,11 +5,10 @@ import { styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import { BiSolidUpArrowAlt } from 'react-icons/bi';
-
+import UpvoteCount from './IssueCardComponents/UpvoteCount';
 import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { COLORS } from '../../values/colors';
-import VoteToggleButton from './VoteToggleButton';
+import VoteToggleButton from './IssueCardComponents/VoteToggleButton';
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -98,21 +97,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                   />
               </Grid>
               <Grid item xs={3}>
-                <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
-                  <Grid item>
-                    <BiSolidUpArrowAlt fontSize={25} color="grey" />
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      sx={{
-                        fontSize: '15px',
-                        color: COLORS.gray,
-                      }}
-                    >
-                      {upvoteCount}
-                    </Typography>
-                  </Grid>
-                </Grid>
+                <UpvoteCount issueId={issueId}/>
               </Grid>
               <Grid item xs={3}>
                 <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
