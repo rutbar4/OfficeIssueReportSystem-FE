@@ -6,6 +6,7 @@ import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
 import IssueCard from 'src/components/Issue';
 import { RootState } from 'src/store/store';
 import { getIssues } from 'src/actions/issues/IssuesAction';
+import FilterTabs from 'src/components/filters/FilterTabs';
 
 
 const Home = () => {
@@ -21,6 +22,7 @@ const Home = () => {
   return (
     <Box>
       <WelcomeMessage name={name}/>
+      <FilterTabs />
       {issues.loading ? (
         <p>Loading...</p>
       ): ( <div>
