@@ -91,11 +91,11 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           <Grid item xs={5} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
             <Grid container alignItems="center">
               <Grid item xs={3}>
-                <Chip
-                  label={issueStatus}
-                  sx={{ borderRadius: '17px', fontSize: '15px' }}
-                  color={issueStatus === 'Open' ? 'success' : issueStatus === 'In progress' ? 'primary' : 'default'}
-                />
+                  <Chip
+                    label={issueStatus}
+                    sx={{ borderRadius: '17px', fontSize: '15px' }}
+                    color={issueStatus === 'Open' ? 'success' : issueStatus === 'In progress' ? 'primary' : 'default'}
+                  />
               </Grid>
               <Grid item xs={3}>
                 <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
@@ -132,7 +132,8 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                 </Grid>
               </Grid>
               <Grid item xs={3}>
-                <VoteToggleButton />
+                {/* needs id from sesion */}
+                <VoteToggleButton issueId={issueId} userId={"d06cb831-9427-41ee-adcc-271f7b02d627"} /> 
               </Grid>
             </Grid>
           </Grid>
