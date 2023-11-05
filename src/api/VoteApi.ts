@@ -10,19 +10,20 @@ export const emptyVote: VoteModel = {
 export async function IsVoted(issueId: string, userId: string) {
     try {
       const response = await axios.get(`http://localhost:8080/vote/${issueId}/${userId}`);
-      return response.data;
+      return response.data.isVoted;
     } catch (error) {
       console.log('Failed to fetch issue details in src/components/IssueDrawer/DetailFetcher.tsx');
     }
   }
   
-export const getVoteCount= async (): Promise<VoteModel> => {
-    return await axios.get<VoteModel>('http://localhost:8080/vote/count/${issueId}')
-      .then((response) => response.data)
-      .catch(() => {
-        return emptyVote;
-      });
-  };
+  export async function getVoteCount(issueId: string) {
+    try {
+      const response = await axios.get(`http://localhost:8080/vote/count/${issueId}`);
+      return response.data;
+    } catch (error) {
+      console.log('Failed to fetch issue details in src/components/IssueDrawer/DetailFetcher.tsx');
+    }
+  }
 
 // export const updateVote = async (data: VoteModel): Promise<number> => {
 //   const response = await axios.put<VoteModel>(`http://localhost:8080/vote/${data.id}`, data);

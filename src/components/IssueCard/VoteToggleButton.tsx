@@ -7,9 +7,8 @@ import { IsVoted } from '../../api/VoteApi';
 // reikia is issue korteles gauti voted/notVoted variebles, tada displayint atitinkama mygutuka ir jei paspaudzia isiusti (i DB) statuso pakeitima ir atnaujinti mygtuko busen
 
 export default function VoteToggleButton({ issueId, userId }) {
-
   useEffect(() => {
-     IsVoted(issueId, userId).then((data) => setVoted(data.isVoted));
+    IsVoted(issueId, userId).then((data) => setVoted(data));
   }, []);
 
   const [isVoted, setVoted] = useState(false);
