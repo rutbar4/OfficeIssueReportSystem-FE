@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
-import IssueCard from 'src/components/Issue';
+import IssueCard from 'src/components/IssueCard/Issue';
 import { RootState } from 'src/store/store';
 import { getIssues } from 'src/actions/issues/IssuesAction';
 
@@ -19,7 +19,7 @@ const Home = () => {
 
   return (
     <Box>
-      <WelcomeMessage name={name}/>
+      <WelcomeMessage name={name} />
       {issues.loading ? (
         <p>Loading...</p>
       ) : (
