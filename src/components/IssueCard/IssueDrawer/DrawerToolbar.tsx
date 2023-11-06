@@ -1,11 +1,46 @@
+import 'src/scss/DeleteIssueStyles.scss';
+
+import { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { IconButton } from '@mui/material';
+import { Button, IconButton, Typography } from '@mui/material';
 
-export default function DrawerToolbar({ wrapperSetDaitailsOpen }) {
+import DeleteModule from './DeleteModule';
+
+interface issueDetailsProps {
+  issueID: string;
+  title: string;
+  wrapperSetDaitailsOpen: any;
+}
+export default function DrawerToolbar(props: issueDetailsProps) {
+  const { issueID, title, wrapperSetDaitailsOpen } = props;
+
+  const [isDropdownOpen, setIsPopupOpen] = useState(false);
+
+  const toggleDeletePopup = () => {
+    setIsPopupOpen(!isDropdownOpen);
+  };
+
+  const PopupRef = useRef(null);
+
+  const useClickOutside = (ref) => {
+    const handleClick = (e) => {
+      if (isDropdownOpen) {
+        setIsPopupOpen(false);
+      }
+    };
+
+    useEffect(() => {
+      document.addEventListener('mousedown', handleClick);
+      return () => {
+        document.removeEventListener('mousedown', handleClick);
+      };
+    });
+  };
+
   return (
     <Toolbar sx={{ justifyContent: 'flex-end' }}>
       <Box
@@ -21,9 +56,14 @@ export default function DrawerToolbar({ wrapperSetDaitailsOpen }) {
           </IconButton>
         </Box>
         <Box>
-          <IconButton>
+          <IconButton onClick={toggleDeletePopup}>
             <MoreVertIcon fontSize="large" />
           </IconButton>
+          {isDropdownOpen && (
+            <div ref={PopupRef} className="Icona">
+              <DeleteModule id={issueID} title={title} />
+            </div>
+          )}
         </Box>
         <Box>
           <IconButton onClick={() => wrapperSetDaitailsOpen(false)}>

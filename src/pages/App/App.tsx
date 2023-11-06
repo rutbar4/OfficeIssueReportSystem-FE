@@ -6,7 +6,7 @@ import AppRouter from 'src/components/AppRouter/AppRouter';
 
 const App = () => {
   return (
-        <RouterProvider router={AppRouter} />
+        <RouterProvider router={AppRouter()} />
   );
 };
 
