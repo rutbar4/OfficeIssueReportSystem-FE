@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material';
@@ -9,6 +9,7 @@ import UpvoteCount from './IssueCardComponents/UpvoteCount';
 import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { COLORS } from '../../values/colors';
 import VoteToggleButton from './IssueCardComponents/VoteToggleButton';
+import { GetVoteCount } from '../../api/VoteApi';
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -45,17 +46,28 @@ const CustomBox: React.FC<CustomBoxProps> = ({
   issueName,
   issueDescription,
   issueStatus,
-  upvoteCount,
   commentCount,
   date,
 }) => {
   const [issueDetailsOpen, setIssueDetailsOpen] = React.useState(false);
+
   const wrapperSetDaitailsOpen = useCallback(
     (val) => {
       setIssueDetailsOpen(val);
     },
     [setIssueDetailsOpen]
   );
+
+  const [voteCount, setVoteCount] = useState();
+  async function handleVoteCount() {
+    let result = await GetVoteCount(issueId);
+    await setVoteCount(result);
+  }
+
+  useEffect(() => {
+    handleVoteCount();
+  }, []);
+
   return (
     <>
       <BoxContainer
@@ -90,14 +102,14 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           <Grid item xs={5} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
             <Grid container alignItems="center">
               <Grid item xs={3}>
-                  <Chip
-                    label={issueStatus}
-                    sx={{ borderRadius: '17px', fontSize: '15px' }}
-                    color={issueStatus === 'Open' ? 'success' : issueStatus === 'In progress' ? 'primary' : 'default'}
-                  />
+                <Chip
+                  label={issueStatus}
+                  sx={{ borderRadius: '17px', fontSize: '15px' }}
+                  color={issueStatus === 'Open' ? 'success' : issueStatus === 'In progress' ? 'primary' : 'default'}
+                />
               </Grid>
               <Grid item xs={3}>
-                <UpvoteCount issueId={issueId}/>
+                <UpvoteCount voteCount={voteCount} key={issueId} />
               </Grid>
               <Grid item xs={3}>
                 <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
@@ -118,7 +130,12 @@ const CustomBox: React.FC<CustomBoxProps> = ({
               </Grid>
               <Grid item xs={3}>
                 {/* needs id from sesion */}
-                <VoteToggleButton issueId={issueId} userId={"d06cb831-9427-41ee-adcc-271f7b02d627"} /> 
+                <VoteToggleButton
+                  issueId={issueId}
+                  userId={'d06cb831-9427-41ee-adcc-271f7b02d627'}
+                  key={issueId}
+                  handleVoteCount={handleVoteCount}
+                />
               </Grid>
             </Grid>
           </Grid>
