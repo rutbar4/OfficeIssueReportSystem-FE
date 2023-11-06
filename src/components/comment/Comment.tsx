@@ -1,53 +1,69 @@
-import { ArrowUpward, Padding, Reply, ThumbUp } from '@mui/icons-material';
+
 import { Avatar, Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { UUID } from 'crypto';
-import React, {useState} from 'react';
+import { FC } from 'react';
 
 import UpvoteChip from '../Chip/UpvoteChip';
+import AddCommentForm from './AddComment';
 
 
-type CommentProps = {
-  id? :UUID,
+
+export type Employee = {
+  id: UUID,
+  fullName: string,
+  avatar: string,
+};
+
+export type Comment = {
+  id: UUID,
   text: string,
-  time: string,
+  parentId: UUID,
   votes: number,
-  replies: CommentProps[]
-  employee: {
-    id?: UUID,
-    fullName: string,
-    avatar: string,
-  },
-  onUpvote?: (commnetId: UUID) => void;
-  onReply?: (commentId: UUID) => void;
+  time: string,
+  employee: Employee,
 };
 
 
-const Comment: React.FC<CommentProps> = ({
-  id,
-  text,
-  time,
-  votes,
+type CommentProps = {
+  issueId: UUID,
+  comment: Comment,
+  replies: Comment[],
+  employee: Employee,
+  setActiveComment: (comment: Comment | null) => void,
+  activeComment: Comment | null,
+  addComment: (issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null) => void,
+  parentId?: UUID | null,
+  currentUserId: UUID,
+  onUpvote?: (commnetId: UUID) => void;
+};
+
+
+const CommentForm: FC<CommentProps> = ({
+  issueId,
+  comment,
   replies,
   employee,
-  onUpvote,
-  onReply}) => {
-    const [replyComment, setReplyComment] = useState('');
+  setActiveComment,
+  activeComment,
+  addComment,
+  parentId = null,
+  currentUserId,
+}) => {
+    const isReplying = activeComment && activeComment.id === comment.id;
+    const canReply = Boolean(currentUserId);
+    const replyId = parentId ? parentId : comment.id;
+    const createdAt = new Date(comment.time).toLocaleDateString;
 
 
-  const handleReply = () => {
-
-  };
 
   const handleUpvote = () => {
 
   };
 
-  const handleAddComment = () => {
 
-  };
 
   const upvoteButton = () => {
-    if (votes === 0) {
+    if (comment.votes === 0) {
       return (
         <Button variant='text'  onClick={handleUpvote} sx={{ marginTop: 2, marginLeft: '-12px', cursor: 'pointer',
         textTransform: 'capitalize', fontSize: '12px', color: '#000048'}}
@@ -60,7 +76,7 @@ const Comment: React.FC<CommentProps> = ({
         <Button variant='text' onClick={handleUpvote}  sx={{ marginTop: 2, marginLeft: '-10px', cursor: 'pointer',
         textTransform: 'capitalize', fontSize: '12px', color: '#000048'}}
         >
-        <UpvoteChip count={votes}/>
+        <UpvoteChip count={comment.votes}/>
         </Button>
       );
     }
@@ -74,39 +90,51 @@ const Comment: React.FC<CommentProps> = ({
       <CardContent sx={{flex: '1 1 auto', ml: 2}} >
         <Stack direction='row' alignItems='center' spacing={2}>
           <Typography variant='h6' sx={{ fontSize: '14px', fontWeight: 'bold', color: '#000048' }}>{employee.fullName}</Typography>
-          <Typography variant='caption' sx={{ fontSize: '12px' }}>{time}</Typography>
+          <Typography variant='caption' sx={{ fontSize: '12px' }}>{createdAt}</Typography>
         </Stack>
-        <Typography sx={{ marginTop: 2, fontSize: '12px', color: '#000048'}}>{text}</Typography>
-        <div className='replies'>
-          {replies.map((reply) => (
-            <Comment key={reply.id}
-              text={reply.text}
-              time={reply.time}
-              employee={reply.employee}
-              votes={reply.votes}
-              replies={reply.replies}
-              onUpvote={reply.onUpvote}
-              onReply={reply.onReply}
-            />
-            ))}
-        </div>
+        <Typography sx={{ marginTop: 2, fontSize: '12px', color: '#000048'}}>{comment.text}</Typography>
         <div className='comment-action'>
           {upvoteButton()}
 
           <Typography variant="caption" sx={{ font: 'Inter',
-          weight: 500, size: '14px', lineHeight: '20px',
+          weight: 500, size: '40px', lineHeight: '20px',
            color: '#000048', width: '38px', height: '20px' }}>
             •
           </Typography>
 
           <Button variant='text'
-          onClick={handleReply}
+          onClick={() => setActiveComment({id: comment.id})}
           sx={{ marginTop: 2, cursor: 'pointer',
           textTransform: 'capitalize',
            fontSize: '12px', color: '#000048'}}
           >
             Reply
           </Button>
+          {isReplying && (
+            <AddCommentForm
+            picture={employee.avatar}
+            submitLabel='Reply'
+            handleSubmit={(text) => addComment(issueId, currentUserId, text, replyId)}
+            />
+          )}
+          {replies.length > 0 && (
+            <Box>
+              {replies.map((reply) => (
+               <CommentForm
+                key={reply.id}
+                issueId={issueId}
+                comment={reply}
+                setActiveComment={setActiveComment}
+                activeComment={activeComment}
+                addComment={addComment}
+                parentId={comment.id}
+                replies={[]}
+                currentUserId={currentUserId}
+                employee={employee}
+               />
+              ))}
+              </Box>
+          )}
         </div>
         </CardContent>
       </Card>
@@ -116,4 +144,4 @@ const Comment: React.FC<CommentProps> = ({
 };
 
 
-export default Comment;
+export default CommentForm;
