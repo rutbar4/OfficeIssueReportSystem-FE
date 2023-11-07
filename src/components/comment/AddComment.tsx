@@ -4,7 +4,10 @@ import { UUID } from 'crypto';
 
 type AddCommentProps = {
   picture: string,
-  handleSubmit: (text: string) => void,
+  issueId: UUID,
+  currentUserId: UUID,
+  parentId: UUID | null
+  handleSubmit: (issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null) => void,
 
               //issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null
   submitLabel: string,
@@ -13,6 +16,9 @@ type AddCommentProps = {
 
 const AddCommentForm: FC<AddCommentProps> = ({
   picture,
+  issueId,
+  currentUserId,
+  parentId,
   handleSubmit,
   submitLabel,
   initialText = '',
@@ -22,7 +28,7 @@ const AddCommentForm: FC<AddCommentProps> = ({
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    handleSubmit(text);
+    handleSubmit(issueId, currentUserId, text, parentId);
     setText('');
   };
 
@@ -50,7 +56,7 @@ const AddCommentForm: FC<AddCommentProps> = ({
             onChange={(e) => setText(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <Box mt={2} display="flex" justifyContent="flex-end">
+          {/* <Box mt={2} display="flex" justifyContent="flex-end">
             <Button
               type="submit"
               variant="contained"
@@ -59,7 +65,7 @@ const AddCommentForm: FC<AddCommentProps> = ({
             >
               {submitLabel}
             </Button>
-          </Box>
+          </Box> */}
         </form>
       </CardContent>
     </Card>

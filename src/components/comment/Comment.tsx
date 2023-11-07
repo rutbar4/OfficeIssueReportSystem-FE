@@ -1,7 +1,7 @@
 
 import { Avatar, Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { UUID } from 'crypto';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import UpvoteChip from '../Chip/UpvoteChip';
 import AddCommentForm from './AddComment';
@@ -17,10 +17,12 @@ export type Employee = {
 export type Comment = {
   id: UUID,
   text: string,
-  parentId: UUID,
+  parentId: UUID | null,
   votes: number,
-  time: string,
+  time: Date,
   employee: Employee,
+  issueId: UUID,
+  employeeId?: UUID,
 };
 
 
@@ -29,8 +31,8 @@ type CommentProps = {
   comment: Comment,
   replies: Comment[],
   employee: Employee,
-  setActiveComment: (comment: Comment | null) => void,
-  activeComment: Comment | null,
+  setActiveComment: (id: UUID | null) => void,
+  activeComment: UUID | null,
   addComment: (issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null) => void,
   parentId?: UUID | null,
   currentUserId: UUID,
@@ -48,16 +50,19 @@ const CommentForm: FC<CommentProps> = ({
   addComment,
   parentId = null,
   currentUserId,
+  onUpvote
 }) => {
-    const isReplying = activeComment && activeComment.id === comment.id;
+    const isReplying = activeComment && activeComment === comment.id;
     const canReply = Boolean(currentUserId);
     const replyId = parentId ? parentId : comment.id;
-    const createdAt = new Date(comment.time).toLocaleDateString;
-
+    const createdAt = new Date(comment.time).toLocaleTimeString();
+    const [hasUpvoted, setHasUpvoted] = useState(false);
 
 
   const handleUpvote = () => {
-
+    if (onUpvote && !hasUpvoted) {
+      setHasUpvoted(true);
+    }
   };
 
 
@@ -103,7 +108,7 @@ const CommentForm: FC<CommentProps> = ({
           </Typography>
 
           <Button variant='text'
-          onClick={() => setActiveComment({id: comment.id})}
+          onClick={() => setActiveComment(comment.id)}
           sx={{ marginTop: 2, cursor: 'pointer',
           textTransform: 'capitalize',
            fontSize: '12px', color: '#000048'}}
@@ -112,6 +117,9 @@ const CommentForm: FC<CommentProps> = ({
           </Button>
           {isReplying && (
             <AddCommentForm
+            issueId={issueId}
+            currentUserId={currentUserId}
+            parentId={parentId}
             picture={employee.avatar}
             submitLabel='Reply'
             handleSubmit={(text) => addComment(issueId, currentUserId, text, replyId)}
@@ -131,6 +139,7 @@ const CommentForm: FC<CommentProps> = ({
                 replies={[]}
                 currentUserId={currentUserId}
                 employee={employee}
+                onUpvote={handleUpvote}
                />
               ))}
               </Box>

@@ -5,10 +5,13 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { randomUUID } from 'crypto';
 
-import Comment from '../comment/Comment';
-
+// eslint-disable-next-line import/order
+import Comments from '../comment/Comments';
 import 'src/scss/ModalTabsStyles.scss';
+
+import { Employee } from '../comment/Comment';
 
 
 interface TabPanelProps {
@@ -67,14 +70,14 @@ function a11yProps(index: number) {
   };
 }
 
-
-const userIcon =
-    'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80';
-
-const Employee = {
-    fullName: 'Sarunas Jurevicius',
-    avatar: userIcon,
+const issueIdMock = randomUUID();
+const employeeMock: Employee = {
+  id: randomUUID(),
+  fullName: 'Sarunas Jurevicius',
+  avatar: 'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80',
 };
+
+
 
 // eslint-disable-next-line react/no-multi-comp
 export default function BasicTabs({ description }: { description: string }) {
@@ -104,7 +107,7 @@ export default function BasicTabs({ description }: { description: string }) {
        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Comment text='To much wait PR aprove. Please dont be so apatic, make more moves. All work stopes.' time='04 November 2023, 11:48' votes={0} replies={[]} employee={Employee}/>
+        <Comments issueId={issueIdMock} currentUser={employeeMock} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Busimi Logai

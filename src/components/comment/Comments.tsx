@@ -1,11 +1,13 @@
 // eslint-disable-next-line react/jsx-filename-extension
-import { UUID } from 'crypto';
+import { UUID, randomUUID } from 'crypto';
 import { FC, useEffect, useState } from 'react';
 import { Box, Container, Divider, Paper } from '@mui/material';
 
 import  { Comment, Employee } from './Comment';
 import CommentForm from './Comment';
 import AddCommentForm from './AddComment';
+
+import { createCommentApi, getAllCommentsApi, updateCommentApi } from 'src/api/CommentApi';
 
 
 
@@ -16,23 +18,43 @@ type CommentsProps = {
 
 const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [activeComment, setActiveComment] = useState<Comment | null>(null);
+  const [activeComment, setActiveComment] = useState<UUID | null>(null);
 
   const rootComments = comments.filter((comment) => comment.parentId === null);
+
   const getReplies = (commentId: UUID) =>
     comments.filter((comment) => comment.parentId === commentId).sort(
-      (a, b) => new Data(a.time).getTime() - new Data(b.time).getTime()
+      (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
     );
 
+
+  const handleUpvote = (commentId: UUID) => {
+    const updatedUpvoteComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        comment.votes += 1;
+        updateCommentApi(comment);
+      }
+      return comment;
+    });
+    setComments(updatedUpvoteComments);
+  };
+
+
   const addComment = (issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null) => {
-    createCommentApi(issueId, currentUserId, text, parentId).then((comment) => {
+    const newComment: Comment = {
+      text: text, issueId: issueId, employee: { id: currentUserId, fullName: currentUser.fullName, avatar: currentUser.avatar },
+       parentId: parentId, votes: 0, time: new Date(),
+      id: randomUUID(),
+    };
+    createCommentApi(newComment).then((comment) => {
       setComments([comment, ...comments]);
       setActiveComment(null);
     });
   };
 
+
   useEffect(() => {
-    getCommentsApi().then((data) => {
+    getAllCommentsApi().then((data) => {
       setComments(data);
     });
   }, []);
@@ -52,6 +74,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
           setActiveComment={setActiveComment}
           addComment={addComment}
           currentUserId={currentUser.id}
+          onUpvote={handleUpvote}
           />
         </Paper>
       ))}
@@ -62,6 +85,9 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
     </Box>
     <Box mt={3}>
       <AddCommentForm
+      issueId={issueId}
+      currentUserId={currentUser.id}
+      parentId={null}
       handleSubmit={addComment}
       picture={currentUser.avatar}
       submitLabel='Add comment'
