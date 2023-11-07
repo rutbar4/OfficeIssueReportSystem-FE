@@ -46,6 +46,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
   issueName,
   issueDescription,
   issueStatus,
+  upvoteCount,
   commentCount,
   date,
 }) => {
@@ -58,14 +59,14 @@ const CustomBox: React.FC<CustomBoxProps> = ({
     [setIssueDetailsOpen]
   );
 
-  const [voteCount, setVoteCount] = useState();
-  async function handleVoteCount() {
-    let result = await GetVoteCount(issueId);
-    await setVoteCount(result);
+  async function handleVoteCount(counter) {
+    let result = upvoteCount + counter;
+    setVoteCount(result);
   }
+  const [voteCount, setVoteCount] = useState(0);
 
   useEffect(() => {
-    handleVoteCount();
+    handleVoteCount(0);
   }, []);
 
   return (

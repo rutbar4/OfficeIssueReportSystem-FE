@@ -6,18 +6,23 @@ import { IsVoted, DeleteVote, PostVote, GetVoteCount } from '../../../api/VoteAp
 
 export default function VoteToggleButton({ issueId, userId, handleVoteCount }) {
   useEffect(() => {
-    IsVoted(issueId, userId).then((data) => setVoted(data));
+    IsVoted(issueId, userId).then((data) => {
+      setVoted(data);
+      setInitialVoteState(data);
+    });
   }, []);
 
+  const [wasVoted, setInitialVoteState] = useState();
   const [isVoted, setVoted] = useState(false);
   async function handleclick(event) {
     if (isVoted) {
       await DeleteVote(issueId, userId);
+      wasVoted ? handleVoteCount(-1) : handleVoteCount(0);
     } else {
       await PostVote(issueId, userId);
+      wasVoted ? handleVoteCount(0) : handleVoteCount(1);
     }
     setVoted(!isVoted);
-    handleVoteCount();
   }
 
   return (
