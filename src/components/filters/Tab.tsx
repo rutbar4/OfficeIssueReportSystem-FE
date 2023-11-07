@@ -70,11 +70,7 @@ const IssueList = ({ type, email } : IssueListProps) => {
           />
         ))
       )}
-      {!issues.loading && issues.issues.length === 0 && 
-      (
-        <p>EMPTY</p>
-      )
-      }
+      {!issues.loading && issues.issues.length === 0 && ( <p> EMPTY </p> ) }
     </div>
   );
 }
