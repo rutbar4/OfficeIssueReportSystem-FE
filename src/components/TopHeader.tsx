@@ -63,11 +63,12 @@ function TopHeader() {
         height: '64px',
         marginBottom: '60px',
         zIndex: 1,
+        display: 'inline-block',
       }}
     >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <div style={{ flexGrow: 1 }} />
+      <Container maxWidth={false}>
+        <Toolbar disableGutters sx={{ paddingLeft: '130px', paddingRight: '70px', float: 'right' }}>
+          {/* <div style={{ flexGrow: 1 }} /> */}
           <div style={iconSpacing}>
             <IconButton color="inherit" aria-label="Notifications" onClick={handleNotifications}>
               <NotificationsIcon sx={iconStyle} />
