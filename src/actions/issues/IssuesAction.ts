@@ -126,10 +126,10 @@ const getUserIssuesSuccessAction = (issues) => ({
   payload: issues,
 });
 
-export const getUserIssues = (userId) => {
+export const getUserIssues = (email) => {
   return (dispatch: AppDispatch) => {
     dispatch(getUserIssuesAction());
-    axios.get(`http://localhost:8080/issue/reportedBy/d06cb831-9427-41ee-adcc-271f7b02d627`).then(async (result) => {
+    axios.get(`http://localhost:8080/issue/reportedBy/${email}`).then(async (result) => {
       const resultJson = await result.data;
       dispatch(getUserIssuesSuccessAction(resultJson));
     }).catch((error) => {

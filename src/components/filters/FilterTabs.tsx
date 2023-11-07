@@ -3,13 +3,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import IssueCard from 'src/components/Issue';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'src/scss/ModalTabsStyles.scss';
-import { ThunkDispatch } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
-import { getIssues } from 'src/actions/issues/IssuesAction';
-import { RootState } from 'src/store/store';
+import IssueTab from './Tab';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -69,16 +65,8 @@ function a11yProps(index: number) {
 }
 
 export default function BasicTabs() {
-
-    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-
-    const issues = useSelector((state: RootState) => state.issues);
-
-    React.useEffect(() => {
-        dispatch(getIssues());
-    }, [dispatch]);
-
-  const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(0);
+  
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -99,41 +87,22 @@ export default function BasicTabs() {
        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-      {issues.loading ? (
-        <p>Loading...</p>
-      ): ( <div>
-        {issues.issues.map((issue) => (
-          <IssueCard
-          key={issue.id}
-          issueId={issue.id}
-          issueName={issue.name}
-          issueDescription={issue.description}
-          issueStatus={issue.status}
-          upvoteCount={issue.upvoteCount}
-          commentCount={issue.commentCount}
-          date={issue.time}
-          />
-        ))}
-      </div>
-      )}   
+        <IssueTab type={""} email={"sarunas@devbridge.com"}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Open issues
+      <IssueTab type={"open"} email={"sarunas@devbridge.com"}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Planned Issues
+      <IssueTab type={"planned"} email={"sarunas@devbridge.com"}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        Resolved issues
+      <IssueTab type={"resolved"} email={"sarunas@devbridge.com"}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        Closed Issues
+      <IssueTab type={"closed"} email={"sarunas@devbridge.com"}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        Closed Issues
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={6}>
-        Reported by Me
+      <IssueTab type={"user"} email={"sarunas@devbridge.com"}/>
       </CustomTabPanel>
     </Box>
   );
