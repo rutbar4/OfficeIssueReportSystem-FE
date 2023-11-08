@@ -56,7 +56,9 @@ const IssueList = ({ type, email } : IssueListProps) => {
     <div>
       {issues.loading ? (
         <p>Loading...</p>
-      ) : (
+        ) : issues.issues.length === 0 ? (
+        <p>EMPTY</p>
+        ) : (
         issues.issues.map((issue) => (
           <IssueCard
             key={issue.id}
@@ -70,7 +72,6 @@ const IssueList = ({ type, email } : IssueListProps) => {
           />
         ))
       )}
-      {!issues.loading && issues.issues.length === 0 && ( <p> EMPTY </p> ) }
     </div>
   );
 }
