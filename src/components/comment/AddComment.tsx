@@ -1,18 +1,17 @@
 import {  FC, useState } from 'react';
-import { Box, Card, CardContent, TextField, Button, Avatar } from '@mui/material';
-import { UUID } from 'crypto';
+import { Box, CardContent, TextField, Avatar } from '@mui/material';
 
 type AddCommentProps = {
   picture: string,
-  issueId: UUID,
-  currentUserId: UUID,
-  parentId: UUID | null
-  handleSubmit: (issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null) => void,
+  issueId: string,
+  currentUserId: string,
+  parentId: string | null
+  handleSubmit: (issueId: string, currentUserId: string, text: string, parentId: string | null) => void,
 
-              //issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null
   submitLabel: string,
   initialText?: string,
 };
+
 
 const AddCommentForm: FC<AddCommentProps> = ({
   picture,
@@ -20,11 +19,9 @@ const AddCommentForm: FC<AddCommentProps> = ({
   currentUserId,
   parentId,
   handleSubmit,
-  submitLabel,
   initialText = '',
 }) => {
   const [text, setText] = useState(initialText);
-  const isTextareaDisabled = text.length === 0;
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -40,36 +37,34 @@ const AddCommentForm: FC<AddCommentProps> = ({
   };
 
   return (
-    <Card variant="outlined">
-      <Box p={{ xs: '0', sm: '4px' }}>
-       <Avatar src={picture} alt={`${picture} Photo`} sx={{marginTop: -8}} />
-      </Box>
-      <CardContent>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        border: 'none',
+        marginBottom: 2,
+        width: '100%',
+      }}
+    >
+        <Avatar src={picture} alt={`${picture} Photo`} sx={{ width: 40, height: 40, marginLeft: 4 }} />
+      <CardContent sx={{ flex: 5, paddingTop: 2 }}>
         <form onSubmit={onSubmit}>
           <TextField
             fullWidth
             multiline
-            rows={4}
+            rows={1}
             variant="outlined"
-            label="Your Comment"
+            label="Add comment..."
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          {/* <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={isTextareaDisabled}
-            >
-              {submitLabel}
-            </Button>
-          </Box> */}
         </form>
       </CardContent>
-    </Card>
+    </Box>
   );
 };
 
 export default AddCommentForm;
+
+

@@ -32,6 +32,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
     if (issueDetailsOpen) {
       handleDrawerOpen();
     }
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issueDetailsOpen]);
 

@@ -5,12 +5,10 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { randomUUID } from 'crypto';
 
-// eslint-disable-next-line import/order
-import Comments from '../comment/Comments';
+
 import 'src/scss/ModalTabsStyles.scss';
-
+import  Comments  from '../comment/Comments';
 import { Employee } from '../comment/Comment';
 
 
@@ -70,9 +68,9 @@ function a11yProps(index: number) {
   };
 }
 
-const issueIdMock = randomUUID();
+const issueIdMock = 'abdee4f9-5763-4afc-85ed-98b2fdefb35d';
 const employeeMock: Employee = {
-  id: randomUUID(),
+  id: 'd06cb831-9427-41ee-adcc-271f7b02d627',
   fullName: 'Sarunas Jurevicius',
   avatar: 'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80',
 };

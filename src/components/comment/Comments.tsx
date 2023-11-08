@@ -12,23 +12,23 @@ import { createCommentApi, getAllCommentsApi, updateCommentApi } from 'src/api/C
 
 
 type CommentsProps = {
-  issueId: UUID,
+  issueId: string,
   currentUser: Employee,
 };
 
 const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [activeComment, setActiveComment] = useState<UUID | null>(null);
+  const [activeComment, setActiveComment] = useState<string | null>(null);
 
   const rootComments = comments.filter((comment) => comment.parentId === null);
 
-  const getReplies = (commentId: UUID) =>
+  const getReplies = (commentId: string) =>
     comments.filter((comment) => comment.parentId === commentId).sort(
       (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
     );
 
 
-  const handleUpvote = (commentId: UUID) => {
+  const handleUpvote = (commentId: string) => {
     const updatedUpvoteComments = comments.map((comment) => {
       if (comment.id === commentId) {
         comment.votes += 1;
@@ -40,11 +40,11 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
   };
 
 
-  const addComment = (issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null) => {
+  const addComment = (issueId: string, currentUserId: string, text: string, parentId: string | null) => {
     const newComment: Comment = {
       text: text, issueId: issueId, employee: { id: currentUserId, fullName: currentUser.fullName, avatar: currentUser.avatar },
        parentId: parentId, votes: 0, time: new Date(),
-      id: randomUUID(),
+      id: '',
     };
     createCommentApi(newComment).then((comment) => {
       setComments([comment, ...comments]);
@@ -80,10 +80,15 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
       ))}
 
     </Box>
-    <Box mt={3}>
+    <Box mt={3} sx={{
+          position: 'absolute',
+          bottom: '0',
+          left: '0',
+          width: '100%',
+          p: 2,
+        }}
+    >
       <Divider/>
-    </Box>
-    <Box mt={3}>
       <AddCommentForm
       issueId={issueId}
       currentUserId={currentUser.id}

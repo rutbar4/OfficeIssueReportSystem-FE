@@ -1,7 +1,7 @@
 
 import { Avatar, Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
-import { UUID } from 'crypto';
 import { FC, useState } from 'react';
+import { UUID } from 'node:crypto';
 
 import UpvoteChip from '../Chip/UpvoteChip';
 import AddCommentForm from './AddComment';
@@ -9,34 +9,34 @@ import AddCommentForm from './AddComment';
 
 
 export type Employee = {
-  id: UUID,
+  id: string,
   fullName: string,
   avatar: string,
 };
 
 export type Comment = {
-  id: UUID,
+  id: string,
   text: string,
-  parentId: UUID | null,
+  parentId: string | null,
   votes: number,
   time: Date,
   employee: Employee,
-  issueId: UUID,
-  employeeId?: UUID,
+  issueId: string,
+  employeeId?: string,
 };
 
 
 type CommentProps = {
-  issueId: UUID,
+  issueId: string,
   comment: Comment,
   replies: Comment[],
   employee: Employee,
-  setActiveComment: (id: UUID | null) => void,
-  activeComment: UUID | null,
-  addComment: (issueId: UUID, currentUserId: UUID, text: string, parentId: UUID | null) => void,
-  parentId?: UUID | null,
-  currentUserId: UUID,
-  onUpvote?: (commnetId: UUID) => void;
+  setActiveComment: (id: string | null) => void,
+  activeComment: string | null,
+  addComment: (issueId: string, currentUserId: string, text: string, parentId: string | null) => void,
+  parentId?: string | null,
+  currentUserId: string,
+  onUpvote?: (commnetId: string) => void;
 };
 
 
