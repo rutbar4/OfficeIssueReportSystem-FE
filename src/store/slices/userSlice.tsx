@@ -1,8 +1,13 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {addToLocalStorage, getFromLocalStorage, removeFromLocalStorage} from '../../Storage/LocalStorage';
 
-const initialState ={
-  user:null,
+export interface User {
+  user: string | null;
+  jwtToken : string | null;
+}
+
+const initialState : User ={
+  user:null ,
   jwtToken:null
 }
 
@@ -24,6 +29,8 @@ const userSlice = createSlice(
 );
 
 const getUserFromLocalStorage =()=> getFromLocalStorage('user') || initialState;
+
+
 
 export default userSlice.reducer;
 export const {addUser, removeUser} = userSlice.actions;
