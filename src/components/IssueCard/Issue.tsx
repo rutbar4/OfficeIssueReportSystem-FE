@@ -131,12 +131,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
               </Grid>
               <Grid item xs={3}>
                 {/* needs id from sesion */}
-                <VoteToggleButton
-                  issueId={issueId}
-                  userId={'d06cb831-9427-41ee-adcc-271f7b02d627'}
-                  key={issueId}
-                  handleVoteCount={handleVoteCount}
-                />
+                <VoteToggleButton issueId={issueId} key={issueId} handleVoteCount={handleVoteCount} />
               </Grid>
             </Grid>
           </Grid>
