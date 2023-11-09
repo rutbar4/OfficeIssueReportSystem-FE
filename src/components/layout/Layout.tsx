@@ -10,6 +10,7 @@ import TopHeader from 'src/components/TopHeader';
 import BottomBar from 'src/components/BottomBar/BottomBar';
 
 import 'src/scss/LayoutStyles.scss';
+import Content from '../Content/Content';
 
 const Layout = (): JSX.Element => {
   return (
@@ -18,7 +19,7 @@ const Layout = (): JSX.Element => {
         <Sidebar />
         <TopHeader />
         <Container maxWidth="xl" style={{ paddingLeft: '100px', paddingTop: '120px', paddingBottom: '30px' }}>
-          <Outlet />
+          <Content/>
         </Container>
         <BackgroundLogo className="background-logo" />
       </Box>

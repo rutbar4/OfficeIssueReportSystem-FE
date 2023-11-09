@@ -9,21 +9,21 @@ const getIssuesAction = () => ({
   type: actions.GET_ISSUES,
 });
 
-const getIssuesSuccessAction = (issues) => ({
-  type: actions.GET_ISSUES_SUCCESS,
-  payload: issues,
-});
-
-export const getIssues = () => {
-  return (dispatch: AppDispatch) => {
-     dispatch(getIssuesAction());
-    axios.get('http://localhost:8080/issue').then(async (result) => {
-      const resultJson = await result.data;
-      dispatch(getIssuesSuccessAction(resultJson));
-    }).catch((error) => {
-      console.log(error);
-      dispatch(getIssuesAction);
-    });
-  };
-};
+// const getIssuesSuccessAction = (issues) => ({
+//   type: actions.GET_ISSUES_SUCCESS,
+//   payload: issues,
+// });
+//
+// export const getIssues = () => {
+//   return (dispatch: AppDispatch) => {
+//      dispatch(getIssuesAction());
+//     axios.get('http://localhost:8080/issue').then(async (result) => {
+//       const resultJson = await result.data;
+//       dispatch(getIssuesSuccessAction(resultJson));
+//     }).catch((error) => {
+//       console.log(error);
+//       dispatch(getIssuesAction);
+//     });
+//   };
+// };
 

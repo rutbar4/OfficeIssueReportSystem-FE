@@ -4,6 +4,11 @@ import { Add } from '@mui/icons-material';
 
 import StyledButton from 'src/components/StyledButton/StyledButton';
 import IssueForm from '../../components/form/IssueForm';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store/store';
+import {string} from 'yup';
+
+
 
 type Props = {
   name: string;

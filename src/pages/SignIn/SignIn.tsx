@@ -8,28 +8,20 @@ import { AppRoutes } from 'src/types/routes';
 import { useEffect } from 'react';
 
 const SignIn = () => {
-  const state = useSelector((state : RootState) => state.authentication);
+  // const state = useSelector((state : RootState) => state.authentication);
+  //
+  // const dispatch = useDispatch<AppDispatch>();
+  // const navigation = useNavigate();
 
-  const dispatch = useDispatch<AppDispatch>();
-  const navigation = useNavigate();
 
-  useEffect(() => {
-    if(state.isLoggedIn){
-      navigation(AppRoutes.HOME);
-    }
-  }, [state.isLoggedIn]);
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    dispatch(getSignIn());
-  };
-
-  return (
-    <div>
-      <Button variant="outlined" onClick={(e)=>handleLogin(e)}>Login</Button>
-    </div>
-    
-  );
+  // return (
+  //   <></>
+  //   <div>
+  //     <Button variant="outlined" onClick={(e)=>handleLogin(e)}>Login</Button>
+  //
+  //   </div>
+  //
+  // );
 };
 
 export default SignIn;

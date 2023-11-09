@@ -2,13 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import thunk from 'redux-thunk';
 import user, {getUserFromLocalStorage} from './slices/userSlice'
-import rootReducer from 'src/reducers/rootReducer';
-
-
+import issues from './slices/issueSlice'
 
   const store =  configureStore({
     reducer: {
-      rootReducer,
+      issues,
       user
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
