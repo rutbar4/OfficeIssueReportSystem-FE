@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -6,6 +7,12 @@ import Box from '@mui/material/Box';
 import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'src/scss/ModalTabsStyles.scss';
+import { Button, TextField } from '@mui/material';
+
+import { UpdateIssueById } from '../../api/IssueUpdateApi';
+
+import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -62,31 +69,81 @@ function a11yProps(index: number) {
   };
 }
 
-export default function BasicTabs({ description }: { description: string }) {
+export default function BasicTabs({
+  description,
+  office,
+  status,
+  issueId,
+}: {
+  description: string;
+  office: string;
+  status: string;
+  issueId: string;
+}) {
   const [value, setValue] = React.useState(0);
+  const [isDescriptionEditable, setIsDescriptionEditable] = React.useState(false);
+  const [isDescriptionEdited, setIsDescriptionEdited] = React.useState(false);
+
+  const [editedDescription, setEditedDescription] = React.useState(description);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  const handleDescriptionClick = () => {
+    setIsDescriptionEditable(!isDescriptionEditable);
+    setIsDescriptionEdited(true);
+  };
+
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedDescription(event.target.value);
+  };
+
+  const handleSaveDescription = () => {
+    UpdateIssueById(issueId, editedDescription, office, status)
+      .then((response) => {
+        setIsDescriptionEditable(false);
+        window.location.reload();
+      })
+      .catch((error) => {
+        // Handle API errors here
+      });
+  };
+
+  const handleCancelDescription = () => {
+    // If the user cancels, reset the edited description to the original description.
+    setEditedDescription(description);
+    setIsDescriptionEditable(false);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <ThemeProvider theme={customTabTheme}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <ThemeProvider theme={customTabTheme}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab {...a11yProps(0)} label="Details" />
             <Tab {...a11yProps(1)} label="Comments" />
             <Tab {...a11yProps(2)} label="Activity log" />
-        </Tabs>
-       </ThemeProvider>
+          </Tabs>
+        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-       <Typography className="Description">
-         Description
-       </Typography>
-       <Typography className="ActualDescription">
-        {description}
-       </Typography>
+        <Typography className="Description">Description</Typography>
+        {isDescriptionEditable ? (
+          <RichTextComponent
+            initialValue={description}
+            onSave={(newDescription) => {
+              setEditedDescription(newDescription);
+              setIsDescriptionEditable(false);
+            }}
+          />
+        ) : (
+          <div onClick={handleDescriptionClick} style={{ cursor: 'pointer' }}>
+            <Typography className="ActualDescription">
+              {isDescriptionEdited ? editedDescription : description}
+            </Typography>
+          </div>
+        )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         Busimi Komentarai
@@ -94,8 +151,50 @@ export default function BasicTabs({ description }: { description: string }) {
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
+      <div
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '64px',
+          bottom: '0px',
+          left: 0,
+          padding: '12px 24px',
+          borderRadius: '0px 0px 12px 12px',
+          border: '1px 0px 0px 0px',
+          gap: '8px',
+          borderTop: '1px solid #DDDDDD',
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Button
+          variant="outlined"
+          sx={{
+            width: '81px',
+            height: '40px',
+            padding: '8px 24px',
+            borderRadius: '100px',
+            gap: '8px',
+            background: 'white',
+          }}
+        >
+          <Typography className="cancel">Cancel</Typography>
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            width: '81px',
+            height: '40px',
+            padding: '8px 24px',
+            borderRadius: '100px',
+            gap: '8px',
+            background: '#000048',
+          }}
+          onClick={handleSaveDescription}
+        >
+          <Typography className="delete-issue">Save</Typography>
+        </Button>
+      </div>
     </Box>
   );
-
-
 }
