@@ -26,8 +26,8 @@ const Home = () =>{
         dispatch(getIssues(data))
       })
       .catch((err)=>console.log(err))
-      .finally()
-  },[]);
+      .finally(()=>setLoading(false))
+  }, []);
 
   return (
     <Box>
