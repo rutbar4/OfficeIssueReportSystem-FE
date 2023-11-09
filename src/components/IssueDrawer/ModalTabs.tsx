@@ -4,12 +4,17 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { green } from '@mui/material/colors';
+// eslint-disable-next-line import/order
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 import 'src/scss/ModalTabsStyles.scss';
+import { useSelector } from 'react-redux';
+
 import  Comments  from '../comment/Comments';
 import { Employee } from '../comment/Comment';
+
+import { RootState } from 'src/store/store';
 
 
 interface TabPanelProps {
@@ -68,6 +73,9 @@ function a11yProps(index: number) {
   };
 }
 
+
+// const user = useSelector((state: RootState) => state.user);
+
 const issueIdMock = 'abdee4f9-5763-4afc-85ed-98b2fdefb35d';
 const employeeMock: Employee = {
   id: 'd06cb831-9427-41ee-adcc-271f7b02d627',
@@ -78,7 +86,7 @@ const employeeMock: Employee = {
 
 
 // eslint-disable-next-line react/no-multi-comp
-export default function BasicTabs({ description }: { description: string }) {
+export default function BasicTabs({ description, issueId }: { description: string, issueId: string }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -105,7 +113,7 @@ export default function BasicTabs({ description }: { description: string }) {
        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Comments issueId={issueIdMock} currentUser={employeeMock} />
+        <Comments issueId={issueId} currentUser={employeeMock} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Busimi Logai

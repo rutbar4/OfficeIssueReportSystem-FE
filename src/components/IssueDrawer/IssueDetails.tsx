@@ -33,10 +33,11 @@ interface issueDetailsProps {
   status: string;
   upvotes: number;
   office: string;
+  issueId: string,
 }
 
 function IssueDetails(props: issueDetailsProps) {
- const { title, description, reportedBy, reported, status, upvotes, office } = props;
+ const { title, description, reportedBy, reported, status, upvotes, office, issueId } = props;
 
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
@@ -68,7 +69,7 @@ function IssueDetails(props: issueDetailsProps) {
           </TableRow>
         </TableBody>
       </Table>
-      <Tabs description={description}/>
+      <Tabs description={description} issueId={issueId}/>
     </Box>
   );
 }

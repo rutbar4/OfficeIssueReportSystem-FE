@@ -6,6 +6,7 @@ import DrawerToolbar from './DrawerToolbar';
 import { fetchIssueDetails } from '../../api/DetailApi';
 
 import IssueDetails from 'src/components/IssueDrawer/IssueDetails';
+import { deleteIssueById } from 'src/api/IssueDeleteApi';
 
 const initialDetails = {
   name: 'Loading...',
@@ -62,6 +63,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
               status={issueDetailData.status}
               upvotes={issueDetailData.rating}
               office={issueDetailData.officeName}
+              issueId={issueID}
             />
           </Box>
           ;

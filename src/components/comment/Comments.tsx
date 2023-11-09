@@ -1,5 +1,4 @@
 // eslint-disable-next-line react/jsx-filename-extension
-import { UUID, randomUUID } from 'crypto';
 import { FC, useEffect, useState } from 'react';
 import { Box, Container, Divider, Paper } from '@mui/material';
 
