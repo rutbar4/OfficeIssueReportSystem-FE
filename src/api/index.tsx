@@ -7,12 +7,12 @@ const HTTP = axios.create(
   }
 );
 
-// HTTP.interceptors.request.use(config =>{
-//   const jwtToken = store.getState().user.jwtToken
-//   if(jwtToken){
-//     config.headers.Authorization = `Barer ${jwtToken}`;
-//   }
-//   return config;
-// });
+HTTP.interceptors.request.use(config =>{
+  const jwtToken = store.getState().user.jwtToken
+  if(jwtToken){
+    config.headers.Authorization = `Barer ${jwtToken}`;
+  }
+  return config;
+});
 
 export default HTTP;
