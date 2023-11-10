@@ -31,7 +31,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
     const updatedUpvoteComments = comments.map((comment) => {
       if (comment.id === commentId) {
         comment.votes += 1;
-        updateCommentApi(comment);
+        updateCommentApi(comment.votes, comment.id);
       }
       return comment;
     });
@@ -53,10 +53,10 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
 
 
   useEffect(() => {
-    getAllCommentsApi().then((data) => {
+    getAllCommentsApi(issueId).then((data) => {
       setComments(data);
     });
-  }, []);
+  }, [issueId]);
 
   return (
     <Container>
