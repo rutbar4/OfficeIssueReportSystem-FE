@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {login} from '../../api/userAPI';
 import FormTextInput from '../formFields/FormTextinput';
 import {useState} from 'react';
+import {logInUser} from '../../store/slices/authenticationSlice';
 
 const loginValidationSchema = Yup.object().shape(
   {
@@ -30,7 +31,8 @@ const Login = () => {
       .then(({data, headers}) => {
           dispatch(addUser({
             user: data,
-          }));
+          }),);
+          dispatch(logInUser(true))
           navigate('/');
         }
       )

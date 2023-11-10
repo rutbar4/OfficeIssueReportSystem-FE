@@ -1,18 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import thunk from 'redux-thunk';
-import user, {getUserFromLocalStorage} from './slices/userSlice'
-import issues from './slices/issueSlice'
+import user, {getUserFromLocalStorage} from './slices/userSlice';
+import issues from './slices/issueSlice';
+import authentication, {getAuthenticationFromLocalStorage} from './slices/authenticationSlice';
 
   const store =  configureStore({
     reducer: {
+      authentication,
       issues,
       user
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 
     preloadedState:{
-      user: getUserFromLocalStorage()
+      user: getUserFromLocalStorage(),
+      authentication : getAuthenticationFromLocalStorage(),
     }
   });
 

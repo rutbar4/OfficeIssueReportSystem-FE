@@ -4,18 +4,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
 import IssueCard from 'src/components/Issue';
-import { RootState } from 'src/store/store';
 import {getAllIssues} from '../../api/issueAPI';
 import {getIssues, Issue} from '../../store/slices/issueSlice';
 import {CircularProgress} from '@mui/material';
+import {RootState} from '../../store/store';
+
+interface name {
+  value: string | null
+}
 
 const Home = () =>{
 
   const [issues, setIssues] = useState<Issue[]>([])
   const [loading , setLoading] = useState(true)
-  const user = useSelector((state:RootState) => state.user);
+  const user = useSelector((state:RootState) => state.user.user);
 
-  const [name, setName] = useState(user.userData?.fullName);
+  const userName = user?.fullName;
+
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
 
@@ -31,7 +36,7 @@ const Home = () =>{
 
   return (
     <Box>
-      <WelcomeMessage name={name? name: "no name"}/>
+      <WelcomeMessage name={userName? userName : ""}/>
       {loading ? <CircularProgress/> : <div>
         {issues.map((issue) => (
           <IssueCard

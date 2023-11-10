@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {addToLocalStorage, getFromLocalStorage, removeFromLocalStorage} from '../../Storage/LocalStorage';
 
 interface role {
-  value:string
+  value:string  | null;
 }
 
 interface countryData {
@@ -34,13 +34,13 @@ interface userData {
   }
 
 export interface User {
-  userData: userData | null;
+  user: userData | null;
   jwtToken : string | null;
 }
 
 const initialState : User ={
-  userData:null ,
-  jwtToken:null
+  user:null ,
+  jwtToken:null,
 }
 
 const userSlice = createSlice(
