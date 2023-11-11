@@ -1,6 +1,6 @@
 import { SignInActionTypes } from 'src/actions/signIn/authentication';
 
-const user = JSON.parse(localStorage.getItem('user') || 'null');
+export const user = JSON.parse(localStorage.getItem('user') || 'null');
 
 const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
 

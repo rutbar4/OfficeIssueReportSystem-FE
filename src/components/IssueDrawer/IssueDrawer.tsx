@@ -19,16 +19,15 @@ const initialDetails = {
 };
 
 // eslint-disable-next-line react/prop-types
-export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueID }) {
+export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueId }) {
   const [issueDetailData, setIssueDetailData] = useState(initialDetails);
   const handleDrawerOpen = () => {
-    fetchIssueDetails(issueID).then((data) => {
+    fetchIssueDetails(issueId).then((data) => {
       if (data != null) {
         setIssueDetailData(data);
       }
     });
   };
-
   useEffect(() => {
     if (issueDetailsOpen) {
       handleDrawerOpen();
@@ -50,7 +49,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
       <React.Fragment key={'right'}>
         <Drawer anchor={'right'} open={issueDetailsOpen} onClose={() => wrapperSetDaitailsOpen(false)}>
           <DrawerToolbar
-            issueID={issueID}
+            issueId={issueId}
             title={issueDetailData.name}
             wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
           />
@@ -63,7 +62,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
               status={issueDetailData.status}
               upvotes={issueDetailData.rating}
               office={issueDetailData.officeName}
-              issueId={issueID}
+              issueId={issueId}
             />
           </Box>
           ;

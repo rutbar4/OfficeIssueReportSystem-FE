@@ -1,13 +1,14 @@
 import {  FC, useState } from 'react';
 import { Box, CardContent, TextField, Avatar } from '@mui/material';
 
+import { Employee } from './Comment';
+
 type AddCommentProps = {
   picture: string,
   issueId: string,
-  currentUserId: string,
+  currentUser: Employee,
   parentId: string | null
   handleSubmit: (issueId: string, currentUserId: string, text: string, parentId: string | null) => void,
-
   submitLabel: string,
   initialText?: string,
 };
@@ -16,7 +17,7 @@ type AddCommentProps = {
 const AddCommentForm: FC<AddCommentProps> = ({
   picture,
   issueId,
-  currentUserId,
+  currentUser,
   parentId,
   handleSubmit,
   initialText = '',
@@ -25,7 +26,7 @@ const AddCommentForm: FC<AddCommentProps> = ({
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    handleSubmit(issueId, currentUserId, text, parentId);
+    handleSubmit(issueId, currentUser.id, text, parentId);
     setText('');
   };
 

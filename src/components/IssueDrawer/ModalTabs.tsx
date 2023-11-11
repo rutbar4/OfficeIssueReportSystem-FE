@@ -76,7 +76,7 @@ function a11yProps(index: number) {
 
 // const user = useSelector((state: RootState) => state.user);
 
-const issueIdMock = 'abdee4f9-5763-4afc-85ed-98b2fdefb35d';
+const issueIdMock = 'abdee4f9-5763-4afc-85ed-98b2fdefb39d';
 const employeeMock: Employee = {
   id: 'd06cb831-9427-41ee-adcc-271f7b02d627',
   fullName: 'Sarunas Jurevicius',
@@ -113,7 +113,7 @@ export default function BasicTabs({ description, issueId }: { description: strin
        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Comments issueId={issueId} currentUser={employeeMock} />
+        <Comments issueId={issueIdMock} currentUser={employeeMock} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Busimi Logai

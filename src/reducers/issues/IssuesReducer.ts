@@ -3,7 +3,7 @@ import * as actions from '../../actions/issues/IssuesActionType';
 
 
 interface Issue {
-  id: number;
+  id: string;
   name: string;
   description: string;
   status: string;

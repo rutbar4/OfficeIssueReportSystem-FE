@@ -9,7 +9,6 @@ import AddCommentForm from './AddComment';
 import { createCommentApi, getAllCommentsApi, updateCommentApi } from 'src/api/CommentApi';
 
 
-
 type CommentsProps = {
   issueId: string,
   currentUser: Employee,
@@ -28,18 +27,27 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
 
 
   const handleUpvote = (commentId: string) => {
-    const updatedUpvoteComments = comments.map((comment) => {
+    const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
-        comment.votes += 1;
-        updateCommentApi(comment.votes, comment.id);
+        const updatedComment = { ...comment, votes: comment.votes + 1 };
+        return updateCommentApi(comment.id, updatedComment.votes).then((updatedCommentFromApi) => {
+          return updatedCommentFromApi;
+        });
+      } else {
+        return comment;
       }
-      return comment;
     });
-    setComments(updatedUpvoteComments);
+    Promise.all(updatedComments).then((updatedCommentsArray) => {
+      const filteredUpdatedComments = updatedCommentsArray.filter((comment) => comment !== undefined);
+      setComments(filteredUpdatedComments as Comment[]);
+    });
   };
 
 
   const addComment = (issueId: string, currentUserId: string, text: string, parentId: string | null) => {
+    if (text.trim() === '') {
+      setActiveComment(null);
+    } else {
     const newComment: Comment = {
       text: text, issueId: issueId, employee: { id: currentUserId, fullName: currentUser.fullName, avatar: currentUser.avatar },
        parentId: parentId, votes: 0, time: new Date(),
@@ -49,6 +57,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
       setComments([comment, ...comments]);
       setActiveComment(null);
     });
+  }
   };
 
 
@@ -56,14 +65,14 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
     getAllCommentsApi(issueId).then((data) => {
       setComments(data);
     });
-  }, [issueId]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container>
-
-    <Box mt={3}>
+    <Box mt={3} sx={{ marginLeft: 0, width: '100%'}}>
       {rootComments.map((rootComment) => (
-        <Paper key={rootComment.id} elevation={3} sx={{ p: 2, mt: 2 }}>
+        <Paper key={rootComment.id} elevation={0} sx={{ p: 2, mt: 2, marginLeft: -11, marginRight: 'auto', width: '100%' }}>
           <CommentForm
           issueId={issueId}
           comment={rootComment}
@@ -72,25 +81,25 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
           activeComment={activeComment}
           setActiveComment={setActiveComment}
           addComment={addComment}
-          currentUserId={currentUser.id}
-          onUpvote={handleUpvote}
+          currentUser={currentUser}
+          onUpvote={() => handleUpvote(rootComment.id)}
           />
         </Paper>
       ))}
-
     </Box>
     <Box mt={3} sx={{
-          position: 'absolute',
+          position: 'sticky',
           bottom: '0',
-          left: '0',
-          width: '100%',
+          left: '20px',
+          width: '110%',
           p: 2,
+          backgroundColor: 'white'
         }}
     >
       <Divider/>
       <AddCommentForm
       issueId={issueId}
-      currentUserId={currentUser.id}
+      currentUser={currentUser}
       parentId={null}
       handleSubmit={addComment}
       picture={currentUser.avatar}

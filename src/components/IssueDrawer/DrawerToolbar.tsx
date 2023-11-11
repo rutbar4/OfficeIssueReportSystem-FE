@@ -11,12 +11,12 @@ import { Button, IconButton, Typography } from '@mui/material';
 import DeleteModule from './DeleteModule';
 
 interface issueDetailsProps {
-  issueID: string;
+  issueId: string;
   title: string;
   wrapperSetDaitailsOpen: any;
 }
 export default function DrawerToolbar(props: issueDetailsProps) {
-  const { issueID, title, wrapperSetDaitailsOpen } = props;
+  const { issueId, title, wrapperSetDaitailsOpen } = props;
 
   const [isDropdownOpen, setIsPopupOpen] = useState(false);
 
@@ -61,7 +61,7 @@ export default function DrawerToolbar(props: issueDetailsProps) {
           </IconButton>
           {isDropdownOpen && (
             <div ref={PopupRef} className="Icona">
-              <DeleteModule id={issueID} title={title} />
+              <DeleteModule id={issueId} title={title} />
             </div>
           )}
         </Box>

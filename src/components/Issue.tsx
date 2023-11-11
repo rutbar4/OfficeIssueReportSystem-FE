@@ -32,7 +32,7 @@ const BoxContainer = styled(Box)`
 `;
 
 type CustomBoxProps = {
-  issueId: number;
+  issueId: string;
   issueName: string;
   issueDescription: string;
   issueStatus: string;
@@ -166,7 +166,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           </Grid>
         </Grid>
       </BoxContainer>
-      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueID={issueId} />
+      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueId={issueId} />
     </>
   );
 };
