@@ -6,7 +6,7 @@ import StyledButton from 'src/components/StyledButton/StyledButton';
 import IssueForm from '../../components/form/IssueForm';
 
 type Props = {
-  name: string;
+  name: string | null ;
 };
 
 const WelcomeMessage: React.FC<Props> = ({ name }) => {
