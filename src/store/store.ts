@@ -2,7 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import thunk from 'redux-thunk';
 import user, {getUserFromLocalStorage} from './slices/userSlice';
-import issues from './slices/issueSlice';
 import rootReducer from 'src/reducers/rootReducer';
 import authentication, {getAuthenticationFromLocalStorage} from './slices/authenticationSlice';
 
@@ -10,7 +9,6 @@ import authentication, {getAuthenticationFromLocalStorage} from './slices/authen
     reducer: {
       rootReducer,
       authentication,
-      issues,
       user,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
