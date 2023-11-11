@@ -1,8 +1,8 @@
-import axios from 'axios';
+import HTTP from './index';
 
 export async function fetchIssueDetails(id: string) {
   try {
-    const response = await axios.get(`http://localhost:8080/issue/${id}`);
+    const response = await HTTP.get(`/issue/${id}`);
     return response.data;
   } catch (error) {
     console.log('Failed to fetch issue details in src/components/IssueDrawer/DetailFetcher.tsx');

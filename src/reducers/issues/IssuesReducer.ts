@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux';
 import * as actions from '../../actions/issues/IssuesActionType';
 
 interface Issue {
@@ -22,7 +23,8 @@ const initialState: IssuesState = {
 
 const createIssuesReducer = (actionType: string) => (
   state = initialState,
-  action: { type: string; payload: Issue[] }
+  action: { type: string; payload: Issue[] } | AnyAction
+  
 ) => {
     switch (action.type) {
         case `${actionType}Success`:

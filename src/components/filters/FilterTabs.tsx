@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'src/scss/ModalTabsStyles.scss';
 import IssueTab from './Tab';
+import { RootState } from 'src/store/store';
+import { useSelector } from 'react-redux';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -66,6 +68,7 @@ function a11yProps(index: number) {
 
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
+    const userID = useSelector((state:RootState) => state.user.user?.id) || "null";
   
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -87,22 +90,22 @@ export default function BasicTabs() {
        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IssueTab type={""} email={"sarunas@devbridge.com"}/>
+        <IssueTab type={""} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-      <IssueTab type={"open"} email={"sarunas@devbridge.com"}/>
+      <IssueTab type={"open"} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-      <IssueTab type={"planned"} email={"sarunas@devbridge.com"}/>
+      <IssueTab type={"planned"} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-      <IssueTab type={"resolved"} email={"sarunas@devbridge.com"}/>
+      <IssueTab type={"resolved"} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-      <IssueTab type={"closed"} email={"sarunas@devbridge.com"}/>
+      <IssueTab type={"closed"} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-      <IssueTab type={"user"} email={"sarunas@devbridge.com"}/>
+      <IssueTab type={"user"} userID={userID}/>
       </CustomTabPanel>
     </Box>
   );

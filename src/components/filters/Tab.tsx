@@ -8,25 +8,25 @@ import { useEffect } from 'react';
 
 interface IssueListProps {
     type: string;
-    email: string;
+    userID: string;
 }
 
-const IssueList = ({ type, email } : IssueListProps) => {
+const IssueList = ({ type, userID } : IssueListProps) => {
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
     const issues = useSelector((state: RootState) => {
         switch(type) {
             case 'open':
-                return state.openIssues;
+                return state.rootReducer.openIssues;
             case 'closed':
-                return state.closedIssues;
+                return state.rootReducer.closedIssues;
             case 'planned':
-                return state.plannedIssues;
+                return state.rootReducer.plannedIssues;
             case 'resolved':
-                return state.resolvedIssues;
+                return state.rootReducer.resolvedIssues;
             case 'user':
-                return state.userIssues;
+                return state.rootReducer.userIssues;
             default:
-                return state.issues;
+                return state.rootReducer.issues;
         }
     });
 
@@ -45,7 +45,7 @@ const IssueList = ({ type, email } : IssueListProps) => {
                 dispatch(getResolvedIssues());
                 break;
             case 'user':
-                dispatch(getUserIssues(email));
+                dispatch(getUserIssues(userID));
                 break;
             default:
                 dispatch(getIssues());

@@ -1,6 +1,5 @@
-import axios from 'axios';
-
 import { UserProfileModel } from 'src/models/UserProfileModel';
+import HTTP from './index';
 
 
 export const emptyUserProfile: UserProfileModel = {
@@ -26,7 +25,7 @@ export const emptyUserProfile: UserProfileModel = {
 
 
 export const fetchUserProfile = async (): Promise<UserProfileModel> => {
-  return await axios.get<UserProfileModel>('http://localhost:8080/user')
+  return await HTTP.get<UserProfileModel>('/user')
     .then((response) => response.data)
     .catch(() => {
       return emptyUserProfile;
@@ -35,7 +34,7 @@ export const fetchUserProfile = async (): Promise<UserProfileModel> => {
 
 
 export const updateUserProfile = async (data: UserProfileModel): Promise<number> => {
-  const response = await axios.put<UserProfileModel>(`http://localhost:8080/user/${data.id}`, data);
+  const response = await HTTP.put<UserProfileModel>(`/user/${data.id}`, data);
   return response.status;
 };
 
