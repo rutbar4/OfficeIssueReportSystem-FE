@@ -21,6 +21,8 @@ const Home = () =>{
 
   const userName = user?.fullName;
 
+  console.log(user)
+
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
 
