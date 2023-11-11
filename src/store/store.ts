@@ -4,8 +4,6 @@ import thunk from 'redux-thunk';
 import user, {getUserFromLocalStorage} from './slices/userSlice';
 import issues from './slices/issueSlice';
 import rootReducer from 'src/reducers/rootReducer';
-import { issuesReducer, openIssuesReducer, plannedIssuesReducer,
-  resolvedIssuesReducer, closedIssuesReducer, userIssuesReducer } from 'src/reducers/issues/IssuesReducer';
 import authentication, {getAuthenticationFromLocalStorage} from './slices/authenticationSlice';
 
   const store =  configureStore({

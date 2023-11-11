@@ -1,6 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { issuesReducer, openIssuesReducer, plannedIssuesReducer,
-  resolvedIssuesReducer, closedIssuesReducer, userIssuesReducer } from 'src/reducers/issues/IssuesReducer';
 
 export interface Issue {
   id: number;
@@ -22,7 +20,8 @@ const issueSlice = createSlice(
     reducers:{
       getIssues(state, {payload:issues}){
         return issues;
-      }
+      },
+      
     }
   }
 )
