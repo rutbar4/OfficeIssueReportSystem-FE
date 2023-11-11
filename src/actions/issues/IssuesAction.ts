@@ -27,8 +27,8 @@ const CreateIssueAction = (actionType: string, endPoint) => {
  };
 };
 
-export const getUserIssues = (email) => {
-  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${email}`);
+export const getUserIssues = (userID) => {
+  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`);
 }
 
 export const getClosedIssues = () => {
