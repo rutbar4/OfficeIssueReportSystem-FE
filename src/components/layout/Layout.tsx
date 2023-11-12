@@ -5,12 +5,13 @@ import { JSX } from 'react/jsx-runtime';
 import BackgroundLogo from 'public/CognizantBackground.svg';
 import { Box } from '@mui/material';
 
+import Content from '../Content/Content';
+
 import Sidebar from 'src/components/sidebar/Sidebar';
 import TopHeader from 'src/components/TopHeader';
 import BottomBar from 'src/components/BottomBar/BottomBar';
 
 import 'src/scss/LayoutStyles.scss';
-import Content from '../Content/Content';
 
 const Layout = (): JSX.Element => {
   return (
