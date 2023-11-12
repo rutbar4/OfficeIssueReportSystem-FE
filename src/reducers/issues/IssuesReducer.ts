@@ -1,6 +1,5 @@
-
+import { AnyAction } from 'redux';
 import * as actions from '../../actions/issues/IssuesActionType';
-
 
 interface Issue {
   id: string;
@@ -13,31 +12,41 @@ interface Issue {
 }
 
 interface IssuesState {
-  loading: boolean,
-  issues: Issue[],
-};
+  loading: boolean;
+  issues: Issue[];
+}
 
 const initialState: IssuesState = {
-  loading: false,
+  loading: true,
   issues: [],
 };
 
-const issuesReducer = (state = initialState, action: { type: string, payload: Issue[] }) => {
-  switch (action.type) {
-    case actions.GET_ISSUES:
-      return {
-        ...state,
-        loading: true,
-      };
-    case actions.GET_ISSUES_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        issues: action.payload,
-      };
-    default:
-      return state;
-  }
+const createIssuesReducer = (actionType: string) => (
+  state = initialState,
+  action: { type: string; payload: Issue[] } | AnyAction
+  
+) => {
+    switch (action.type) {
+        case `${actionType}Success`:
+            return {
+            ...state,
+            loading: false,
+            issues: action.payload,
+            };
+        case actionType:
+            return {
+            ...state,
+            loading: true,
+            };
+        
+        default:
+            return state;
+    };
 };
 
-export default issuesReducer;
+export const issuesReducer = createIssuesReducer(actions.GET_ISSUES);
+export const openIssuesReducer = createIssuesReducer(actions.GET_OPEN_ISSUES);
+export const plannedIssuesReducer = createIssuesReducer(actions.GET_PLANNED_ISSUES);
+export const resolvedIssuesReducer = createIssuesReducer(actions.GET_RESOLVED_ISSUES);
+export const closedIssuesReducer = createIssuesReducer(actions.GET_CLOSED_ISSUES);
+export const userIssuesReducer = createIssuesReducer(actions.GET_USER_ISSUES);

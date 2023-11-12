@@ -1,10 +1,10 @@
-import axios from 'axios';
+import HTTP from './index';
 
 import { Office } from 'src/models/OfficeModel';
 
 export const fetchAllOffices = async (): Promise<Office[]> => {
   try {
-    const response = await axios.get<Office[]>('http://localhost:8080/office');
+    const response = await HTTP.get<Office[]>('/office');
     return response.data;
   } catch (error) {
     return [];
