@@ -5,6 +5,7 @@ import { FC, useState } from 'react';
 import UpvoteChip from '../Chip/UpvoteChip';
 import AddCommentForm from './AddComment';
 
+
 export type Employee = {
   id: string,
   fullName: string,
@@ -17,6 +18,7 @@ export type Comment = {
   parentId: string | null,
   votes: number,
   time: Date,
+  isUpVoted?: boolean,
   employee: Employee,
   issueId: string,
   employeeId?: string,
@@ -71,23 +73,19 @@ const CommentForm: FC<CommentProps> = ({
 
 
   const upvoteButton = () => {
-    if (comment.votes === 0) {
+    const color = comment.isUpVoted ? '#0E166E' : '#000048';
       return (
-        <Button variant='text'  onClick={() => onUpvote?.(comment.id)} sx={{ marginTop: 2, marginLeft: '-12px', cursor: 'pointer',
-        textTransform: 'capitalize', fontSize: '12px', color: '#000048'}}
+        <Button variant='text'  onClick={() => onUpvote?.(comment.id)}
+          sx={{ marginTop: 2,
+          marginLeft: '-12px',
+          cursor: 'pointer',
+          textTransform: 'capitalize',
+          fontSize: '12px',
+          color: color}}
         >
-         Upvote
+          {comment.votes === 0 ? 'Upvote' : <UpvoteChip count={comment.votes} />}
         </Button>
       );
-    } else {
-      return (
-        <Button variant='text' onClick={() => onUpvote?.(comment.id)}  sx={{ marginTop: 2, marginLeft: '-10px', cursor: 'pointer',
-        textTransform: 'capitalize', fontSize: '12px', color: '#000048'}}
-        >
-        <UpvoteChip count={comment.votes}/>
-        </Button>
-      );
-    }
   };
 
   return (
@@ -103,7 +101,6 @@ const CommentForm: FC<CommentProps> = ({
         <Typography sx={{ marginTop: 2, fontSize: '12px', color: '#000048'}}>{comment.text}</Typography>
         <div className='comment-action'>
           {upvoteButton()}
-
           <Typography variant="caption" sx={{ font: 'Inter',
           weight: 500, size: '40px', lineHeight: '20px',
            color: '#000048', width: '38px', height: '20px' }}>

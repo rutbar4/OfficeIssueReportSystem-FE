@@ -26,11 +26,13 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
     );
 
 
-  const handleUpvote = (commentId: string) => {
+  const handleUpvote = (commentId: string, issueId: string) => {
     const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
-        const updatedComment = { ...comment, votes: comment.votes + 1 };
-        return updateCommentApi(comment.id, updatedComment.votes).then((updatedCommentFromApi) => {
+        const isUpvoted = comment.isUpVoted;
+        const updateVotes = isUpvoted ? comment.votes - 1 : comment.votes + 1;
+        const updatedComment = { ...comment, votes: updateVotes, isUpVoted: !isUpvoted };
+        return updateCommentApi(comment.id, issueId, updatedComment.votes).then((updatedCommentFromApi) => {
           return updatedCommentFromApi;
         });
       } else {
@@ -82,7 +84,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
           setActiveComment={setActiveComment}
           addComment={addComment}
           currentUser={currentUser}
-          onUpvote={() => handleUpvote(rootComment.id)}
+          onUpvote={() => handleUpvote(rootComment.id, issueId)}
           />
         </Paper>
       ))}

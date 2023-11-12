@@ -18,9 +18,9 @@ export const getAllCommentsApi = async(issueId: string): Promise<Comment[]> => {
   }
 };
 
-export const updateCommentApi = async (id: string, votes: number): Promise<Comment> => {
+export const updateCommentApi = async (id: string, issueId: string, votes: number): Promise<Comment> => {
   try {
-  const response = await axios.patch<Comment>(`http://localhost:9090/comment/${id}/votes/${votes}`, null , {
+  const response = await axios.patch<Comment>(`http://localhost:9090/comment/${id}/issue/${issueId}votes/${votes}`, null , {
     headers: {
       Authorization: 'Bearer ' + user.jwt,
     },
