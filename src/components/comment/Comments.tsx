@@ -30,7 +30,12 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
     const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
         const isUpvoted = comment.isUpVoted;
-        const updateVotes = isUpvoted ? comment.votes - 1 : comment.votes + 1;
+        let updateVotes;
+      if (comment.votes >= 1) {
+        updateVotes = isUpvoted ? comment.votes - 1 : comment.votes + 1;
+      } else {
+        updateVotes = comment.votes;
+      }
         const updatedComment = { ...comment, votes: updateVotes, isUpVoted: !isUpvoted };
         return updateCommentApi(comment.id, issueId, updatedComment.votes).then((updatedCommentFromApi) => {
           return updatedCommentFromApi;
