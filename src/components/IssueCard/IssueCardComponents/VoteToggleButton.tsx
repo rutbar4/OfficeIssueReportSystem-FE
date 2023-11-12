@@ -4,7 +4,7 @@ import { BiSolidUpArrowAlt } from 'react-icons/bi';
 import { COLORS } from '../../../values/colors';
 import { IsVoted, DeleteVote, PostVote } from '../../../api/VoteApi';
 
-export default function VoteToggleButton({ issueId, handleVoteCount }) {
+export default function VoteToggleButton({ issueId, handleVoteCount, put }) {
   useEffect(() => {
     IsVoted(issueId).then((data) => {
       setVoted(data);
@@ -35,7 +35,6 @@ export default function VoteToggleButton({ issueId, handleVoteCount }) {
           borderColor: 'lightgray',
           fontSize: '15px',
           color: COLORS.blue,
-          fontWeight: 'bold',
           backgroundColor: isVoted === true ? '#78ECE8' : 'transparent',
           ':hover': { backgroundColor: isVoted === true ? 'lightblue' : undefined },
         }}
@@ -45,7 +44,7 @@ export default function VoteToggleButton({ issueId, handleVoteCount }) {
           handleclick(e);
         }}
       >
-        Vote
+        {put}
       </Button>
     </>
   );

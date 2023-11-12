@@ -11,6 +11,7 @@ import UpvoteChip from '../../Chip/UpvoteChip';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueCard/IssueDrawer/ModalTabs';
+import VoteToggleButton from '../IssueCardComponents/VoteToggleButton';
 const tableStyle = {
   border: 'none',
   fontSize: '14px',
@@ -25,6 +26,7 @@ const firstCellStyle = {
 };
 
 interface issueDetailsProps {
+  issueID: string;
   title: string;
   description: string;
   reportedBy: string;
@@ -32,10 +34,11 @@ interface issueDetailsProps {
   status: string;
   upvotes: number;
   office: string;
+  handleVoteCount: {};
 }
 
 function IssueDetails(props: issueDetailsProps) {
-  const { title, description, reportedBy, reported, status, upvotes, office } = props;
+  const { issueID, title, description, reportedBy, reported, status, upvotes, office, handleVoteCount } = props;
 
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
@@ -68,6 +71,12 @@ function IssueDetails(props: issueDetailsProps) {
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Upvotes</TableCell>
             <TableCell style={tableStyle}>
               <UpvoteChip count={upvotes} />
+              <VoteToggleButton
+                issueId={props.issueID}
+                key={props.issueID}
+                handleVoteCount={handleVoteCount}
+                put={upvotes}
+              ></VoteToggleButton>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -76,7 +85,7 @@ function IssueDetails(props: issueDetailsProps) {
           </TableRow>
         </TableBody>
       </Table>
-      <Tabs description={description}/>
+      <Tabs description={description} />
     </Box>
   );
 }

@@ -17,7 +17,7 @@ const initialDetails = {
   officeName: 'Loading...',
 };
 
-export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueID }) {
+export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueID, handleVoteCount, voteCount }) {
   const [issueDetailData, setIssueDetailData] = useState(initialDetails);
   const handleDrawerOpen = () => {
     fetchIssueDetails(issueID).then((data) => {
@@ -52,13 +52,15 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
           />
           <Box sx={{ width: 660, margin: 5 }}>
             <IssueDetails
+              issueID={issueID}
               title={issueDetailData.name}
               description={issueDetailData.description}
               reportedBy={issueDetailData.employeeName}
               reported={issueDetailData.dateCreated}
               status={issueDetailData.status}
-              upvotes={issueDetailData.rating}
+              upvotes={voteCount}
               office={issueDetailData.officeName}
+              handleVoteCount={handleVoteCount}
             />
           </Box>
           ;

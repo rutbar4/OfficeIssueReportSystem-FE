@@ -131,7 +131,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
               </Grid>
               <Grid item xs={3}>
                 {/* needs id from sesion */}
-                <VoteToggleButton issueId={issueId} key={issueId} handleVoteCount={handleVoteCount} />
+                <VoteToggleButton issueId={issueId} key={issueId} handleVoteCount={handleVoteCount} put={'Vote'} />
               </Grid>
             </Grid>
           </Grid>
@@ -154,6 +154,8 @@ const CustomBox: React.FC<CustomBoxProps> = ({
         wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
         issueDetailsOpen={issueDetailsOpen}
         issueID={issueId}
+        handleVoteCount={handleVoteCount}
+        voteCount={voteCount}
       ></IssueDrawer>
     </>
   );
