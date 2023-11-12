@@ -3,14 +3,14 @@ import HTTP from './index';
 import { Comment } from '../components/comment/Comment';
 
 
-const getAllCommentsApi = (issueId: string) => HTTP.get<Comment[]>(`http://localhost:9090/comment/issue-id/${issueId}`)
+const getAllCommentsApi = (issueId: string) => HTTP.get<Comment[]>(`/comment/issue-id/${issueId}`)
   .then(response => response.data);
 
 const updateCommentApi = (id: string, issueId: string, votes: number) =>
-  HTTP.patch<Comment>(`http://localhost:9090/comment/${id}/issue/${issueId}votes/${votes}`, null)
+  HTTP.patch<Comment>(`/comment/${id}/issue/${issueId}votes/${votes}`, null)
   .then(response => response.data);
 
-const createCommentApi = (data: Comment) => HTTP.post<Comment>('http://localhost:9090/comment', data)
+const createCommentApi = (data: Comment) => HTTP.post<Comment>('/comment', data)
   .then(response => response.data);
 
 export {
