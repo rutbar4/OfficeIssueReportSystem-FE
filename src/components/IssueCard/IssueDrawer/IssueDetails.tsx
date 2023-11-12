@@ -70,7 +70,6 @@ function IssueDetails(props: issueDetailsProps) {
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Upvotes</TableCell>
             <TableCell style={tableStyle}>
-              <UpvoteChip count={upvotes} />
               <VoteToggleButton
                 issueId={props.issueID}
                 key={props.issueID}
