@@ -2,12 +2,17 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
+// eslint-disable-next-line import/order
 import Box from '@mui/material/Box';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import 'src/scss/ModalTabsStyles.scss';
-import IssueTab from './Tab';
-import { RootState } from 'src/store/store';
 import { useSelector } from 'react-redux';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import IssueTab from './Tab';
+
+import { RootState } from 'src/store/store';
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -68,8 +73,8 @@ function a11yProps(index: number) {
 
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
-    const userID = useSelector((state:RootState) => state.user.user?.id) || "null";
-  
+    const userID = useSelector((state:RootState) => state.user.user?.id) || 'null';
+
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -90,22 +95,22 @@ export default function BasicTabs() {
        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IssueTab type={""} userID={userID}/>
+        <IssueTab type={''} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-      <IssueTab type={"open"} userID={userID}/>
+      <IssueTab type={'open'} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-      <IssueTab type={"planned"} userID={userID}/>
+      <IssueTab type={'planned'} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-      <IssueTab type={"resolved"} userID={userID}/>
+      <IssueTab type={'resolved'} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-      <IssueTab type={"closed"} userID={userID}/>
+      <IssueTab type={'closed'} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-      <IssueTab type={"user"} userID={userID}/>
+      <IssueTab type={'user'} userID={userID}/>
       </CustomTabPanel>
     </Box>
   );

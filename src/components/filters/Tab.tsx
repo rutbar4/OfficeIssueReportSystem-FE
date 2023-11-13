@@ -1,10 +1,11 @@
 import * as React from 'react';
-import IssueCard from 'src/components/Issue';
 import { ThunkDispatch } from '@reduxjs/toolkit';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import IssueCard from 'src/components/Issue';
 import { getIssues, getOpenIssues, getPlannedIssues, getResolvedIssues, getClosedIssues, getUserIssues } from 'src/actions/issues/IssuesAction';
 import { RootState } from 'src/store/store';
-import { useEffect } from 'react';
 
 interface IssueListProps {
     type: string;
@@ -50,8 +51,9 @@ const IssueList = ({ type, userID } : IssueListProps) => {
             default:
                 dispatch(getIssues());
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, type]);
-  
+
     return (
     <div>
       {issues.loading ? (
@@ -74,5 +76,5 @@ const IssueList = ({ type, userID } : IssueListProps) => {
       )}
     </div>
   );
-}
+};
 export default IssueList;
