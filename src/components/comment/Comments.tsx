@@ -9,6 +9,15 @@ import AddCommentForm from './AddComment';
 import { createCommentApi, getAllCommentsApi, updateCommentApi } from 'src/api/CommentApi';
 
 
+export type AddComment = {
+  text: string,
+  time: Date,
+  votes: number,
+  parentId: string | null,
+  issueId: string,
+  employeeId: string,
+};
+
 type CommentsProps = {
   issueId: string,
   currentUser: Employee,
@@ -30,12 +39,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
     const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
         const isUpvoted = comment.isUpVoted;
-        let updateVotes;
-      if (comment.votes >= 1) {
-        updateVotes = isUpvoted ? comment.votes - 1 : comment.votes + 1;
-      } else {
-        updateVotes = comment.votes;
-      }
+        const updateVotes = isUpvoted ? comment.votes - 1 : comment.votes + 1;
         const updatedComment = { ...comment, votes: updateVotes, isUpVoted: !isUpvoted };
         return updateCommentApi(comment.id, issueId, updatedComment.votes).then((updatedCommentFromApi) => {
           return updatedCommentFromApi;
@@ -51,14 +55,17 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
   };
 
 
-  const addComment = (issueId: string, currentUserId: string, text: string, parentId: string | null) => {
+  const addComment = (text: string,  parentId: string | null, issueId: string, currentUserId: string) => {
     if (text.trim() === '') {
       setActiveComment(null);
     } else {
-    const newComment: Comment = {
-      text: text, issueId: issueId, employee: { id: currentUserId, fullName: currentUser.fullName, avatar: currentUser.avatar },
-       parentId: parentId, votes: 0, time: new Date(),
-      id: '',
+    const newComment: AddComment = {
+      text: text,
+      time: new Date(),
+      votes: 0,
+      parentId: parentId ,
+      issueId: issueId,
+      employeeId: currentUserId
     };
     createCommentApi(newComment).then((comment) => {
       setComments([comment, ...comments]);

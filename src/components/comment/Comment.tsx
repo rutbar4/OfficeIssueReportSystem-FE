@@ -21,7 +21,7 @@ export type Comment = {
   isUpVoted?: boolean,
   employee: Employee,
   issueId: string,
-  employeeId?: string,
+  // employeeId?: string,
 };
 
 
@@ -32,7 +32,7 @@ type CommentProps = {
   employee: Employee,
   setActiveComment: (id: string | null) => void,
   activeComment: string | null,
-  addComment: (issueId: string, currentUserId: string, text: string, parentId: string | null) => void,
+  addComment: (text: string, parentId: string | null, issueId: string, currentUserId: string) => void,
   parentId?: string | null,
   currentUser: Employee,
   onUpvote?: (commnetId: string) => void;
@@ -53,7 +53,7 @@ const CommentForm: FC<CommentProps> = ({
 }) => {
     const isReplying = activeComment && activeComment === comment.id;
     const replyId = parentId ? parentId : comment.id;
-    const [hasUpvoted, setHasUpvoted] = useState(false);
+    const [hasUpvoted, setHasUpvoted] = useState(comment.isUpVoted || false);
     const createdAt = new Date(comment.time);
 
     const day = createdAt.getDate();
@@ -65,15 +65,35 @@ const CommentForm: FC<CommentProps> = ({
     const formattedDate = `${day} ${month} ${year}, ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
 
 
-  const handleUpvote = () => {
-    if (onUpvote && !hasUpvoted) {
-      setHasUpvoted(true);
-    }
+  // const handleUpvote = () => {
+  //   if (onUpvote && !hasUpvoted) {
+  //     setHasUpvoted(true);
+  //   }
+  // };
+
+  const handleUpvote = (commentId: string, issueId: string) => {
+    // const updatedComments = comments.map((comment) => {
+    //   if (comment.id === commentId) {
+    //     const isUpvoted = comment.isUpVoted;
+    //     const updateVotes = isUpvoted ? comment.votes - 1 : comment.votes + 1;
+    //     const updatedComment = { ...comment, votes: updateVotes, isUpVoted: !isUpvoted };
+    //     return updateCommentApi(comment.id, issueId, updatedComment.votes).then((updatedCommentFromApi) => {
+    //       return updatedCommentFromApi;
+    //     });
+    //   } else {
+    //     return comment;
+    //   }
+    // });
+    // Promise.all(updatedComments).then((updatedCommentsArray) => {
+    //   const filteredUpdatedComments = updatedCommentsArray.filter((comment) => comment !== undefined);
+    //   setComments(filteredUpdatedComments as Comment[]);
+    // });
   };
 
 
   const upvoteButton = () => {
     const color = comment.isUpVoted ? '#0E166E' : '#000048';
+    const backgroundColor = comment.isUpVoted ? 'red' : 'green';
       return (
         <Button variant='text'  onClick={() => onUpvote?.(comment.id)}
           sx={{ marginTop: 2,
@@ -81,7 +101,9 @@ const CommentForm: FC<CommentProps> = ({
           cursor: 'pointer',
           textTransform: 'capitalize',
           fontSize: '12px',
-          color: color}}
+          color: color,
+          backgroundColor: backgroundColor
+        }}
         >
           {comment.votes === 0 ? 'Upvote' : <UpvoteChip count={comment.votes} />}
         </Button>
@@ -123,7 +145,7 @@ const CommentForm: FC<CommentProps> = ({
             parentId={parentId}
             picture={currentUser.avatar}
             submitLabel='Reply'
-            handleSubmit={(text) => addComment(issueId, currentUser.id, text, replyId)}
+            handleSubmit={(text) => addComment(text,  replyId, issueId, currentUser.id)}
             />
               <Box>
                 <Button onClick={() => setActiveComment(null)}
@@ -154,7 +176,8 @@ const CommentForm: FC<CommentProps> = ({
                 replies={[]}
                 currentUser={currentUser}
                 employee={employee}
-                onUpvote={handleUpvote}
+                // onUpvote={handleUpvote}
+                onUpvote={() => handleUpvote(comment.id, issueId)}
                />
               ))}
               </Box>
@@ -166,6 +189,5 @@ const CommentForm: FC<CommentProps> = ({
   );
 
 };
-
 
 export default CommentForm;

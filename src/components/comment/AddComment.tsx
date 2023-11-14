@@ -8,7 +8,7 @@ type AddCommentProps = {
   issueId: string,
   currentUser: Employee,
   parentId: string | null
-  handleSubmit: (issueId: string, currentUserId: string, text: string, parentId: string | null) => void,
+  handleSubmit: (text: string,  parentId: string | null, issueId: string, currentUserId: string,) => void,
   submitLabel: string,
   initialText?: string,
 };
@@ -26,7 +26,7 @@ const AddCommentForm: FC<AddCommentProps> = ({
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    handleSubmit(issueId, currentUser.id, text, parentId);
+    handleSubmit(text, parentId, issueId, currentUser.id);
     setText('');
   };
 
