@@ -3,45 +3,24 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
-import IssueCard from 'src/components/Issue';
-import { RootState } from 'src/store/store';
-import { getIssues } from 'src/actions/issues/IssuesAction';
+import FilterTabs from 'src/components/filters/FilterTabs';
+import {RootState} from '../../store/store';
 
+interface name {
+  value: string | null
+}
 
-const Home = () => {
-  const [name, setName] = useState('Diana');
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+const Home = () =>{
+  const user = useSelector((state:RootState) => state.user.user);
 
-  const issues = useSelector((state: RootState) => state.issues);
-
-  useEffect(() => {
-    dispatch(getIssues());
-  }, [dispatch]);
+  const userName = user?.fullName;
 
   return (
     <Box>
-      <WelcomeMessage name={name}/>
-      {issues.loading ? (
-        <p>Loading...</p>
-      ): ( <div>
-        {issues.issues.map((issue) => (
-          <IssueCard
-          key={issue.id}
-          issueId={issue.id}
-          issueName={issue.name}
-          issueDescription={issue.description}
-          issueStatus={issue.status}
-          upvoteCount={issue.upvoteCount}
-          commentCount={issue.commentCount}
-          date={issue.time}
-          />
-        ))}
-      </div>
-      )}
-
+      <WelcomeMessage name={userName? userName : ""}/>
+      <FilterTabs />
     </Box>
-
-  );
-};
+  )
+}
 
 export default Home;

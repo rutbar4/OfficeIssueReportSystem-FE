@@ -1,29 +1,52 @@
 
-import axios from 'axios';
-
+import axios, { AxiosResponse } from 'axios';
 import * as actions from './IssuesActionType';
-
 import { AppDispatch } from 'src/store/store';
 
-const getIssuesAction = () => ({
-  type: actions.GET_ISSUES,
-});
+import Backend from 'src/api/BackendConfig/BackendConfig'
+const backendURL = Backend.backendURL;
 
-const getIssuesSuccessAction = (issues) => ({
-  type: actions.GET_ISSUES_SUCCESS,
-  payload: issues,
-});
-
-export const getIssues = () => {
-  return (dispatch: AppDispatch) => {
-     dispatch(getIssuesAction());
-    axios.get('http://localhost:8080/issue').then(async (result) => {
-      const resultJson = await result.data;
-      dispatch(getIssuesSuccessAction(resultJson));
-    }).catch((error) => {
-      console.log(error);
-      dispatch(getIssuesAction);
-    });
+const ActionCreator = (type, payload) => {
+  return {
+    type,
+    payload,
   };
+}
+
+const CreateIssueAction = (actionType: string, endPoint) => {
+  return (dispatch: AppDispatch) => {
+   axios.get(backendURL+ endPoint).then(async (result) => {
+     const resultJson = await result.data;
+     const action = ActionCreator(`${actionType}Success`, resultJson);
+     dispatch(action);
+   }).catch((error) => {
+     console.log(error);
+     const errorAction = ActionCreator(actionType, [])
+     dispatch(errorAction);
+   });
+ };
 };
 
+export const getUserIssues = (userID) => {
+  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`);
+}
+
+export const getClosedIssues = () => {
+  return CreateIssueAction(actions.GET_CLOSED_ISSUES, `issue/closed`);
+}
+
+export const getResolvedIssues = () => {
+  return CreateIssueAction(actions.GET_RESOLVED_ISSUES, `issue/resolved`);
+}
+
+export const getPlannedIssues = () => {
+  return CreateIssueAction(actions.GET_PLANNED_ISSUES, `issue/planned`);
+}
+
+export const getOpenIssues = () => {
+  return CreateIssueAction(actions.GET_OPEN_ISSUES, `issue/open`);
+}
+
+export const getIssues = () => {
+  return CreateIssueAction(actions.GET_ISSUES, `issue`);
+}
