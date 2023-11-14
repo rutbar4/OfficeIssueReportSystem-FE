@@ -34,6 +34,7 @@ export default function VoteToggleButton({ issueId, handleVoteCount, put }) {
           borderRadius: '17px',
           borderColor: 'lightgray',
           fontSize: '15px',
+          fontWeight: 'bold',
           color: COLORS.blue,
           backgroundColor: isVoted === true ? '#78ECE8' : 'transparent',
           ':hover': { backgroundColor: isVoted === true ? 'lightblue' : undefined },
