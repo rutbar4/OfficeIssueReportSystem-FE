@@ -23,7 +23,7 @@ export async function IsVoted(issueId: string) {
     console.log('Failed to fetch issue details');
   }
 }
-
+//GIT username check
 export async function GetVoteCount(issueId) {
   try {
     let jwt = store.getState().user.jwtToken;
