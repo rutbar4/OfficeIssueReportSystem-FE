@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -37,21 +37,18 @@ interface issueDetailsProps {
   status: string;
   upvotes: number;
   office: string;
+  officeId: string;
 }
 
 function IssueDetails(props: issueDetailsProps) {
-  const { id, title, description, reportedBy, reported, status, upvotes, office } = props;
+  const { id, title, description, reportedBy, reported, status, upvotes, office, officeId } = props;
+  //-----------status
   const [statusDropdownAnchor, setStatusDropdownAnchor] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(status);
-  const [isStatusChanged, setIsStatusChanged] = useState(false);
-
-  const [officeDropdownAnchor, setOfficeDropdownAnchor] = useState(null);
-  const [selectedOffice, setSelectedOffice] = useState(office);
-  const [isOfficeChanged, setIsOfficeChanged] = useState(false);
-  const [officeId, setOfficeId] = useState('');
-
-  // Add a ref for the "Office" table cell
-  const officeCellRef = useRef(null);
+  useEffect(() => {
+    // Set selectedStatus to the initial status when the component mounts
+    setSelectedStatus(status);
+  }, [status]); // Run this effect whenever the 'status' prop changes
 
   const handleStatusCellClick = (event) => {
     setStatusDropdownAnchor(event.currentTarget);
@@ -61,9 +58,18 @@ function IssueDetails(props: issueDetailsProps) {
     setStatusDropdownAnchor(null);
   };
   const handleStatusChange = (newStatus) => {
-    setSelectedStatus(newStatus);
-    setIsStatusChanged(true);
+    setSelectedStatus((currentStatus) => (newStatus !== currentStatus ? newStatus : currentStatus));
   };
+  //-----------
+  const [officeDropdownAnchor, setOfficeDropdownAnchor] = useState(null);
+  const [selectedOffice, setSelectedOffice] = useState(office);
+  useEffect(() => {
+    setSelectedOffice(office);
+    setOfficeToSend(officeId); // Set officeToSend to the default officeId when office prop changes
+  }, [office, officeId]);
+
+  const [isOfficeChanged, setIsOfficeChanged] = useState(false);
+  const [officeToSend, setOfficeToSend] = useState(officeId);
 
   const handleOfficeCellClick = (event) => {
     setOfficeDropdownAnchor(event.currentTarget);
@@ -76,14 +82,10 @@ function IssueDetails(props: issueDetailsProps) {
   const handleOfficeChange = (office) => {
     const selectedOfficeString = `${office.name}, ${office.country}`;
     setSelectedOffice(selectedOfficeString);
-    setOfficeId(office.id);
     setIsOfficeChanged(true);
     setOfficeDropdownAnchor(null);
-  };
-  // Define a function to handle data from the Tabs component
-  const handleTabsData = (data) => {
-    // Do something with the data received from Tabs
-    console.log('Data received from Tabs:', data);
+    const newOfficeToSend = isOfficeChanged ? officeId : office.id;
+    setOfficeToSend(newOfficeToSend);
   };
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
@@ -109,7 +111,7 @@ function IssueDetails(props: issueDetailsProps) {
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Status</TableCell>
             <TableCell style={tableStyle} onClick={handleStatusCellClick}>
-              <StatusChip issueStatus={isStatusChanged ? selectedStatus : status} />
+              <StatusChip issueStatus={selectedStatus} />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -121,17 +123,16 @@ function IssueDetails(props: issueDetailsProps) {
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Office</TableCell>
             <TableCell style={tableStyle} onClick={handleOfficeCellClick}>
-              {isOfficeChanged ? selectedOffice : office}
+              {selectedOffice}
             </TableCell>
           </TableRow>
         </TableBody>
       </Table>
-      <Tabs description={description} office={selectedOffice} status={selectedStatus} issueId={id} />
+      <Tabs description={description} office={officeToSend} status={selectedStatus} issueId={id} />
       <StatusDropdown
-        statusOptions={['Open', 'In progress', 'Pending', 'Blocked', 'Resolved', 'Closed']} // Replace with your status options
+        statusOptions={['Open', 'In progress', 'Pending', 'Blocked', 'Resolved', 'Closed']}
         anchorEl={statusDropdownAnchor}
         onClose={handleStatusDropdownClose}
-        selectedStatus={selectedStatus}
         onStatusChange={handleStatusChange}
       />
       <OfficeDropdown

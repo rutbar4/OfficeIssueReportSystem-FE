@@ -100,14 +100,13 @@ export default function BasicTabs({
   };
 
   const handleSaveDescription = () => {
-    UpdateIssueById(issueId, editedDescription, office, status)
-      .then((response) => {
-        setIsDescriptionEditable(false);
-        window.location.reload();
-      })
-      .catch((error) => {
-        // Handle API errors here
-      });
+    if (isDescriptionEdited) {
+      UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
+      window.location.reload();
+    } else {
+      UpdateIssueById(issueId, status, description, office);
+      window.location.reload();
+    }
   };
 
   const handleCancelDescription = () => {
@@ -115,7 +114,13 @@ export default function BasicTabs({
     setEditedDescription(description);
     setIsDescriptionEditable(false);
   };
+  const cleanHtml = (htmlString) => {
+    let cleanedHtml = htmlString.replace(/^<p>/, '');
 
+    cleanedHtml = cleanedHtml.replace(/<\/p>$/, '');
+
+    return cleanedHtml;
+  };
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -140,7 +145,7 @@ export default function BasicTabs({
         ) : (
           <div onClick={handleDescriptionClick} style={{ cursor: 'pointer' }}>
             <Typography className="ActualDescription">
-              {isDescriptionEdited ? editedDescription : description}
+              {isDescriptionEdited ? cleanHtml(editedDescription) : description}
             </Typography>
           </div>
         )}

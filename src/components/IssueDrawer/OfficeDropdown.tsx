@@ -35,7 +35,7 @@ const OfficeDropdown = ({ anchorEl, onClose, selectedOffice, onOfficeChange }) =
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      return data.map((office) => ({ name: office.name, country: office.country }));
+      return data.map((office) => ({ name: office.name, country: office.country, id: office.id }));
     } catch (error) {
       throw error;
     }
@@ -65,7 +65,7 @@ const OfficeDropdown = ({ anchorEl, onClose, selectedOffice, onOfficeChange }) =
       ) : (
         <List>
           {officeOptions.map((office, index) => (
-            <ListItem key={index} button onClick={() => handleOfficeClick(office)}>
+            <ListItem key={index} onClick={() => handleOfficeClick(office)}>
               {office.name} , {office.country}
             </ListItem>
           ))}

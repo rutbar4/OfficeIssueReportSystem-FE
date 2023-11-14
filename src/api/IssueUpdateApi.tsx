@@ -18,7 +18,7 @@ export async function UpdateIssueById(id: string, status: string, description: s
 
     return response.data;
   } catch (error) {
-    console.log('Failed to update the issue:', error);
+    console.error('Error updating the issue:', error);
     throw error;
   }
 }

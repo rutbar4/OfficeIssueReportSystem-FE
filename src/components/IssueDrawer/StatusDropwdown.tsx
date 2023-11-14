@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 
-const StatusDropdown = ({ statusOptions, anchorEl, onClose, selectedStatus, onStatusChange }) => {
+const StatusDropdown = ({ statusOptions, anchorEl, onClose, onStatusChange }) => {
   const handleStatusClick = (status) => {
     onStatusChange(status); // Notify the parent component of the selected status
     onClose(); // Close the dropdown
@@ -27,11 +27,7 @@ const StatusDropdown = ({ statusOptions, anchorEl, onClose, selectedStatus, onSt
     >
       <List>
         {statusOptions.map((status, index) => (
-          <ListItem
-            key={index}
-            button
-            onClick={() => handleStatusClick(status)}
-          >
+          <ListItem key={index} onClick={() => handleStatusClick(status)}>
             <StatusChip issueStatus={status} />
           </ListItem>
         ))}
