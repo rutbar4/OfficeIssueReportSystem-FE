@@ -1,7 +1,8 @@
 import {  FC, useState } from 'react';
 import { Box, CardContent, TextField, Avatar } from '@mui/material';
 
-import { Employee } from './Comment';
+import { Employee } from 'src/models/EmployeeModel';
+
 
 type AddCommentProps = {
   picture: string,

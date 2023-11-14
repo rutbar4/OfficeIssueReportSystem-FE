@@ -2,26 +2,11 @@
 import { Avatar, Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { FC } from 'react';
 
-import UpvoteChip from '../Chip/UpvoteChip';
 import AddCommentForm from './AddComment';
+import CommentUpvoteButton from './CommentUpvoteButton';
 
-
-export type Employee = {
-  id: string,
-  fullName: string,
-  avatar: string,
-};
-
-export type Comment = {
-  id: string,
-  text: string,
-  parentId: string | null,
-  votes: number,
-  time: Date,
-  isUpVoted?: boolean,
-  employee: Employee,
-  issueId: string,
-};
+import { Employee } from 'src/models/EmployeeModel';
+import { Comment } from 'src/models/CommentModel';
 
 
 type CommentProps = {
@@ -69,25 +54,6 @@ const CommentForm: FC<CommentProps> = ({
     }
   };
 
-  const upvoteButton = () => {
-    const color = comment.isUpVoted ? '#0E166E' : '#000048';
-    const backgroundColor = comment.isUpVoted ? 'red' : 'green';
-      return (
-        <Button variant='text'  onClick={() => onUpvote?.(comment.id, issueId)}
-          sx={{ marginTop: 2,
-          marginLeft: '-12px',
-          cursor: 'pointer',
-          textTransform: 'capitalize',
-          fontSize: '12px',
-          color: color,
-          backgroundColor: backgroundColor
-        }}
-        >
-          {comment.votes === 0 ? 'Upvote' : <UpvoteChip count={comment.votes} />}
-        </Button>
-      );
-  };
-
   return (
     <Card variant='outlined' sx={{display: 'flex', alignItems: 'center', p: 2, m: 1, border: 'none', boxShadow: 'none', width: '100%'}}>
       <Box p={{ xs: '0', sm: '4px' }}>
@@ -100,13 +66,16 @@ const CommentForm: FC<CommentProps> = ({
         </Stack>
         <Typography sx={{ marginTop: 2, fontSize: '12px', color: '#000048'}}>{comment.text}</Typography>
         <div className='comment-action'>
-          {upvoteButton()}
+          <CommentUpvoteButton
+            isUpVoted={comment.isUpVoted}
+            votes={comment.votes}
+            onClick={() => onUpvote?.(comment.id, issueId)}
+          />
           <Typography variant="caption" sx={{ font: 'Inter',
           weight: 500, size: '40px', lineHeight: '20px',
            color: '#000048', width: '38px', height: '20px' }}>
             •
           </Typography>
-
           <Button variant='text'
           onClick={() => setActiveComment(comment.id)}
           sx={{ marginTop: 2, cursor: 'pointer',

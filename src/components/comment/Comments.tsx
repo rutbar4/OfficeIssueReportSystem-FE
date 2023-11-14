@@ -2,21 +2,13 @@
 import { FC, useEffect, useState } from 'react';
 import { Box, Container, Divider, Paper } from '@mui/material';
 
-import  { Comment, Employee } from './Comment';
 import CommentForm from './Comment';
 import AddCommentForm from './AddComment';
 
 import { createCommentApi, getAllCommentsApi, updateCommentApi } from 'src/api/CommentApi';
+import { Employee } from 'src/models/EmployeeModel';
+import { AddComment, Comment } from 'src/models/CommentModel';
 
-
-export type AddComment = {
-  text: string,
-  time: Date,
-  votes: number,
-  parentId: string | null,
-  issueId: string,
-  employeeId: string,
-};
 
 type CommentsProps = {
   issueId: string,
@@ -82,6 +74,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
   return (
     <Container>
     <Box mt={3} sx={{ marginLeft: 0, width: '100%'}}>
@@ -122,7 +115,6 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
     </Box>
     </Container>
   );
-
 };
 
 export default Comments;
