@@ -1,10 +1,9 @@
 
-import axios, { AxiosResponse } from 'axios';
-
 import * as actions from './IssuesActionType';
 
 import { AppDispatch } from 'src/store/store';
 import Backend from 'src/api/BackendConfig/BackendConfig';
+import HTTP from 'src/api';
 const backendURL = Backend.backendURL;
 
 const ActionCreator = (type, payload) => {
@@ -16,7 +15,7 @@ const ActionCreator = (type, payload) => {
 
 const CreateIssueAction = (actionType: string, endPoint) => {
   return (dispatch: AppDispatch) => {
-   axios.get(backendURL+ endPoint).then(async (result) => {
+   HTTP.get(backendURL+ endPoint).then(async (result) => {
      const resultJson = await result.data;
      const action = ActionCreator(`${actionType}Success`, resultJson);
      dispatch(action);

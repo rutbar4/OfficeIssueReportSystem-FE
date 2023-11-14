@@ -4,12 +4,13 @@ import backendURL from './BackendConfig/BackendConfig';
 import store from '../store/store';
 const HTTP = axios.create(
   {
-    baseURL:'http://localhost:9090'
+    baseURL:'http://localhost:9090/'
   }
 );
 
 HTTP.interceptors.request.use(config =>{
   const jwtToken = store.getState().user.jwtToken;
+  console.log('jwtToken in index.tsx: ' + jwtToken);
   if(jwtToken){
     config.headers.Authorization = `Bearer ${jwtToken}`;
   }

@@ -1,14 +1,15 @@
-import {Form, Formik} from "formik";
+import {Form, Formik} from 'formik';
 import * as Yup from 'yup';
 import {Alert, Avatar, Box, Button, Checkbox, CircularProgress, Container, createTheme, CssBaseline, FormControlLabel, Grid, Link, Typography} from "@mui/material";
-import {ThemeProvider} from "@emotion/react";
+import {ThemeProvider} from '@emotion/react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {useDispatch} from "react-redux";
-import {addUser} from "../../store/slices/userSlice";
-import {useNavigate} from "react-router-dom";
+import {useDispatch} from 'react-redux';
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+
+import {addUser} from '../../store/slices/userSlice';
 import {login} from '../../api/userAPI';
 import FormTextInput from '../formFields/FormTextinput';
-import {useState} from 'react';
 import {logInUser} from '../../store/slices/authenticationSlice';
 
 const loginValidationSchema = Yup.object().shape(
@@ -31,9 +32,9 @@ const Login = () => {
       .then(({data, headers}) => {
           dispatch(addUser({
             user: data.user,
-            jwt: data.jwt,
+            jwtToken: data.jwt,
           }),);
-          dispatch(logInUser(true))
+          dispatch(logInUser(true));
           navigate('/');
         }
       )
@@ -42,7 +43,7 @@ const Login = () => {
         setShowError(true);
       })
       .finally(() => helpers.setSubmitting(false));
-  }
+  };
 
   // @ts-ignore
   return (
@@ -136,6 +137,6 @@ const Login = () => {
     </Formik>
 
   );
-}
+};
 
 export default Login;
