@@ -4,10 +4,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'src/scss/ModalTabsStyles.scss';
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 
 import { UpdateIssueById } from '../../api/IssueUpdateApi';
 
@@ -95,10 +94,6 @@ export default function BasicTabs({
     setIsDescriptionEdited(true);
   };
 
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedDescription(event.target.value);
-  };
-
   const handleSaveDescription = () => {
     if (isDescriptionEdited) {
       UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
@@ -107,12 +102,6 @@ export default function BasicTabs({
       UpdateIssueById(issueId, status, description, office);
       window.location.reload();
     }
-  };
-
-  const handleCancelDescription = () => {
-    // If the user cancels, reset the edited description to the original description.
-    setEditedDescription(description);
-    setIsDescriptionEditable(false);
   };
   const cleanHtml = (htmlString) => {
     let cleanedHtml = htmlString.replace(/^<p>/, '');
@@ -156,47 +145,11 @@ export default function BasicTabs({
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
-      <div
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '64px',
-          bottom: '0px',
-          left: 0,
-          padding: '12px 24px',
-          borderRadius: '0px 0px 12px 12px',
-          border: '1px 0px 0px 0px',
-          gap: '8px',
-          borderTop: '1px solid #DDDDDD',
-          display: 'flex',
-          justifyContent: 'flex-end',
-        }}
-      >
-        <Button
-          variant="outlined"
-          sx={{
-            width: '81px',
-            height: '40px',
-            padding: '8px 24px',
-            borderRadius: '100px',
-            gap: '8px',
-            background: 'white',
-          }}
-        >
+      <div className="TabFooter">
+        <Button variant="outlined" className="cancelButton">
           <Typography className="cancel">Cancel</Typography>
         </Button>
-        <Button
-          variant="contained"
-          sx={{
-            width: '81px',
-            height: '40px',
-            padding: '8px 24px',
-            borderRadius: '100px',
-            gap: '8px',
-            background: '#000048',
-          }}
-          onClick={handleSaveDescription}
-        >
+        <Button variant="contained" className="saveButton" onClick={handleSaveDescription}>
           <Typography className="delete-issue">Save</Typography>
         </Button>
       </div>

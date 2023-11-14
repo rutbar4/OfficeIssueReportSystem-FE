@@ -27,7 +27,15 @@ const StatusDropdown = ({ statusOptions, anchorEl, onClose, onStatusChange }) =>
     >
       <List>
         {statusOptions.map((status, index) => (
-          <ListItem key={index} onClick={() => handleStatusClick(status)}>
+          <ListItem
+            key={index}
+            onClick={() => handleStatusClick(status)}
+            sx={{
+              '&:hover': {
+                cursor: 'pointer',
+              },
+            }}
+          >
             <StatusChip issueStatus={status} />
           </ListItem>
         ))}

@@ -65,7 +65,18 @@ const OfficeDropdown = ({ anchorEl, onClose, selectedOffice, onOfficeChange }) =
       ) : (
         <List>
           {officeOptions.map((office, index) => (
-            <ListItem key={index} onClick={() => handleOfficeClick(office)}>
+            <ListItem
+              key={index}
+              onClick={() => handleOfficeClick(office)}
+              sx={{
+                '&:hover': {
+                  backgroundColor: '#f0f0f0',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                },
+                color: '#000048',
+              }}
+            >
               {office.name} , {office.country}
             </ListItem>
           ))}

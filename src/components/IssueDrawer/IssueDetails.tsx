@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import { Button, Divider } from '@mui/material';
+import { Divider } from '@mui/material';
 
 import UserChip from '../Chip/UserChip';
 import UpvoteChip from '../Chip/UpvoteChip';
@@ -42,43 +42,36 @@ interface issueDetailsProps {
 
 function IssueDetails(props: issueDetailsProps) {
   const { id, title, description, reportedBy, reported, status, upvotes, office, officeId } = props;
-  //-----------status
+
   const [statusDropdownAnchor, setStatusDropdownAnchor] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(status);
   useEffect(() => {
-    // Set selectedStatus to the initial status when the component mounts
     setSelectedStatus(status);
-  }, [status]); // Run this effect whenever the 'status' prop changes
-
+  }, [status]);
   const handleStatusCellClick = (event) => {
     setStatusDropdownAnchor(event.currentTarget);
   };
-
   const handleStatusDropdownClose = () => {
     setStatusDropdownAnchor(null);
   };
   const handleStatusChange = (newStatus) => {
     setSelectedStatus((currentStatus) => (newStatus !== currentStatus ? newStatus : currentStatus));
   };
-  //-----------
+
   const [officeDropdownAnchor, setOfficeDropdownAnchor] = useState(null);
   const [selectedOffice, setSelectedOffice] = useState(office);
   useEffect(() => {
     setSelectedOffice(office);
-    setOfficeToSend(officeId); // Set officeToSend to the default officeId when office prop changes
+    setOfficeToSend(officeId);
   }, [office, officeId]);
-
   const [isOfficeChanged, setIsOfficeChanged] = useState(false);
   const [officeToSend, setOfficeToSend] = useState(officeId);
-
   const handleOfficeCellClick = (event) => {
     setOfficeDropdownAnchor(event.currentTarget);
   };
-
   const handleOfficeDropdownClose = () => {
     setOfficeDropdownAnchor(null);
   };
-
   const handleOfficeChange = (office) => {
     const selectedOfficeString = `${office.name}, ${office.country}`;
     setSelectedOffice(selectedOfficeString);
@@ -87,6 +80,7 @@ function IssueDetails(props: issueDetailsProps) {
     const newOfficeToSend = isOfficeChanged ? officeId : office.id;
     setOfficeToSend(newOfficeToSend);
   };
+
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
       <Typography variant="h1" sx={{ color: '#0E166E' }}>
@@ -110,7 +104,7 @@ function IssueDetails(props: issueDetailsProps) {
           </TableRow>
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Status</TableCell>
-            <TableCell style={tableStyle} onClick={handleStatusCellClick}>
+            <TableCell style={{ ...tableStyle, cursor: 'pointer' }} onClick={handleStatusCellClick}>
               <StatusChip issueStatus={selectedStatus} />
             </TableCell>
           </TableRow>
@@ -122,7 +116,7 @@ function IssueDetails(props: issueDetailsProps) {
           </TableRow>
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Office</TableCell>
-            <TableCell style={tableStyle} onClick={handleOfficeCellClick}>
+            <TableCell style={{ ...tableStyle, cursor: 'pointer' }} onClick={handleOfficeCellClick}>
               {selectedOffice}
             </TableCell>
           </TableRow>
