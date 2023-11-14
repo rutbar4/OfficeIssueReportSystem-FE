@@ -96,7 +96,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
           setActiveComment={setActiveComment}
           addComment={addComment}
           currentUser={currentUser}
-          onUpvote={() => handleUpvote(rootComment.id, issueId)}
+          onUpvote={handleUpvote}
           />
         </Paper>
       ))}

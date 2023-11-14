@@ -1,6 +1,6 @@
 
 import { Avatar, Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import UpvoteChip from '../Chip/UpvoteChip';
 import AddCommentForm from './AddComment';
@@ -21,7 +21,6 @@ export type Comment = {
   isUpVoted?: boolean,
   employee: Employee,
   issueId: string,
-  // employeeId?: string,
 };
 
 
@@ -35,7 +34,7 @@ type CommentProps = {
   addComment: (text: string, parentId: string | null, issueId: string, currentUserId: string) => void,
   parentId?: string | null,
   currentUser: Employee,
-  onUpvote?: (commnetId: string) => void;
+  onUpvote: (commentId: string, issueId: string) => void;
 };
 
 
@@ -53,7 +52,6 @@ const CommentForm: FC<CommentProps> = ({
 }) => {
     const isReplying = activeComment && activeComment === comment.id;
     const replyId = parentId ? parentId : comment.id;
-    const [hasUpvoted, setHasUpvoted] = useState(comment.isUpVoted || false);
     const createdAt = new Date(comment.time);
 
     const day = createdAt.getDate();
@@ -65,37 +63,17 @@ const CommentForm: FC<CommentProps> = ({
     const formattedDate = `${day} ${month} ${year}, ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
 
 
-  // const handleUpvote = () => {
-  //   if (onUpvote && !hasUpvoted) {
-  //     setHasUpvoted(true);
-  //   }
-  // };
-
   const handleUpvote = (commentId: string, issueId: string) => {
-    // const updatedComments = comments.map((comment) => {
-    //   if (comment.id === commentId) {
-    //     const isUpvoted = comment.isUpVoted;
-    //     const updateVotes = isUpvoted ? comment.votes - 1 : comment.votes + 1;
-    //     const updatedComment = { ...comment, votes: updateVotes, isUpVoted: !isUpvoted };
-    //     return updateCommentApi(comment.id, issueId, updatedComment.votes).then((updatedCommentFromApi) => {
-    //       return updatedCommentFromApi;
-    //     });
-    //   } else {
-    //     return comment;
-    //   }
-    // });
-    // Promise.all(updatedComments).then((updatedCommentsArray) => {
-    //   const filteredUpdatedComments = updatedCommentsArray.filter((comment) => comment !== undefined);
-    //   setComments(filteredUpdatedComments as Comment[]);
-    // });
+    if (onUpvote) {
+      onUpvote(commentId, issueId);
+    }
   };
-
 
   const upvoteButton = () => {
     const color = comment.isUpVoted ? '#0E166E' : '#000048';
     const backgroundColor = comment.isUpVoted ? 'red' : 'green';
       return (
-        <Button variant='text'  onClick={() => onUpvote?.(comment.id)}
+        <Button variant='text'  onClick={() => onUpvote?.(comment.id, issueId)}
           sx={{ marginTop: 2,
           marginLeft: '-12px',
           cursor: 'pointer',
@@ -176,8 +154,7 @@ const CommentForm: FC<CommentProps> = ({
                 replies={[]}
                 currentUser={currentUser}
                 employee={employee}
-                // onUpvote={handleUpvote}
-                onUpvote={() => handleUpvote(comment.id, issueId)}
+                onUpvote={() => handleUpvote(reply.id, issueId)}
                />
               ))}
               </Box>
@@ -185,9 +162,7 @@ const CommentForm: FC<CommentProps> = ({
         </div>
         </CardContent>
       </Card>
-
   );
-
 };
 
 export default CommentForm;
