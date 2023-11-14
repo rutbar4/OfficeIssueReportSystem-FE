@@ -20,6 +20,7 @@ export async function IsVoted(issueId: string) {
     });
     return response.data.isVoted;
   } catch (error) {
+    // reikia kad mygtukas irgi sureaguotu kai nepavyko -nepasispaudti ir išmesti alertą
     console.log('Failed to fetch issue details');
   }
 }
