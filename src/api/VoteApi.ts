@@ -24,6 +24,7 @@ export async function IsVoted(issueId: string) {
   }
 }
 //GIT username check
+//GIT username check2
 export async function GetVoteCount(issueId) {
   try {
     let jwt = store.getState().user.jwtToken;
