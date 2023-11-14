@@ -9,6 +9,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import 'src/scss/styles.scss';
 
 import UserDropdownMenu from 'src/components/TopHeader/UserDropdownMenu';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store/store';
 
 function TopHeader() {
   // This file should be moved to TopHeader folder
@@ -24,11 +26,9 @@ function TopHeader() {
   const userIcon =
     'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80';
 
-  // Placeholder name for the user, will change after handling backend
-  const fullName = 'Diana Pavardienė';
+  const fullName = useSelector((state:RootState)=> state.user.user?.fullName) || 'null';
 
-  // Placeholder job title for the user, will change after handling backend
-  const jobTitle = 'Office Manager';
+  const jobTitle = useSelector((state:RootState)=> state.user.user?.position) || 'null';
 
   // Function to close user's menu when clicked outside
   const menuRef = useRef(null);

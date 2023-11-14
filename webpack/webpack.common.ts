@@ -70,7 +70,8 @@ const config: Configuration = {
   target: 'web', // Make web variables accessible to webpack, e.g. window
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Webpack Boilerplate',
+      title: 'Office Issue Registration System - asdf',
+      favicon: 'public/CognizantLogo.svg',
       template: path.join(__dirname, '../public/index.html'), // output file
     }),
     new MiniCssExtractPlugin({
