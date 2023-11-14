@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
+import IssueCard from 'src/components/IssueCard/Issue';
 import FilterTabs from 'src/components/filters/FilterTabs';
 import {RootState} from '../../store/store';
 

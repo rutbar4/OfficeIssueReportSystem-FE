@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import { BiSolidUpArrowAlt } from 'react-icons/bi';
-
+import UpvoteCount from './IssueCardComponents/UpvoteCount';
 import IssueDrawer from './IssueDrawer/IssueDrawer';
-import { COLORS } from '../values/colors';
+import { COLORS } from '../../values/colors';
+import VoteToggleButton from './IssueCardComponents/VoteToggleButton';
+import { GetVoteCount } from '../../api/VoteApi';
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -51,12 +51,24 @@ const CustomBox: React.FC<CustomBoxProps> = ({
   date,
 }) => {
   const [issueDetailsOpen, setIssueDetailsOpen] = React.useState(false);
+
   const wrapperSetDaitailsOpen = useCallback(
     (val) => {
       setIssueDetailsOpen(val);
     },
     [setIssueDetailsOpen]
   );
+
+  async function handleVoteCount(counter) {
+    let result = upvoteCount + counter;
+    setVoteCount(result);
+  }
+  const [voteCount, setVoteCount] = useState(0);
+
+  useEffect(() => {
+    handleVoteCount(0);
+  }, []);
+
   return (
     <>
       <BoxContainer
@@ -98,21 +110,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                 />
               </Grid>
               <Grid item xs={3}>
-                <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
-                  <Grid item>
-                    <BiSolidUpArrowAlt fontSize={25} color="grey" />
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      sx={{
-                        fontSize: '15px',
-                        color: COLORS.gray,
-                      }}
-                    >
-                      {upvoteCount}
-                    </Typography>
-                  </Grid>
-                </Grid>
+                <UpvoteCount voteCount={voteCount} key={issueId} />
               </Grid>
               <Grid item xs={3}>
                 <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
@@ -132,22 +130,8 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                 </Grid>
               </Grid>
               <Grid item xs={3}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderRadius: '17px',
-                    borderColor: 'lightgray',
-                    fontSize: '15px',
-                    color: COLORS.blue,
-                    fontWeight: 'bold',
-                  }}
-                  startIcon={<BiSolidUpArrowAlt color="#0E166E" />}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  Vote
-                </Button>
+                {/* needs id from sesion */}
+                <VoteToggleButton issueId={issueId} key={issueId} handleVoteCount={handleVoteCount} put={'Vote'} />
               </Grid>
             </Grid>
           </Grid>
@@ -166,7 +150,13 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           </Grid>
         </Grid>
       </BoxContainer>
-      <IssueDrawer wrapperSetDaitailsOpen={wrapperSetDaitailsOpen} issueDetailsOpen={issueDetailsOpen} issueID={issueId} />
+      <IssueDrawer
+        wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
+        issueDetailsOpen={issueDetailsOpen}
+        issueID={issueId}
+        handleVoteCount={handleVoteCount}
+        voteCount={voteCount}
+      ></IssueDrawer>
     </>
   );
 };
