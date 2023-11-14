@@ -9,8 +9,8 @@ import { useDispatch } from 'react-redux';
 
 import { AppRoutes } from 'src/types/routes';
 import { AppDispatch } from 'src/store/store';
-import {removeUser} from '../../store/slices/userSlice';
-import {logOutUser} from '../../store/slices/authenticationSlice';
+import { removeUser } from '../../store/slices/userSlice';
+import { logOutUser } from '../../store/slices/authenticationSlice';
 
 type Props = {
   fullName: string;
@@ -24,8 +24,8 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => 
 
   const useLogout = (e) => {
     e.preventDefault();
-    dispatch(removeUser);
-    dispatch(logOutUser);
+    dispatch(removeUser());
+    dispatch(logOutUser());
     navigate(AppRoutes.SIGN_IN);
   };
 

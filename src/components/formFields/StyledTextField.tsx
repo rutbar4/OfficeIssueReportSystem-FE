@@ -2,6 +2,7 @@ import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
 
 import { COLORS } from 'src/values/colors.js';
+
 const FormTextInput = ({
   error,
   errorMessage = 'Required field!',
@@ -35,4 +36,5 @@ const FormTextInput = ({
     </ErrorMessage>
   </FormControl>
 );
+
 export default FormTextInput;

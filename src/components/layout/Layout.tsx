@@ -20,7 +20,7 @@ const Layout = (): JSX.Element => {
         <Sidebar />
         <TopHeader />
         <Container maxWidth="xl" style={{ paddingLeft: '100px', paddingTop: '120px', paddingBottom: '30px' }}>
-          <Content/>
+          <Outlet />
         </Container>
         <BackgroundLogo className="background-logo" />
       </Box>

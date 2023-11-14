@@ -32,7 +32,7 @@ const Login = () => {
       .then(({data, headers}) => {
           dispatch(addUser({
             user: data.user,
-            jwtToken: data.jwt,
+            jwt: data.jwt,
           }),);
           dispatch(logInUser(true));
           navigate('/');
