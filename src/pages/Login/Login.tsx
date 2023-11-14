@@ -28,7 +28,7 @@ const Login = () => {
         dispatch(
           addUser({
             user: data.user,
-            jwt: data.jwt,
+            jwtToken: data.jwt,
           })
         );
         dispatch(logInUser(true));

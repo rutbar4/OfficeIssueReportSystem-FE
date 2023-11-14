@@ -2,10 +2,8 @@ import axios from 'axios';
 
 import { VoteModel } from 'src/models/VoteModel';
 import { EXTERNAL_LINKS } from '../values/externalLinks';
-import { user } from 'src/reducers/signIn/authReducer';
+import store from '../store/store';
 
-console.log('user');
-console.log(user);
 const vote = EXTERNAL_LINKS.voteApi;
 export const emptyVote: VoteModel = {
   isVoted: false,
@@ -13,9 +11,10 @@ export const emptyVote: VoteModel = {
 
 export async function IsVoted(issueId: string) {
   try {
+    let jwt = store.getState().user.jwtToken;
     const response = await axios.get(`${vote}/${issueId}`, {
       headers: {
-        Authorization: 'Bearer ' + user.jwt,
+        Authorization: 'Bearer ' + jwt,
       },
     });
     return response.data.isVoted;
@@ -27,9 +26,10 @@ export async function IsVoted(issueId: string) {
 
 export async function GetVoteCount(issueId) {
   try {
+    let jwt = store.getState().user.jwtToken;
     const response = await axios.get(`${vote}/count/${issueId}`, {
       headers: {
-        Authorization: 'Bearer ' + user.jwt,
+        Authorization: 'Bearer ' + jwt,
       },
     });
     return response.data.count;
@@ -40,9 +40,10 @@ export async function GetVoteCount(issueId) {
 
 export async function PostVote(issueId) {
   try {
+    let jwt = store.getState().user.jwtToken;
     const response = await axios.post(`${vote}/${issueId}`, null, {
       headers: {
-        Authorization: 'Bearer ' + user.jwt,
+        Authorization: 'Bearer ' + jwt,
       },
     });
     return response.data;
@@ -53,9 +54,10 @@ export async function PostVote(issueId) {
 
 export async function DeleteVote(issueId) {
   try {
+    let jwt = store.getState().user.jwtToken;
     const response = await axios.delete(`${vote}/${issueId}`, {
       headers: {
-        Authorization: 'Bearer ' + user.jwt,
+        Authorization: 'Bearer ' + jwt,
       },
     });
     return response.data;
