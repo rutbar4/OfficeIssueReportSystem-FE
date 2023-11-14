@@ -1,8 +1,7 @@
 
 import HTTP from './index';
-import { Comment } from '../components/comment/Comment';
 
-import { AddComment } from 'src/components/comment/Comments';
+import { AddComment, Comment } from 'src/models/CommentModel';
 
 
 const getAllCommentsApi = (issueId: string) => HTTP.get<Comment[]>(`/comment/issue-id/${issueId}`)

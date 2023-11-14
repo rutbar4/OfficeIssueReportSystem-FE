@@ -3,7 +3,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { green } from '@mui/material/colors';
 // eslint-disable-next-line import/order
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -12,9 +11,9 @@ import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 
 import  Comments  from '../comment/Comments';
-import { Employee } from '../comment/Comment';
 
 import { RootState } from 'src/store/store';
+import { Employee } from 'src/models/EmployeeModel';
 
 
 interface TabPanelProps {
