@@ -20,7 +20,7 @@ export async function IsVoted(issueId: string) {
     return response.data.isVoted;
   } catch (error) {
     // reikia kad mygtukas irgi sureaguotu kai nepavyko -nepasispaudti ir išmesti alertą
-    console.log('Failed to fetch issue details');
+    throw new Error('Failed to fetch issue details');
   }
 }
 export async function GetVoteCount(issueId) {
@@ -33,7 +33,7 @@ export async function GetVoteCount(issueId) {
     });
     return response.data.count;
   } catch (error) {
-    console.log('Failed to fetch  issue count');
+    throw new Error('Failed to fetch  issue count');
   }
 }
 
@@ -47,7 +47,7 @@ export async function PostVote(issueId) {
     });
     return response.data;
   } catch (error) {
-    console.log(`Failed to create a vote for the issue: ${issueId}`);
+    throw new Error(`Failed to create a vote for the issue: ${issueId}`);
   }
 }
 
@@ -61,6 +61,6 @@ export async function DeleteVote(issueId) {
     });
     return response.data;
   } catch (error) {
-    console.log('Failed to delete issue vote');
+    throw new Error('Failed to delete issue vote');
   }
 }
