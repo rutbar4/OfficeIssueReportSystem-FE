@@ -14,6 +14,8 @@ import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
 import StatusDropdown from 'src/components/IssueDrawer/StatusDropwdown';
 import OfficeDropdown from 'src/components/IssueDrawer/OfficeDropdown';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store/store';
 
 const tableStyle = {
   border: 'none',
@@ -38,10 +40,16 @@ interface issueDetailsProps {
   upvotes: number;
   office: string;
   officeId: string;
+  employeeId: string;
 }
+type role =
+  | {
+      value: string;
+    }
+  | string;
 
 function IssueDetails(props: issueDetailsProps) {
-  const { id, title, description, reportedBy, reported, status, upvotes, office, officeId } = props;
+  const { id, title, description, reportedBy, reported, status, upvotes, office, officeId, employeeId } = props;
 
   const [statusDropdownAnchor, setStatusDropdownAnchor] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(status);
@@ -49,7 +57,9 @@ function IssueDetails(props: issueDetailsProps) {
     setSelectedStatus(status);
   }, [status]);
   const handleStatusCellClick = (event) => {
-    setStatusDropdownAnchor(event.currentTarget);
+    if (isAdmin || employeeId === user?.id) {
+      setStatusDropdownAnchor(event.currentTarget);
+    }
   };
   const handleStatusDropdownClose = () => {
     setStatusDropdownAnchor(null);
@@ -67,7 +77,9 @@ function IssueDetails(props: issueDetailsProps) {
   const [isOfficeChanged, setIsOfficeChanged] = useState(false);
   const [officeToSend, setOfficeToSend] = useState(officeId);
   const handleOfficeCellClick = (event) => {
-    setOfficeDropdownAnchor(event.currentTarget);
+    if (isAdmin || employeeId === user?.id) {
+      setOfficeDropdownAnchor(event.currentTarget);
+    }
   };
   const handleOfficeDropdownClose = () => {
     setOfficeDropdownAnchor(null);
@@ -80,6 +92,9 @@ function IssueDetails(props: issueDetailsProps) {
     const newOfficeToSend = isOfficeChanged ? officeId : office.id;
     setOfficeToSend(newOfficeToSend);
   };
+
+  const user = useSelector((state: RootState) => state.user.user);
+  const isAdmin = (user?.roles as role[])?.includes('ADMIN') || false;
 
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
@@ -122,7 +137,13 @@ function IssueDetails(props: issueDetailsProps) {
           </TableRow>
         </TableBody>
       </Table>
-      <Tabs description={description} office={officeToSend} status={selectedStatus} issueId={id} />
+      <Tabs
+        description={description}
+        office={officeToSend}
+        status={selectedStatus}
+        issueId={id}
+        employeeId={employeeId}
+      />
       <StatusDropdown
         statusOptions={['Open', 'In progress', 'Pending', 'Blocked', 'Resolved', 'Closed']}
         anchorEl={statusDropdownAnchor}

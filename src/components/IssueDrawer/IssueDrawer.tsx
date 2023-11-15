@@ -16,6 +16,7 @@ const initialDetails = {
   employeeName: 'Loading...',
   officeName: 'Loading...',
   officeId: '',
+  employeeId: '',
 };
 
 export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueID }) {
@@ -62,6 +63,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
               upvotes={issueDetailData.rating}
               office={issueDetailData.officeName}
               officeId={issueDetailData.officeId}
+              employeeId={issueDetailData.employeeId}
             />
           </Box>
           ;

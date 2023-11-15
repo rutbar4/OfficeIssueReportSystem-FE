@@ -11,6 +11,8 @@ import { Button } from '@mui/material';
 import { UpdateIssueById } from '../../api/IssueUpdateApi';
 
 import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store/store';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -67,17 +69,23 @@ function a11yProps(index: number) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
+type role =
+  | {
+      value: string;
+    }
+  | string;
 export default function BasicTabs({
   description,
   office,
   status,
   issueId,
+  employeeId,
 }: {
   description: string;
   office: string;
   status: string;
   issueId: string;
+  employeeId: string;
 }) {
   const [value, setValue] = React.useState(0);
   const [isDescriptionEditable, setIsDescriptionEditable] = React.useState(false);
@@ -88,19 +96,24 @@ export default function BasicTabs({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
+  const user = useSelector((state: RootState) => state.user.user);
+  const isAdmin = (user?.roles as role[])?.includes('ADMIN') || false;
   const handleDescriptionClick = () => {
-    setIsDescriptionEditable(!isDescriptionEditable);
-    setIsDescriptionEdited(true);
+    if (isAdmin || employeeId === user?.id) {
+      setIsDescriptionEditable(!isDescriptionEditable);
+      setIsDescriptionEdited(true);
+    }
   };
 
   const handleSaveDescription = () => {
-    if (isDescriptionEdited) {
-      UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
-      window.location.reload();
-    } else {
-      UpdateIssueById(issueId, status, description, office);
-      window.location.reload();
+    if (isAdmin || employeeId === user?.id) {
+      if (isDescriptionEdited) {
+        UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
+        window.location.reload();
+      } else {
+        UpdateIssueById(issueId, status, description, office);
+        window.location.reload();
+      }
     }
   };
   const cleanHtml = (htmlString) => {
