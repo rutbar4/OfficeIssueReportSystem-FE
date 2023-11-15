@@ -12,6 +12,8 @@ import UpvoteChip from '../Chip/UpvoteChip';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
+
+
 const tableStyle = {
   border: 'none',
   fontSize: '14px',
@@ -38,6 +40,7 @@ interface issueDetailsProps {
 
 function IssueDetails(props: issueDetailsProps) {
  const { title, description, reportedBy, reported, status, upvotes, office, issueId } = props;
+
 
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>

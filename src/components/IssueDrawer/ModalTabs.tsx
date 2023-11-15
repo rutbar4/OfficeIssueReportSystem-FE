@@ -12,8 +12,10 @@ import { useSelector } from 'react-redux';
 
 import  Comments  from '../comment/Comments';
 
+import { Comment } from 'src/models/CommentModel';
 import { RootState } from 'src/store/store';
 import { Employee } from 'src/models/EmployeeModel';
+import { getAllCommentsApi } from 'src/api/CommentApi';
 
 
 interface TabPanelProps {
@@ -76,14 +78,26 @@ function a11yProps(index: number) {
 // eslint-disable-next-line react/no-multi-comp
 export default function BasicTabs({ description, issueId }: { description: string, issueId: string }) {
   const [value, setValue] = React.useState(0);
+  const [comments, setComments] = React.useState<Comment[]>([]);
+
+
+  React.useEffect(() => {
+    getAllCommentsApi(issueId).then((data) => {
+      setComments(data);
+    });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateComments = (newComments: Comment[]) => {
+    setComments(newComments);
+  };
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   const user = useSelector((state: RootState) => state.user.user);
-
-  const customUser: Employee = {
+  const currentUser: Employee = {
     id: user?.id || '',
     fullName: user?.fullName || '',
     avatar: user?.avatar || '',
@@ -95,7 +109,7 @@ export default function BasicTabs({ description, issueId }: { description: strin
       <ThemeProvider theme={customTabTheme}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab {...a11yProps(0)} label="Details" />
-            <Tab {...a11yProps(1)} label={`Comments (${0})`}/>
+            <Tab {...a11yProps(1)} label={`Comments (${comments.length})`}/>
             <Tab {...a11yProps(2)} label="Activity log" />
         </Tabs>
        </ThemeProvider>
@@ -109,7 +123,11 @@ export default function BasicTabs({ description, issueId }: { description: strin
        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Comments issueId={issueId} currentUser={customUser} />
+        <Comments issueId={issueId}
+          currentUser={currentUser}
+          issueComments={comments}
+          updateComments={updateComments}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Busimi Logai

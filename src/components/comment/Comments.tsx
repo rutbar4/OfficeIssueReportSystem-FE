@@ -1,11 +1,11 @@
 // eslint-disable-next-line react/jsx-filename-extension
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Box, Container, Divider, Paper } from '@mui/material';
 
 import CommentForm from './Comment';
 import AddCommentForm from './AddComment';
 
-import { createCommentApi, getAllCommentsApi, updateCommentApi } from 'src/api/CommentApi';
+import { createCommentApi, updateCommentApi } from 'src/api/CommentApi';
 import { Employee } from 'src/models/EmployeeModel';
 import { AddComment, Comment } from 'src/models/CommentModel';
 
@@ -13,10 +13,12 @@ import { AddComment, Comment } from 'src/models/CommentModel';
 type CommentsProps = {
   issueId: string,
   currentUser: Employee,
+  issueComments: Comment[],
+  updateComments: (newComments: Comment[]) => void;
 };
 
-const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
-  const [comments, setComments] = useState<Comment[]>([]);
+const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updateComments}) => {
+  const [comments, setComments] = useState<Comment[]>(issueComments);
   const [activeComment, setActiveComment] = useState<string | null>(null);
 
   const rootComments = comments.filter((comment) => comment.parentId === null);
@@ -62,17 +64,10 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser}) => {
     createCommentApi(newComment).then((comment) => {
       setComments([comment, ...comments]);
       setActiveComment(null);
+      updateComments([comment, ...comments]);
     });
   }
   };
-
-
-  useEffect(() => {
-    getAllCommentsApi(issueId).then((data) => {
-      setComments(data);
-    });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
 
   return (
