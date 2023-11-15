@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Button, IconButton, Typography } from '@mui/material';
+import { IconButton } from '@mui/material';
 
 import DeleteModule from './DeleteModule';
 

@@ -73,23 +73,20 @@ function a11yProps(index: number) {
 }
 
 
-// const user = useSelector((state: RootState) => state.user);
-
-const issueIdMock = 'abdee4f9-5763-4afc-85ed-98b2fdefb39d';
-const employeeMock: Employee = {
-  id: 'd06cb831-9427-41ee-adcc-271f7b02d627',
-  fullName: 'Sarunas Jurevicius',
-  avatar: 'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80',
-};
-
-
-
 // eslint-disable-next-line react/no-multi-comp
 export default function BasicTabs({ description, issueId }: { description: string, issueId: string }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const user = useSelector((state: RootState) => state.user.user);
+
+  const customUser: Employee = {
+    id: user?.id || '',
+    fullName: user?.fullName || '',
+    avatar: user?.avatar || '',
   };
 
   return (
@@ -112,7 +109,7 @@ export default function BasicTabs({ description, issueId }: { description: strin
        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Comments issueId={issueIdMock} currentUser={employeeMock} />
+        <Comments issueId={issueId} currentUser={customUser} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Busimi Logai

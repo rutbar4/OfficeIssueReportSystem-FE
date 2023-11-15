@@ -29,6 +29,7 @@ interface userData {
   email: string;
   position: string;
   roles: role[];
+  avatar: string,
   address: addressData;
   country: countryData;
   office: officeData;
