@@ -51,6 +51,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
             issueID={issueID}
             title={issueDetailData.name}
             wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
+            employeeId={issueDetailData.employeeId}
           />
           <Box sx={{ width: 660, margin: 5 }}>
             <IssueDetails
