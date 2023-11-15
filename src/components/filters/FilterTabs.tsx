@@ -8,6 +8,8 @@ import 'src/scss/ModalTabsStyles.scss';
 import IssueTab from './Tab';
 import { RootState } from 'src/store/store';
 import { useSelector } from 'react-redux';
+import Pagination from 'src/components/Pagination/pagination';
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -90,7 +92,7 @@ export default function BasicTabs() {
        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IssueTab type={""} userID={userID}/>
+      <IssueTab type={""} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       <IssueTab type={"open"} userID={userID}/>
@@ -107,6 +109,9 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={5}>
       <IssueTab type={"user"} userID={userID}/>
       </CustomTabPanel>
+      <Box display="flex" justifyContent="center">
+        <Pagination/>
+      </Box>
     </Box>
   );
 
