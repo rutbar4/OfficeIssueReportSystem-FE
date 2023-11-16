@@ -14,14 +14,16 @@ interface Issue {
 interface IssuesState {
   loading: boolean;
   issues: Issue[];
+  page: number;
 }
 
 const initialState: IssuesState = {
   loading: true,
   issues: [],
+  page: 1,
 };
 
-const createIssuesReducer = (actionType: string) => (
+const createIssuesReducer = (actionType: string, page: number = 1) => (
   state = initialState,
   action: { type: string; payload: Issue[] } | AnyAction
   
@@ -32,13 +34,14 @@ const createIssuesReducer = (actionType: string) => (
             ...state,
             loading: false,
             issues: action.payload,
+            page: page,
             };
         case actionType:
             return {
             ...state,
             loading: true,
+            page: page,
             };
-        
         default:
             return state;
     };
@@ -46,7 +49,7 @@ const createIssuesReducer = (actionType: string) => (
 
 export const issuesReducer = createIssuesReducer(actions.GET_ISSUES);
 export const openIssuesReducer = createIssuesReducer(actions.GET_OPEN_ISSUES);
-export const plannedIssuesReducer = createIssuesReducer(actions.GET_PLANNED_ISSUES);
+export const plannedIssuesReducer = createIssuesReducer(actions.GET_PLANNED_ISSUES, 5);
 export const resolvedIssuesReducer = createIssuesReducer(actions.GET_RESOLVED_ISSUES);
 export const closedIssuesReducer = createIssuesReducer(actions.GET_CLOSED_ISSUES);
 export const userIssuesReducer = createIssuesReducer(actions.GET_USER_ISSUES);

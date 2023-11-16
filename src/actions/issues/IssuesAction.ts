@@ -13,9 +13,9 @@ const ActionCreator = (type, payload) => {
   };
 }
 
-const CreateIssueAction = (actionType: string, endPoint) => {
+const CreateIssueAction = (actionType: string, endPoint, page: number) => {
   return (dispatch: AppDispatch) => {
-   axios.get(backendURL+ endPoint).then(async (result) => {
+   axios.get(backendURL+ endPoint, {params:{ page: page} }).then(async (result) => {
      const resultJson = await result.data;
      const action = ActionCreator(`${actionType}Success`, resultJson);
      dispatch(action);
@@ -28,25 +28,25 @@ const CreateIssueAction = (actionType: string, endPoint) => {
 };
 
 export const getUserIssues = (userID) => {
-  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`);
+  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`,1);
 }
 
 export const getClosedIssues = () => {
-  return CreateIssueAction(actions.GET_CLOSED_ISSUES, `issue/closed`);
+  return CreateIssueAction(actions.GET_CLOSED_ISSUES, `issue/closed`,1);
 }
 
 export const getResolvedIssues = () => {
-  return CreateIssueAction(actions.GET_RESOLVED_ISSUES, `issue/resolved`);
+  return CreateIssueAction(actions.GET_RESOLVED_ISSUES, `issue/resolved`,1);
 }
 
 export const getPlannedIssues = () => {
-  return CreateIssueAction(actions.GET_PLANNED_ISSUES, `issue/planned`);
+  return CreateIssueAction(actions.GET_PLANNED_ISSUES, `issue/planned`,1);
 }
 
 export const getOpenIssues = () => {
-  return CreateIssueAction(actions.GET_OPEN_ISSUES, `issue/open`);
+  return CreateIssueAction(actions.GET_OPEN_ISSUES, `issue/open`,1);
 }
 
-export const getIssues = () => {
-  return CreateIssueAction(actions.GET_ISSUES, `issue`);
+export const getIssues = (page) => {
+  return CreateIssueAction(actions.GET_ISSUES, `issue`, page);
 }

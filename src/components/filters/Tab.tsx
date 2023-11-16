@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIssues, getOpenIssues, getPlannedIssues, getResolvedIssues, getClosedIssues, getUserIssues } from 'src/actions/issues/IssuesAction';
 import { RootState } from 'src/store/store';
 import { useEffect } from 'react';
+import { Pagination } from '@mui/material';
+import { fetchPaginationCount } from 'src/api/PaginationCount';
 
 interface IssueListProps {
     type: string;
@@ -12,8 +14,10 @@ interface IssueListProps {
 }
 
 const IssueList = ({ type, userID } : IssueListProps) => {
+    const [page, setPage] = React.useState(1);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-    const issues = useSelector((state: RootState) => {
+
+    const selectFilteredIssues = (state: RootState, type: string) => {
         switch(type) {
             case 'open':
                 return state.rootReducer.openIssues;
@@ -28,7 +32,9 @@ const IssueList = ({ type, userID } : IssueListProps) => {
             default:
                 return state.rootReducer.issues;
         }
-    });
+    };
+
+    const issues = useSelector((state: RootState) => selectFilteredIssues(state, type));
 
     useEffect(() => {
         switch(type) {
@@ -48,9 +54,22 @@ const IssueList = ({ type, userID } : IssueListProps) => {
                 dispatch(getUserIssues(userID));
                 break;
             default:
-                dispatch(getIssues());
+                dispatch(getIssues(page));
         }
-    }, [dispatch, type]);
+    }, [dispatch, type, page]);
+
+    
+    const [pageCount, setPageCount] = React.useState(1);
+  
+    React.useEffect(() => {
+      fetchPaginationCount().then((count) => {
+        setPageCount(count);
+      });
+    }, []);
+  
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+      setPage(value);
+    };
   
     return (
     <div>
@@ -72,7 +91,9 @@ const IssueList = ({ type, userID } : IssueListProps) => {
           />
         ))
       )}
+      <Pagination sx={{'& .MuiPaginationItem-root': {fontSize: '14px'}}} count={pageCount} page={page} onChange={handleChange} color={'primary'}/>
     </div>
+    
   );
 }
 export default IssueList;

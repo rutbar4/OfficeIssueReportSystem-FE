@@ -8,7 +8,6 @@ import 'src/scss/ModalTabsStyles.scss';
 import IssueTab from './Tab';
 import { RootState } from 'src/store/store';
 import { useSelector } from 'react-redux';
-import Pagination from 'src/components/Pagination/pagination';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -70,12 +69,15 @@ function a11yProps(index: number) {
 
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
+    const [test, setTest] = React.useState(0);
     const userID = useSelector((state:RootState) => state.user.user?.id) || "null";
   
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -109,9 +111,7 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={5}>
       <IssueTab type={"user"} userID={userID}/>
       </CustomTabPanel>
-      <Box display="flex" justifyContent="center">
-        <Pagination/>
-      </Box>
+      <p>{test}</p>
     </Box>
   );
 
