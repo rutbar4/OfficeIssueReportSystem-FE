@@ -6,7 +6,7 @@ import { getIssues, getOpenIssues, getPlannedIssues, getResolvedIssues, getClose
 import { RootState } from 'src/store/store';
 import { useEffect } from 'react';
 import { Pagination } from '@mui/material';
-import { fetchPaginationCount } from 'src/api/PaginationCount';
+import { fetchPageCount } from 'src/api/PageCount';
 
 interface IssueListProps {
     type: string;
@@ -14,7 +14,6 @@ interface IssueListProps {
 }
 
 const IssueList = ({ type, userID } : IssueListProps) => {
-    const [page, setPage] = React.useState(1);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
     const selectFilteredIssues = (state: RootState, type: string) => {
@@ -33,36 +32,54 @@ const IssueList = ({ type, userID } : IssueListProps) => {
                 return state.rootReducer.issues;
         }
     };
+    const findPage = (state: RootState, type: string) => {
+      switch(type) {
+          case 'open':
+              return state.rootReducer.openIssues.page;
+          case 'closed':
+              return state.rootReducer.closedIssues.page;
+          case 'planned':
+              return state.rootReducer.plannedIssues.page;
+          case 'resolved':
+              return state.rootReducer.resolvedIssues.page;
+          case 'user':
+              return state.rootReducer.userIssues.page;
+          default:
+              return state.rootReducer.issues.page;
+      }
+  };
 
     const issues = useSelector((state: RootState) => selectFilteredIssues(state, type));
+    const currentPage = useSelector((state: RootState) => findPage(state, type));
+    const [page, setPage] = React.useState(currentPage);
 
     useEffect(() => {
         switch(type) {
             case 'open':
-                dispatch(getOpenIssues());
+                dispatch(getOpenIssues(page));
                 break;
             case 'closed':
-                dispatch(getClosedIssues());
+                dispatch(getClosedIssues(page));
                 break;
             case 'planned':
-                dispatch(getPlannedIssues());
+                dispatch(getPlannedIssues(page));
                 break;
             case 'resolved':
-                dispatch(getResolvedIssues());
+                dispatch(getResolvedIssues(page));
                 break;
             case 'user':
-                dispatch(getUserIssues(userID));
+                dispatch(getUserIssues(userID, page));
                 break;
             default:
                 dispatch(getIssues(page));
         }
-    }, [dispatch, type, page]);
+    }, [ type, page]);
 
     
     const [pageCount, setPageCount] = React.useState(1);
   
     React.useEffect(() => {
-      fetchPaginationCount().then((count) => {
+      fetchPageCount(type, userID).then((count) => {
         setPageCount(count);
       });
     }, []);

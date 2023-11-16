@@ -15,8 +15,6 @@ interface TabPanelProps {
   value: number;
 }
 
-
-
 const customTabTheme = createTheme({
   components: {
     MuiTab: {
@@ -69,15 +67,12 @@ function a11yProps(index: number) {
 
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
-    const [test, setTest] = React.useState(0);
     const userID = useSelector((state:RootState) => state.user.user?.id) || "null";
   
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -111,7 +106,6 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={5}>
       <IssueTab type={"user"} userID={userID}/>
       </CustomTabPanel>
-      <p>{test}</p>
     </Box>
   );
 

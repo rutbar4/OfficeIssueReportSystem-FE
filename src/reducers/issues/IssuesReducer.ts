@@ -23,9 +23,9 @@ const initialState: IssuesState = {
   page: 1,
 };
 
-const createIssuesReducer = (actionType: string, page: number = 1) => (
+const createIssuesReducer = (actionType: string) => (
   state = initialState,
-  action: { type: string; payload: Issue[] } | AnyAction
+  action: { type: string; payload: Issue[], page: number} | AnyAction
   
 ) => {
     switch (action.type) {
@@ -34,13 +34,13 @@ const createIssuesReducer = (actionType: string, page: number = 1) => (
             ...state,
             loading: false,
             issues: action.payload,
-            page: page,
+            page: action.page,
             };
         case actionType:
             return {
             ...state,
             loading: true,
-            page: page,
+            page: action.page,
             };
         default:
             return state;
@@ -49,7 +49,7 @@ const createIssuesReducer = (actionType: string, page: number = 1) => (
 
 export const issuesReducer = createIssuesReducer(actions.GET_ISSUES);
 export const openIssuesReducer = createIssuesReducer(actions.GET_OPEN_ISSUES);
-export const plannedIssuesReducer = createIssuesReducer(actions.GET_PLANNED_ISSUES, 5);
+export const plannedIssuesReducer = createIssuesReducer(actions.GET_PLANNED_ISSUES);
 export const resolvedIssuesReducer = createIssuesReducer(actions.GET_RESOLVED_ISSUES);
 export const closedIssuesReducer = createIssuesReducer(actions.GET_CLOSED_ISSUES);
 export const userIssuesReducer = createIssuesReducer(actions.GET_USER_ISSUES);
