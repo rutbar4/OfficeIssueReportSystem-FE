@@ -12,7 +12,7 @@ import UpvoteChip from '../Chip/UpvoteChip';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
-import StatusDropdown from 'src/components/IssueDrawer/StatusDropwdown';
+import StatusDropdown from 'src/components/IssueDrawer/StatusDropdown';
 import OfficeDropdown from 'src/components/IssueDrawer/OfficeDropdown';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';

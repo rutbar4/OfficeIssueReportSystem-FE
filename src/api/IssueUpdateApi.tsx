@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-filename-extension */
 import axios from 'axios';
 
+import Backend from 'src/api/BackendConfig/BackendConfig';
 export async function UpdateIssueById(id: string, status: string, description: string, officeId: string) {
   try {
-    const apiUrl = `http://localhost:8080/issue/${id}`;
+    const apiUrl = `${Backend.backendURL}issue/${id}`;
 
     const requestBody = {
       status,
@@ -15,7 +16,6 @@ export async function UpdateIssueById(id: string, status: string, description: s
         'Content-Type': 'application/json',
       },
     });
-
     return response.data;
   } catch (error) {
     console.error('Error updating the issue:', error);

@@ -3,6 +3,7 @@ import Popover from '@mui/material/Popover';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 
+import Backend from 'src/api/BackendConfig/BackendConfig';
 type Office = {
   id: string;
   name: string;
@@ -27,10 +28,10 @@ const OfficeDropdown = ({ anchorEl, onClose, selectedOffice, onOfficeChange }) =
         });
     }
   }, [anchorEl]);
-
+  const apiUrl = `${Backend.backendURL}issue/offices`;
   const fetchOfficeOptionsFromEndpoint = async () => {
     try {
-      const response = await fetch('http://localhost:8080/issue/offices');
+      const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
