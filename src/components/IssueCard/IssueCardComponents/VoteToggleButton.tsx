@@ -4,41 +4,32 @@ import { BiSolidUpArrowAlt } from 'react-icons/bi';
 import { COLORS } from '../../../values/colors';
 import { IsVoted, DeleteVote, PostVote } from '../../../api/VoteApi';
 
-export default function VoteToggleButton({ issueId, handleVoteCount, put }) {
+export default function VoteToggleButton({ issueId, handleVoteCount, put, wasVoted, isError, setError, isVoted, setVoted }) {
   useEffect(() => {
     IsVoted(issueId)
       .then((data) => {
         setVoted(data);
-        setInitialVoteState(data);
+        console.log('Updating on put. SetVoted(' + data + ')');
       })
       .catch((data) => {
-        console.log('data error');
-        console.log(data);
         setError(true);
-        console.log('Failed to fetch issue details');
       })
       .finally();
-  });
+  },[]);
+  useEffect(() => {
+    setVoted(wasVoted);
+  }, [wasVoted]);
 
-  const [isVoted, setVoted] = useState(false);
-  const [wasVoted, setInitialVoteState] = useState(false);
-  const [isError, setError] = useState(false);
   async function handleclick(event) {
-    console.log('isError');
-    console.log(isError);
     if (!isError) {
       if (isVoted) {
         await DeleteVote(issueId).catch(() => {
           setError(true);
-          console.log('isError');
-          console.log(isError);
         });
         wasVoted ? handleVoteCount(-1) : handleVoteCount(0);
       } else {
         await PostVote(issueId).catch(() => {
           setError(true);
-          console.log('isError');
-          console.log(isError);
         });
         wasVoted ? handleVoteCount(0) : handleVoteCount(1);
       }

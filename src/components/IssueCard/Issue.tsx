@@ -10,6 +10,7 @@ import IssueDrawer from './IssueDrawer/IssueDrawer';
 import { COLORS } from '../../values/colors';
 import VoteToggleButton from './IssueCardComponents/VoteToggleButton';
 import { GetVoteCount } from '../../api/VoteApi';
+import { IsVoted } from '../../api/VoteApi';
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -32,7 +33,7 @@ const BoxContainer = styled(Box)`
 `;
 
 type CustomBoxProps = {
-  issueId: number;
+  issueId: string;
   issueName: string;
   issueDescription: string;
   issueStatus: string;
@@ -66,9 +67,21 @@ const CustomBox: React.FC<CustomBoxProps> = ({
   const [voteCount, setVoteCount] = useState(0);
 
   useEffect(() => {
+    IsVoted(issueId)
+      .then((data) => {
+        setInitialVoteState(data);
+      })
+      .catch((data) => {
+        setError(true);
+      })
+      .finally();
+  }, []);
+  useEffect(() => {
     handleVoteCount(0);
   }, []);
-
+  const [wasVoted, setInitialVoteState] = useState(false);
+  const [isError, setError] = useState(false);
+  const [isVoted, setVoted] = useState(wasVoted);
   return (
     <>
       <BoxContainer
@@ -131,7 +144,17 @@ const CustomBox: React.FC<CustomBoxProps> = ({
               </Grid>
               <Grid item xs={3}>
                 {/* needs id from sesion */}
-                <VoteToggleButton issueId={issueId} key={issueId} handleVoteCount={handleVoteCount} put={'Vote'} />
+                <VoteToggleButton
+                  issueId={issueId}
+                  key={issueId}
+                  handleVoteCount={handleVoteCount}
+                  put={'Vote'}
+                  wasVoted={wasVoted}
+                  isError={isError}
+                  setError={setError}
+                  isVoted={isVoted}
+                  setVoted={setVoted}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -156,6 +179,11 @@ const CustomBox: React.FC<CustomBoxProps> = ({
         issueID={issueId}
         handleVoteCount={handleVoteCount}
         voteCount={voteCount}
+        wasVoted={wasVoted}
+        isError={isError}
+        setError={setError}
+        isVoted={isVoted}
+        setVoted={setVoted}
       ></IssueDrawer>
     </>
   );

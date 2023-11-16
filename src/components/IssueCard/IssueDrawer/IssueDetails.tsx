@@ -35,10 +35,30 @@ interface issueDetailsProps {
   upvotes: number;
   office: string;
   handleVoteCount: {};
+  wasVoted: boolean;
+  isError: boolean;
+  setError: {};
+  isVoted: boolean;
+  setVoted: {};
 }
 
 function IssueDetails(props: issueDetailsProps) {
-  const { issueID, title, description, reportedBy, reported, status, upvotes, office, handleVoteCount } = props;
+  const {
+    issueID,
+    title,
+    description,
+    reportedBy,
+    reported,
+    status,
+    upvotes,
+    office,
+    handleVoteCount,
+    wasVoted,
+    isError,
+    setError,
+    isVoted,
+    setVoted,
+  } = props;
 
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
@@ -75,6 +95,11 @@ function IssueDetails(props: issueDetailsProps) {
                 key={props.issueID}
                 handleVoteCount={handleVoteCount}
                 put={upvotes}
+                wasVoted={wasVoted}
+                isError={isError}
+                setError={setError}
+                isVoted={isVoted}
+                setVoted={setVoted}
               ></VoteToggleButton>
             </TableCell>
           </TableRow>
