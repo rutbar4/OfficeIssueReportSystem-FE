@@ -15,6 +15,8 @@ const initialDetails = {
   dateCreated: 'Loading...',
   employeeName: 'Loading...',
   officeName: 'Loading...',
+  officeId: '',
+  employeeId: '',
 };
 
 export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueID }) {
@@ -49,9 +51,11 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
             issueID={issueID}
             title={issueDetailData.name}
             wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
+            employeeId={issueDetailData.employeeId}
           />
           <Box sx={{ width: 660, margin: 5 }}>
             <IssueDetails
+              id={issueID}
               title={issueDetailData.name}
               description={issueDetailData.description}
               reportedBy={issueDetailData.employeeName}
@@ -59,6 +63,8 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
               status={issueDetailData.status}
               upvotes={issueDetailData.rating}
               office={issueDetailData.officeName}
+              officeId={issueDetailData.officeId}
+              employeeId={issueDetailData.employeeId}
             />
           </Box>
           ;
