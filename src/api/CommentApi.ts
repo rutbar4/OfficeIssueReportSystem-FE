@@ -8,8 +8,8 @@ const getAllCommentsApi = (issueId: string) => HTTP.get<Comment[]>(`/comment/iss
   .then(response => response.data);
 
 
-const updateCommentApi = (id: string, issueId: string, votes: number) =>
-  HTTP.patch<Comment>(`/comment/${id}/issue/${issueId}/votes/${votes}`, null)
+const updateCommentApi = (id: string, issueId: string) =>
+  HTTP.patch<Comment>(`/comment/${id}/issue/${issueId}/vote`, null)
   .then(response => response.data);
 
 

@@ -22,7 +22,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-// eslint-disable-next-line react/prop-types
+
 const IssueForm = ({ open, close }) => (
   <BootstrapDialog onClose={close} aria-labelledby="customized-dialog-title" open={open}>
     <DialogTitle sx={{ m: 3, p: 2 }} id="customized-dialog-title">

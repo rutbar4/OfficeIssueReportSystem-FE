@@ -7,6 +7,7 @@ import CommentUpvoteButton from './CommentUpvoteButton';
 
 import { Employee } from 'src/models/EmployeeModel';
 import { Comment } from 'src/models/CommentModel';
+import { COLORS } from 'src/values/colors';
 
 
 type CommentProps = {
@@ -61,10 +62,10 @@ const CommentForm: FC<CommentProps> = ({
       </Box>
       <CardContent sx={{flex: '1 1 auto', ml: 2, display: 'flex', flexDirection: 'column'}} >
         <Stack direction='row' alignItems='center' spacing={2}>
-          <Typography variant='h6' sx={{ fontSize: '14px', fontWeight: 'bold', color: '#000048' }}>{employee.fullName}</Typography>
+          <Typography variant='h6' sx={{ fontSize: '14px', fontWeight: 'bold', color: COLORS.blue }}>{employee.fullName}</Typography>
           <Typography variant='caption' sx={{ fontSize: '12px' }}>{formattedDate}</Typography>
         </Stack>
-        <Typography sx={{ marginTop: 2, fontSize: '12px', color: '#000048'}}>{comment.text}</Typography>
+        <Typography sx={{ marginTop: 2, fontSize: '12px', color: COLORS.blue}}>{comment.text}</Typography>
         <div className='comment-action'>
           <CommentUpvoteButton
             isUpVoted={comment.isUpVoted}
@@ -73,17 +74,20 @@ const CommentForm: FC<CommentProps> = ({
           />
           <Typography variant="caption" sx={{ font: 'Inter',
           weight: 500, size: '40px', lineHeight: '20px',
-           color: '#000048', width: '38px', height: '20px' }}>
+           color: COLORS.blue, width: '38px', height: '20px' }}
+          >
             •
           </Typography>
-          <Button variant='text'
+          {!comment.parentId &&
+          (<Button variant='text'
           onClick={() => setActiveComment(comment.id)}
           sx={{ marginTop: 2, cursor: 'pointer',
           textTransform: 'capitalize',
-           fontSize: '12px', color: '#000048'}}
-          >
+           fontSize: '12px', color: COLORS.blue}}
+           >
             Reply
           </Button>
+          )}
           {isReplying && (
             <Box sx={{display: 'flex', alignItems: 'center', width: '110%', height: '-40px'}}>
             <AddCommentForm

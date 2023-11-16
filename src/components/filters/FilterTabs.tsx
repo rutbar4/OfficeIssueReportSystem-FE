@@ -2,9 +2,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-// eslint-disable-next-line import/order
 import Box from '@mui/material/Box';
-
 import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';

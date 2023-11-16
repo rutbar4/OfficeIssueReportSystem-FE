@@ -3,7 +3,7 @@ const config = {
     backendURL: 'https://asdf-api.devbstaging.com/',
   },
   development: {
-    backendURL: 'http://localhost:8080/',
+    backendURL: 'http://localhost:9090/',
   },
 };
 

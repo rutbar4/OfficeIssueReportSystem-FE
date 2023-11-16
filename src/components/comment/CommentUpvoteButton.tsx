@@ -3,6 +3,8 @@ import Button from '@mui/material/Button';
 
 import UpvoteChip from '../Chip/UpvoteChip';
 
+import { COLORS } from 'src/values/colors';
+
 
 type CommentUpvoteButtonProps = {
   isUpVoted: boolean;
@@ -26,7 +28,7 @@ const CommentUpvoteButton: React.FC<CommentUpvoteButtonProps> = ({ isUpVoted, vo
     padding: '0px 0px',
     minWidth: 'unset',
     borderRadius: '16px',
-    color: '#000048',
+    color: COLORS.blue,
     backgroundColor: backgroundColor,
     }}
     >

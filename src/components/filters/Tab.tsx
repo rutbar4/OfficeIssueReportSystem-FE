@@ -51,8 +51,7 @@ const IssueList = ({ type, userID } : IssueListProps) => {
             default:
                 dispatch(getIssues());
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, type]);
+    }, [dispatch, type, userID]);
 
     return (
     <div>

@@ -3,10 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-// eslint-disable-next-line import/order
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
 import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 
@@ -75,7 +72,6 @@ function a11yProps(index: number) {
 }
 
 
-// eslint-disable-next-line react/no-multi-comp
 export default function BasicTabs({ description, issueId }: { description: string, issueId: string }) {
   const [value, setValue] = React.useState(0);
   const [comments, setComments] = React.useState<Comment[]>([]);
@@ -85,8 +81,7 @@ export default function BasicTabs({ description, issueId }: { description: strin
     getAllCommentsApi(issueId).then((data) => {
       setComments(data);
     });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [issueId]);
 
   const updateComments = (newComments: Comment[]) => {
     setComments(newComments);

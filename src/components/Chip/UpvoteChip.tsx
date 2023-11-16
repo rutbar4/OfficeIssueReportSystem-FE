@@ -7,7 +7,7 @@ const UpvoteChip = ({ count }: { count: number}) => {
     return (
         <Chip
             label={count}
-            avatar={<img src={Icon} alt={'UpvoteCount'} style={{ width: '24px', height: '24px', borderRadius: '50%' }} />}
+            avatar={<img src={Icon} alt={'Upvote Count'} style={{ width: '24px', height: '24px', borderRadius: '50%' }} />}
             sx={{ borderRadius: '17px', fontSize: '17px' }}
         />
     );
