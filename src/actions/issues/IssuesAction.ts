@@ -1,7 +1,7 @@
 
 import * as actions from './IssuesActionType';
 
-import store, { AppDispatch } from 'src/store/store';
+import  { AppDispatch } from 'src/store/store';
 import Backend from 'src/api/BackendConfig/BackendConfig';
 import HTTP from 'src/api';
 

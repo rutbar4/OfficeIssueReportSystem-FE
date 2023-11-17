@@ -2,8 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 
 import UpvoteChip from '../Chip/UpvoteChip';
-
-import { COLORS } from 'src/values/colors';
+import { COLORS } from '../../values/colors';
 
 
 type CommentUpvoteButtonProps = {

@@ -4,10 +4,10 @@ import { FC } from 'react';
 
 import AddCommentForm from './AddComment';
 import CommentUpvoteButton from './CommentUpvoteButton';
+import { COLORS } from '../../values/colors';
 
 import { Employee } from 'src/models/EmployeeModel';
 import { Comment } from 'src/models/CommentModel';
-import { COLORS } from 'src/values/colors';
 
 
 type CommentProps = {

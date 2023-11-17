@@ -16,6 +16,8 @@ const initialDetails = {
   dateCreated: 'Loading...',
   employeeName: 'Loading...',
   officeName: 'Loading...',
+  officeId: '',
+  employeeId: '',
 };
 
 // eslint-disable-next-line react/prop-types
@@ -52,9 +54,11 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
             issueId={issueId}
             title={issueDetailData.name}
             wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
+            employeeId={issueDetailData.employeeId}
           />
           <Box sx={{ width: 660, margin: 5 }}>
             <IssueDetails
+              id={issueId}
               title={issueDetailData.name}
               description={issueDetailData.description}
               reportedBy={issueDetailData.employeeName}
@@ -62,7 +66,8 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
               status={issueDetailData.status}
               upvotes={issueDetailData.rating}
               office={issueDetailData.officeName}
-              issueId={issueId}
+              officeId={issueDetailData.officeId}
+              employeeId={issueDetailData.employeeId}
             />
           </Box>
           ;
