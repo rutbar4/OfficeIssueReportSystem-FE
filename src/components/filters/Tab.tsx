@@ -108,7 +108,9 @@ const IssueList = ({ type, userID } : IssueListProps) => {
           />
         ))
       )}
-      <Pagination sx={{'& .MuiPaginationItem-root': {fontSize: '14px'}}} count={pageCount} page={page} onChange={handleChange} color={'primary'}/>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Pagination sx={{'& .MuiPaginationItem-root': {fontSize: '14px'}}} count={pageCount} page={page} onChange={handleChange} color={'primary'}/>
+        </div>
     </div>
     
   );
