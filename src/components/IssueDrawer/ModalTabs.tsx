@@ -1,11 +1,19 @@
+/* eslint-disable react/no-multi-comp */
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'src/scss/ModalTabsStyles.scss';
+import { Button } from '@mui/material';
+
+import { UpdateIssueById } from '../../api/IssueUpdateApi';
+
+import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store/store';
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -61,32 +69,88 @@ function a11yProps(index: number) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
-export default function BasicTabs({ description }: { description: string }) {
+type role =
+  | {
+      value: string;
+    }
+  | string;
+export default function BasicTabs({
+  description,
+  office,
+  status,
+  issueId,
+  employeeId,
+}: {
+  description: string;
+  office: string;
+  status: string;
+  issueId: string;
+  employeeId: string;
+}) {
   const [value, setValue] = React.useState(0);
+  const [isDescriptionEditable, setIsDescriptionEditable] = React.useState(false);
+  const [isDescriptionEdited, setIsDescriptionEdited] = React.useState(false);
+
+  const [editedDescription, setEditedDescription] = React.useState(description);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const user = useSelector((state: RootState) => state.user.user);
+  const isAdmin = (user?.roles as role[])?.includes('ADMIN') || false;
+  const handleDescriptionClick = () => {
+    if (isAdmin || employeeId === user?.id) {
+      setIsDescriptionEditable(!isDescriptionEditable);
+      setIsDescriptionEdited(true);
+    }
+  };
 
+  const handleSaveDescription = () => {
+    if (isAdmin || employeeId === user?.id) {
+      if (isDescriptionEdited) {
+        UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
+        window.location.reload();
+      } else {
+        UpdateIssueById(issueId, status, description, office);
+        window.location.reload();
+      }
+    }
+  };
+  const cleanHtml = (htmlString) => {
+    let cleanedHtml = htmlString.replace(/^<p>/, '');
+
+    cleanedHtml = cleanedHtml.replace(/<\/p>$/, '');
+
+    return cleanedHtml;
+  };
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <ThemeProvider theme={customTabTheme}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <ThemeProvider theme={customTabTheme}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab {...a11yProps(0)} label="Details" />
             <Tab {...a11yProps(1)} label="Comments" />
             <Tab {...a11yProps(2)} label="Activity log" />
-        </Tabs>
-       </ThemeProvider>
+          </Tabs>
+        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-       <Typography className="Description">
-         Description
-       </Typography>
-       <Typography className="ActualDescription">
-        {description}
-       </Typography>
+        <Typography className="Description">Description</Typography>
+        {isDescriptionEditable ? (
+          <RichTextComponent
+            initialValue={description}
+            onSave={(newDescription) => {
+              setEditedDescription(newDescription);
+              setIsDescriptionEditable(false);
+            }}
+          />
+        ) : (
+          <div onClick={handleDescriptionClick} style={{ cursor: 'pointer' }}>
+            <Typography className="ActualDescription">
+              {isDescriptionEdited ? cleanHtml(editedDescription) : description}
+            </Typography>
+          </div>
+        )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         Busimi Komentarai
@@ -94,8 +158,14 @@ export default function BasicTabs({ description }: { description: string }) {
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
+      <div className="TabFooter">
+        <Button variant="outlined" className="cancelButton">
+          <Typography className="cancel">Cancel</Typography>
+        </Button>
+        <Button variant="contained" className="saveButton" onClick={handleSaveDescription}>
+          <Typography className="delete-issue">Save</Typography>
+        </Button>
+      </div>
     </Box>
   );
-
-
 }
