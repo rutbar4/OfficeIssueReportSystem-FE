@@ -57,37 +57,47 @@ const CommentForm: FC<CommentProps> = ({
 
   return (
     <Card variant='outlined' sx={{display: 'flex', alignItems: 'center', p: 2, m: 1, border: 'none', boxShadow: 'none', width: '100%'}}>
-      <Box p={{ xs: '0', sm: '4px' }}>
-       <Avatar src={employee.avatar} alt={`${employee.fullName} Photo`} sx={{marginTop: -8}} />
-      </Box>
       <CardContent sx={{flex: '1 1 auto', ml: 2, display: 'flex', flexDirection: 'column'}} >
         <Stack direction='row' alignItems='center' spacing={2}>
-          <Typography variant='h6' sx={{ fontSize: '14px', fontWeight: 'bold', color: COLORS.blue }}>{employee.fullName}</Typography>
-          <Typography variant='caption' sx={{ fontSize: '12px' }}>{formattedDate}</Typography>
+          <Box p={{ xs: '0', sm: '4px' }}>
+          <Avatar src={employee.avatar} alt={`${employee.fullName} Photo`} sx={{marginTop: 1}} />
+          </Box>
+          <Typography variant='h6' sx={{ fontSize: '14px', fontWeight: 'bold', color: COLORS.blue}}>{employee.fullName}</Typography>
+          <Typography variant='caption' sx={{ fontSize: '12px'}}>{formattedDate}</Typography>
         </Stack>
-        <Typography sx={{ marginTop: 2, fontSize: '12px', color: COLORS.blue}}>{comment.text}</Typography>
+        <Typography sx={{ marginTop: 2, fontSize: '12px', color: COLORS.blue, marginLeft: 9 }}>{comment.text}</Typography>
         <div className='comment-action'>
+          <Box sx={{ marginLeft: 10 }}>
           <CommentUpvoteButton
             isUpVoted={comment.isUpVoted}
             votes={comment.votes}
             onClick={() => onUpvote?.(comment.id, issueId)}
           />
-          <Typography variant="caption" sx={{ font: 'Inter',
-          weight: 500, size: '40px', lineHeight: '20px',
-           color: COLORS.blue, width: '38px', height: '20px' }}
+          <Typography variant="caption"
+           sx={{ font: 'Inter',
+                weight: 500,
+                size: '40px',
+                lineHeight: '20px',
+                color: COLORS.blue,
+                width: '38px',
+                height: '20px' }}
           >
             •
           </Typography>
           {!comment.parentId &&
           (<Button variant='text'
           onClick={() => setActiveComment(comment.id)}
-          sx={{ marginTop: 2, cursor: 'pointer',
-          textTransform: 'capitalize',
-           fontSize: '12px', color: COLORS.blue}}
+          sx={{ marginTop: 2,
+            cursor: 'pointer',
+            textTransform: 'capitalize',
+            fontSize: '12px',
+            color: COLORS.blue,
+           }}
            >
             Reply
           </Button>
           )}
+          </Box>
           {isReplying && (
             <Box sx={{display: 'flex', alignItems: 'center', width: '110%', height: '-40px'}}>
             <AddCommentForm

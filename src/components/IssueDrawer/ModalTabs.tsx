@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp */
+
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -152,6 +152,8 @@ export default function BasicTabs({
     return cleanedHtml;
   };
 
+  const isCommentsTab = value === 1;
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -191,6 +193,7 @@ export default function BasicTabs({
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
+      {!isCommentsTab && (
       <div className="TabFooter">
         <Button variant="outlined" className="cancelButton">
           <Typography className="cancel">Cancel</Typography>
@@ -199,6 +202,7 @@ export default function BasicTabs({
           <Typography className="delete-issue">Save</Typography>
         </Button>
       </div>
+      )}
     </Box>
   );
 }

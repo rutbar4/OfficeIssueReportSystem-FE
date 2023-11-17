@@ -4,6 +4,7 @@ import { Box, Container, Divider, Paper } from '@mui/material';
 
 import CommentForm from './Comment';
 import AddCommentForm from './AddComment';
+import { COLORS } from '../../values/colors';
 
 import { createCommentApi, updateCommentApi } from 'src/api/CommentApi';
 import { Employee } from 'src/models/EmployeeModel';
@@ -90,9 +91,10 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updat
           position: 'sticky',
           bottom: '0',
           left: '20px',
-          width: '110%',
+          width: '120%',
           p: 2,
-          backgroundColor: 'white'
+          backgroundColor: COLORS.white,
+          marginLeft: -8,
         }}
     >
       <Divider/>
