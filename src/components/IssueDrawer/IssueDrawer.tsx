@@ -20,7 +20,7 @@ const initialDetails = {
   employeeId: '',
 };
 
-// eslint-disable-next-line react/prop-types
+
 export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueId }) {
   const [issueDetailData, setIssueDetailData] = useState(initialDetails);
   const handleDrawerOpen = () => {
