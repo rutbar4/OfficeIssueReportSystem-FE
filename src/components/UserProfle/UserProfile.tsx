@@ -114,12 +114,12 @@ const UserProfile = () => {
           Edit your personal information, position and working address
         </Typography>
       </Box>
-          <Typography variant='h5' sx={{ color: '#6B706D', marginBottom: '10px' }}>
-            Photo
-          </Typography>
         <Grid container spacing={5}>
-            <Grid item xs={4} md={4}>
-              <div style={{ cursor: 'pointer', position: 'relative', width: '350px', height: '350px' }}>
+            <Grid item xs={4} md={4} >
+                <Typography variant='h5' sx={{ color: '#6B706D', marginBottom: '5px'}}>
+                    Photo
+                </Typography>
+              <div style={{ cursor: 'pointer', position: 'relative', width: '320px', height: '320px' }}>
 
                   <img src={user?.avatar} alt="Selected" style={{ width: '100%', height: '100%', borderRadius: '6px',
                       borderColor: COLORS.lighterGray,
