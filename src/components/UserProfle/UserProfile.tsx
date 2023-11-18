@@ -15,6 +15,8 @@ import {  Country } from 'src/models/AddressModel';
 import { fetchAllOffices } from 'src/api/OfficeApi';
 import { Office } from 'src/models/OfficeModel';
 import { fetchAllCountries } from 'src/api/CountryApi';
+import DisabledField from '../formFields/DisabledField';
+import WideDisabledField from '../formFields/WideDisabledField';
 
 
 
@@ -129,9 +131,7 @@ const UserProfile = () => {
                 <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                   Full Name
                 </Typography>
-                <StyledTextField
-                  error={props.touched.fullName && !!props.errors.fullName}
-                  errorMessage="Please input your full name."
+                <WideDisabledField
                   id="fullName"
                   name="fullName"
                   type="text"
@@ -141,22 +141,19 @@ const UserProfile = () => {
                 <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                   Department
                 </Typography>
-                <StyledTextField
-                  error={props.touched.office && !!props.errors.office}
-                  errorMessage="Please input your email address."
+                <DisabledField
+
                   id="office"
                   name="office"
-                  type="select"
-                  placeholder="e.g., name@cognizant.com"
+                  type="text"
+
                 />
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                   Role
                 </Typography>
-                <StyledTextField
-                  error={props.touched.role && !!props.errors.role}
-                  errorMessage="Please input your roles."
+                <DisabledField
                   id="role"
                   name="role"
                   type="text"
