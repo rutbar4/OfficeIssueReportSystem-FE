@@ -100,15 +100,15 @@ const CommentForm: FC<CommentProps> = ({
           </Box>
           {isReplying && (
             <Box sx={{display: 'flex', alignItems: 'center', width: '110%', height: '-40px'}}>
-            <AddCommentForm
-            issueId={issueId}
-            currentUser={currentUser}
-            parentId={parentId}
-            picture={currentUser.avatar}
-            submitLabel='Reply'
-            handleSubmit={(text) => addComment(text,  replyId, issueId, currentUser.id)}
-            />
-              <Box>
+              <AddCommentForm
+                issueId={issueId}
+                currentUser={currentUser}
+                parentId={parentId}
+                picture={currentUser.avatar}
+                submitLabel='Reply'
+                handleSubmit={(text) => addComment(text,  replyId, issueId, currentUser.id)}
+              />
+              <Box >
                 <Button onClick={() => setActiveComment(null)}
                  sx={{
                   background: 'white',

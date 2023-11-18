@@ -69,7 +69,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updat
 
 
   return (
-    <Container>
+    <Container sx={{width: '115%', padding: 0}}>
     <Box mt={3} sx={{ marginLeft: 0, width: '100%'}}>
       {rootComments.map((rootComment) => (
         <Paper key={rootComment.id} elevation={0} sx={{ p: 2, mt: 2, marginLeft: -11, marginRight: 'auto', width: '100%' }}>
@@ -94,7 +94,7 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updat
           width: '120%',
           p: 2,
           backgroundColor: COLORS.white,
-          marginLeft: -8,
+          marginLeft: -13,
         }}
     >
       <Divider/>
