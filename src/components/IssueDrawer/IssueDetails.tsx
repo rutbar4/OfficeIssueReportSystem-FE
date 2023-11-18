@@ -133,16 +133,8 @@ function IssueDetails(props: issueDetailsProps) {
                 imageLink="https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80"
               />
             </TableCell>
-            <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Reported by</TableCell>
-            <TableCell style={tableStyle}>
-              <UserChip
-                userName={reportedBy}
-                imageLink="https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80"
-              />
-            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Reported</TableCell>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Reported</TableCell>
             <TableCell style={tableStyle}>{reported}</TableCell>
           </TableRow>

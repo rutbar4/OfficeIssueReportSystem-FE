@@ -10,9 +10,9 @@ const HTTP = axios.create({
 });
 
 HTTP.interceptors.request.use((config) => {
-  const jwtToken = store.getState().user.jwt;
-  if (jwtToken) {
-    config.headers.Authorization = `Bearer ${jwtToken}`;
+  const jwt = store.getState().user.jwt;
+  if (jwt) {
+    config.headers.Authorization = `Bearer ${jwt}`;
   }
   return config;
 });
