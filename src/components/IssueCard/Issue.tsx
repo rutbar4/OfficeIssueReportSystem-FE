@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import UpvoteCount from './IssueCardComponents/UpvoteCount';
-import IssueDrawer from './IssueDrawer/IssueDrawer';
+import IssueDrawer from '../IssueDrawer/IssueDrawer';
 import { COLORS } from '../../values/colors';
 import VoteToggleButton from './IssueCardComponents/VoteToggleButton';
 import { GetVoteCount } from '../../api/VoteApi';

@@ -6,12 +6,12 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { Divider } from '@mui/material';
 
-import UserChip from '../../Chip/UserChip';
-import UpvoteChip from '../../Chip/UpvoteChip';
+import UserChip from '../Chip/UserChip';
+import UpvoteChip from '../Chip/UpvoteChip';
 
 import StatusChip from 'src/components/Chip/StatusChip';
-import Tabs from 'src/components/IssueCard/IssueDrawer/ModalTabs';
-import VoteToggleButton from '../IssueCardComponents/VoteToggleButton';
+import Tabs from 'src/components/IssueDrawer/ModalTabs';
+import VoteToggleButton from '../IssueCard/IssueCardComponents/VoteToggleButton';
 const tableStyle = {
   border: 'none',
   fontSize: '14px',
