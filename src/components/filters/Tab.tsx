@@ -1,7 +1,9 @@
 import * as React from 'react';
 import IssueCard from 'src/components/IssueCard/Issue';
 import { ThunkDispatch } from '@reduxjs/toolkit';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   getIssues,
   getOpenIssues,
@@ -11,7 +13,6 @@ import {
   getUserIssues,
 } from 'src/actions/issues/IssuesAction';
 import { RootState } from 'src/store/store';
-import { useEffect } from 'react';
 
 interface IssueListProps {
   type: string;
@@ -37,29 +38,29 @@ const IssueList = ({ type, userID } : IssueListProps) => {
     }
   });
 
-  useEffect(() => {
-    switch(type) {
-      case 'open':
-        dispatch(getOpenIssues());
-        break;
-      case 'closed':
-        dispatch(getClosedIssues());
-        break;
-      case 'planned':
-        dispatch(getPlannedIssues());
-        break;
-      case 'resolved':
-        dispatch(getResolvedIssues());
-        break;
-      case 'user':
-        dispatch(getUserIssues(userID));
-        break;
-      default:
-        dispatch(getIssues());
-    }
-  }, [dispatch, type]);
+    useEffect(() => {
+        switch(type) {
+            case 'open':
+                dispatch(getOpenIssues());
+                break;
+            case 'closed':
+                dispatch(getClosedIssues());
+                break;
+            case 'planned':
+                dispatch(getPlannedIssues());
+                break;
+            case 'resolved':
+                dispatch(getResolvedIssues());
+                break;
+            case 'user':
+                dispatch(getUserIssues(userID));
+                break;
+            default:
+                dispatch(getIssues());
+        }
+    }, [dispatch, type, userID]);
 
-  return (
+    return (
     <div>
       {issues.loading ? (
         <p>Loading...</p>
@@ -81,5 +82,5 @@ const IssueList = ({ type, userID } : IssueListProps) => {
       )}
     </div>
   );
-}
+};
 export default IssueList;

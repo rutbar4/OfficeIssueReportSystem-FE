@@ -1,11 +1,24 @@
+
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'src/scss/ModalTabsStyles.scss';
+import { useSelector } from 'react-redux';
+import { Button } from '@mui/material';
+
+import  Comments  from '../comment/Comments';
+import { UpdateIssueById } from '../../api/IssueUpdateApi';
+
+import { Comment } from 'src/models/CommentModel';
+import { RootState } from 'src/store/store';
+import { Employee } from 'src/models/EmployeeModel';
+import { getAllCommentsApi } from 'src/api/CommentApi';
+import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
+
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -62,40 +75,135 @@ function a11yProps(index: number) {
   };
 }
 
-export default function BasicTabs({ description }: { description: string }) {
+type role =
+  | {
+      value: string;
+    }
+  | string;
+export default function BasicTabs({
+  description,
+  office,
+  status,
+  issueId,
+  employeeId,
+}: {
+  description: string;
+  office: string;
+  status: string;
+  issueId: string;
+  employeeId: string;
+}) {
   const [value, setValue] = React.useState(0);
+  const [isDescriptionEditable, setIsDescriptionEditable] = React.useState(false);
+  const [isDescriptionEdited, setIsDescriptionEdited] = React.useState(false);
+
+  const [editedDescription, setEditedDescription] = React.useState(description);
+  const [comments, setComments] = React.useState<Comment[]>([]);
+
+
+  React.useEffect(() => {
+    getAllCommentsApi(issueId).then((data) => {
+      setComments(data);
+    });
+  }, [issueId]);
+
+  const updateComments = (newComments: Comment[]) => {
+    setComments(newComments);
+  };
+
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const user = useSelector((state: RootState) => state.user.user);
+  const isAdmin = (user?.roles as role[])?.includes('ADMIN') || false;
+  const handleDescriptionClick = () => {
+    if (isAdmin || employeeId === user?.id) {
+      setIsDescriptionEditable(!isDescriptionEditable);
+      setIsDescriptionEdited(true);
+    }
+  };
+
+
+
+  const currentUser: Employee = {
+    id: user?.id || '',
+    fullName: user?.fullName || '',
+    avatar: user?.avatar || '',
+  };
+
+
+  const handleSaveDescription = () => {
+    if (isAdmin || employeeId === user?.id) {
+      if (isDescriptionEdited) {
+        UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
+        window.location.reload();
+      } else {
+        UpdateIssueById(issueId, status, description, office);
+        window.location.reload();
+      }
+    }
+  };
+  const cleanHtml = (htmlString) => {
+    let cleanedHtml = htmlString.replace(/^<p>/, '');
+
+    cleanedHtml = cleanedHtml.replace(/<\/p>$/, '');
+
+    return cleanedHtml;
+  };
+
+  const isCommentsTab = value === 1;
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <ThemeProvider theme={customTabTheme}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <ThemeProvider theme={customTabTheme}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab {...a11yProps(0)} label="Details" />
-            <Tab {...a11yProps(1)} label="Comments" />
+            <Tab {...a11yProps(1)} label={`Comments (${comments.length})`}/>
             <Tab {...a11yProps(2)} label="Activity log" />
-        </Tabs>
-       </ThemeProvider>
+          </Tabs>
+        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-       <Typography className="Description">
-         Description
-       </Typography>
-       <Typography className="ActualDescription">
-        {description}
-       </Typography>
+        <Typography className="Description">Description</Typography>
+        {isDescriptionEditable ? (
+          <RichTextComponent
+            initialValue={description}
+            onSave={(newDescription) => {
+              setEditedDescription(newDescription);
+              setIsDescriptionEditable(false);
+            }}
+          />
+        ) : (
+          <div onClick={handleDescriptionClick} style={{ cursor: 'pointer' }}>
+            <Typography className="ActualDescription">
+              {isDescriptionEdited ? cleanHtml(editedDescription) : description}
+            </Typography>
+          </div>
+        )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Busimi Komentarai
+        <Comments issueId={issueId}
+          currentUser={currentUser}
+          issueComments={comments}
+          updateComments={updateComments}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
+      {!isCommentsTab && (
+      <div className="TabFooter">
+        <Button variant="outlined" className="cancelButton">
+          <Typography className="cancel">Cancel</Typography>
+        </Button>
+        <Button variant="contained" className="saveButton" onClick={handleSaveDescription}>
+          <Typography className="delete-issue">Save</Typography>
+        </Button>
+      </div>
+      )}
     </Box>
   );
-
-
 }
+
