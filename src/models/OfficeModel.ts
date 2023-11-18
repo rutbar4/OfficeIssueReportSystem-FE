@@ -1,3 +1,4 @@
 export interface Office {
-  officeName: string;
+  id : string,
+  name: string;
 }

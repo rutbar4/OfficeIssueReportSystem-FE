@@ -3,17 +3,19 @@ import { useEffect, useRef, useState } from 'react';
 import {  useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import {useSelector} from 'react-redux';
 
 import Sidebar from '../sidebar/Sidebar';
 import StyledButton from '../StyledButton/StyledButton';
+import {RootState} from '../../store/store';
+import StyledTextField from '../formFields/StyledTextField';
 
 import { AppRoutes } from 'src/types/routes';
-import { UserProfileModel } from 'src/models/UserProfileModel';
-import { fetchUserProfile, updateUserProfile, emptyUserProfile } from 'src/api/UserProfileApi';
 import {  Country } from 'src/models/AddressModel';
 import { fetchAllOffices } from 'src/api/OfficeApi';
 import { Office } from 'src/models/OfficeModel';
 import { fetchAllCountries } from 'src/api/CountryApi';
+
 
 
 const labelColor = { color: '#6B706D' };
@@ -46,17 +48,14 @@ const UserProfile = () => {
 
   const [offices, setOffices] = useState<Office[]>([]);
   const [countries, setCountries] = useState<Country[]>([]);
-  const [userProfile, setUserProfile] = useState<UserProfileModel>(emptyUserProfile);
   const [loading, setLoading] = useState(false);
+
+  const user = useSelector((state:RootState) => state.user.user);
 
 
   useEffect(() => {
-    Promise.all([fetchUserProfile(), fetchAllOffices(), fetchAllCountries()])
-      .then(([profile, fetchedOffices, fetchedCountries]) => {
-        setUserProfile(profile);
-        if (profile.picture && profile.picture.link) {
-          setImage(profile.picture.link);
-        }
+    Promise.all([ fetchAllOffices(), fetchAllCountries()])
+      .then(([fetchedOffices, fetchedCountries]) => {
         setOffices(fetchedOffices);
         setCountries(fetchedCountries);
       });
@@ -64,36 +63,9 @@ const UserProfile = () => {
 
 
   const handleUpdateUserSubmit = (values) => {
-    const updatedUserProfile = {
-      ...userProfile,
-      id: userProfile.id,
-      fullName: values.fullName,
-      role: values.role,
-      address: {
-        street: values.street,
-        city: values.city,
-        state: values.state,
-        postcode: values.postcode,
-      },
-      department: {
-        officeName: values.department
-      },
-      country: {
-        countryName: values.countryName,
-      }
-    };
-    if (userProfile.picture && image) {
-      userProfile.picture.link = image;
-    }
-    updateUserProfile(updatedUserProfile).then((status) => {
-      if (status === 201) {
-        navigate(AppRoutes.HOME);
-      }
-    }).catch(() => {
-      setLoading(true);
-    });
-  };
+   console.log(values);
 
+  };
 
   const handleImageChange = () => {
     if (fileInputRef.current) {
@@ -114,20 +86,20 @@ const UserProfile = () => {
   return (
     <Formik
       initialValues={{
-        fullName: userProfile?.fullName,
-        officeName: userProfile.department.officeName,
-        role: userProfile?.role,
-        street: userProfile?.address.street,
-        city: userProfile?.address.city,
-        state: userProfile?.address.state,
-        postcode: userProfile?.address.postcode,
-        countryName: userProfile?.country.countryName
+        fullName: user?.fullName,
+        office: user?.office.name,
+        role: user?.position,
+        street: user?.address.street,
+        city: user?.address.city,
+        state: user?.address.state,
+        postcode: user?.address.postcode,
+        country: user?.country.name
       }}
       validationSchema={UserProfileValidationSchema}
       onSubmit={handleUpdateUserSubmit}
       enableReinitialize
     >
-  {() => (
+  {(props) => (
     <Form >
       <>
       <Sidebar />
@@ -144,74 +116,51 @@ const UserProfile = () => {
           </Typography>
         <Grid container spacing={5}>
             <Grid item xs={4} md={4}>
-              <div onClick={handleImageChange} style={{ cursor: 'pointer', position: 'relative', width: '300px', height: '300px' }}>
-                {image ? (
-                  <img src={image} alt="Selected" style={{ width: '100%', height: '100%' }} />
-                ) : (
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-                    <label style={labelColor} id="photoLabel">
-                      Select Photo
-                    </label>
-                  </div>
-                )}
-                <input
-                  type='file'
-                  accept='image/*'
-                  capture='environment'
-                  style={{ display: 'none' }}
-                  ref={fileInputRef}
-                  onChange={handleFileInputChange}
-                />
+              <div style={{ cursor: 'pointer', position: 'relative', width: '300px', height: '300px', border:'2px', borderColor:'grey' }}>
+
+                  <img src={user?.avatar} alt="Selected" style={{ width: '100%', height: '100%' }} />
+
+
               </div>
             </Grid>
           <Grid item xs={8} md={8}>
             <Grid container spacing={5} direction='row'>
               <Grid item xs={12}>
-                <label style={labelColor}>Full name</label>
-                <Field
-                  fullWidth
-                  sx={{ marginTop: '7px' }}
-                  as={TextField}
-                  id='fullName'
-                  name='fullName'
-                />
-                <Typography sx={{ color: 'red' }}>
-                  <ErrorMessage name="fullName" />
+                <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                  Full Name
                 </Typography>
+                <StyledTextField
+                  error={props.touched.fullName && !!props.errors.fullName}
+                  errorMessage="Please input your full name."
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                />
               </Grid>
               <Grid item xs={6}>
-                <label style={labelColor}>Department</label>
-                <Field name="officeName">
-                  {({ field, form }) => (
-                    <Autocomplete
-                      fullWidth
-                      sx={{ marginTop: '7px' }}
-                      id="officeName"
-                      options={offices.map((office) => office.officeName)}
-                      value={field.value}
-                      renderInput={(params) => <TextField {...params}/>}
-                      onChange={(_, newValue) => {
-                        form.setFieldValue('officeName', newValue);
-                      }}
-                    />
-                  )}
-                </Field>
-                <Typography sx={{ color: 'red' }}>
-                  <ErrorMessage name="officeName"/>
+                <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                  Department
                 </Typography>
+                <StyledTextField
+                  error={props.touched.office && !!props.errors.office}
+                  errorMessage="Please input your email address."
+                  id="office"
+                  name="office"
+                  type="select"
+                  placeholder="e.g., name@cognizant.com"
+                />
               </Grid>
               <Grid item xs={6}>
-                <label style={labelColor}>Role</label>
-                <Field
-                  fullWidth
-                  sx={{ marginTop: '7px' }}
-                  as={TextField}
-                  id='role'
-                  name='role'
-                />
-                <Typography sx={{ color: 'red' }}>
-                  <ErrorMessage name='role'/>
+                <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                  Role
                 </Typography>
+                <StyledTextField
+                  error={props.touched.role && !!props.errors.role}
+                  errorMessage="Please input your roles."
+                  id="role"
+                  name="role"
+                  type="text"
+                />
               </Grid>
             </Grid>
             <Grid item xs={12} md={12} style={{ marginTop: '50px', marginBottom: '40px' }}>
@@ -220,52 +169,52 @@ const UserProfile = () => {
             </Grid>
             <Grid container spacing={5} direction="row">
               <Grid item xs={12}>
-                <label style={labelColor}>Street address</label>
-                  <Field
-                  fullWidth
-                  sx={{ marginTop: '7px' }}
-                  as={TextField}
-                  id='street'
-                  name='street'
-                  />
-                  <Typography sx={{ color: 'red' }}>
-                    <ErrorMessage name='street'/>
-                  </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <label style={labelColor}>City</label>
-                <Field
-                  fullWidth
-                  sx={{ marginTop: '7px' }}
-                  as={TextField}
-                  id='city'
-                  name='city'
-                />
-                <Typography sx={{ color: 'red' }}>
-                  <ErrorMessage name='city'/>
+                <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                  Street address
                 </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <label style={labelColor}>State/ Province</label>
-                <Field
-                  fullWidth
-                  sx={{ marginTop: '7px' }}
-                  as={TextField}
-                  id='state'
-                  name='state'
+                <StyledTextField
+                  error={props.touched.street && !!props.errors.street}
+                  errorMessage="Please input your street."
+                  id="street"
+                  name="street"
+                  type="text"
                 />
-                <Typography sx={{ color: 'red' }}>
-                  <ErrorMessage name='state'/>
-                </Typography>
               </Grid>
               <Grid item xs={6}>
-                <label style={labelColor}>Postcode</label>
-                <Field
-                  fullWidth
-                  sx={{ marginTop: '7px' }}
-                  as={TextField}
-                  id='postcode'
-                  name='postcode'
+                <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                  City
+                </Typography>
+                <StyledTextField
+                  error={props.touched.city && !!props.errors.city}
+                  errorMessage="Please input your city."
+                  id="city"
+                  name="city"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                  State / Province
+                </Typography>
+                <StyledTextField
+                  error={props.touched.state && !!props.errors.state}
+                  errorMessage="Please input your state."
+                  id="state"
+                  name="state"
+                  type="text"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                  Postcode
+                </Typography>
+                <StyledTextField
+                  error={props.touched.postcode && !!props.errors.postcode}
+                  errorMessage="Please input your postcode."
+                  id="postcode"
+                  name="postcode"
+                  type="text"
+                  placeholder="e.g., name@cognizant.com"
                 />
                 <Typography sx={{ color: 'red' }}>
                   <ErrorMessage name='postcode'/>
@@ -279,7 +228,7 @@ const UserProfile = () => {
                       fullWidth
                       sx={{ marginTop: '7px' }}
                       id="country"
-                      options={countries.map((country) => country.countryName)}
+                      options={countries.map((country) => country.name)}
                       value={field.value}
                       renderInput={(params) => <TextField {...params}/>}
                       onChange={(_, newValue) => {
