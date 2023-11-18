@@ -11,7 +11,7 @@ export const emptyVote: VoteModel = {
 
 export async function IsVoted(issueId: string) {
   try {
-    let jwt = store.getState().user.jwtToken;
+    let jwt = store.getState().user.jwt;
     const response = await axios.get(`${vote}/${issueId}`, {
       headers: {
         Authorization: 'Bearer ' + jwt,
@@ -25,7 +25,7 @@ export async function IsVoted(issueId: string) {
 }
 export async function GetVoteCount(issueId) {
   try {
-    let jwt = store.getState().user.jwtToken;
+    let jwt = store.getState().user.jwt;
     const response = await axios.get(`${vote}/count/${issueId}`, {
       headers: {
         Authorization: 'Bearer ' + jwt,
@@ -39,7 +39,7 @@ export async function GetVoteCount(issueId) {
 
 export async function PostVote(issueId) {
   try {
-    let jwt = store.getState().user.jwtToken;
+    let jwt = store.getState().user.jwt;
     const response = await axios.post(`${vote}/${issueId}`, null, {
       headers: {
         Authorization: 'Bearer ' + jwt,
@@ -53,7 +53,7 @@ export async function PostVote(issueId) {
 
 export async function DeleteVote(issueId) {
   try {
-    let jwt = store.getState().user.jwtToken;
+    let jwt = store.getState().user.jwt;
     const response = await axios.delete(`${vote}/${issueId}`, {
       headers: {
         Authorization: 'Bearer ' + jwt,

@@ -176,7 +176,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
       <IssueDrawer
         wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
         issueDetailsOpen={issueDetailsOpen}
-        issueID={issueId}
+        issueId={issueId}
         handleVoteCount={handleVoteCount}
         voteCount={voteCount}
         wasVoted={wasVoted}
