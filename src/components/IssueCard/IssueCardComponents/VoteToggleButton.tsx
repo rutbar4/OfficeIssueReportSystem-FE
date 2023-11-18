@@ -9,7 +9,6 @@ export default function VoteToggleButton({ issueId, handleVoteCount, put, wasVot
     IsVoted(issueId)
       .then((data) => {
         setVoted(data);
-        console.log('Updating on put. SetVoted(' + data + ')');
       })
       .catch((data) => {
         setError(true);
