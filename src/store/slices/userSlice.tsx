@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { addToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../Storage/LocalStorage';
 
 interface role {
@@ -28,6 +29,7 @@ interface userData {
   email: string;
   position: string;
   roles: role[];
+  avatar: string,
   address: addressData;
   country: countryData;
   office: officeData;
@@ -35,12 +37,12 @@ interface userData {
 
 export interface User {
   user: userData | null;
-  jwtToken: string | null;
+  jwt: string | null;
 }
 
 const initialState: User = {
   user: null,
-  jwtToken: null,
+  jwt: null,
 };
 
 const userSlice = createSlice({

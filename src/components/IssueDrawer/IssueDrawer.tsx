@@ -6,6 +6,7 @@ import DrawerToolbar from './DrawerToolbar';
 import { fetchIssueDetails } from '../../api/DetailApi';
 
 import IssueDetails from 'src/components/IssueDrawer/IssueDetails';
+import { deleteIssueById } from 'src/api/IssueDeleteApi';
 
 const initialDetails = {
   name: 'Loading...',
@@ -19,20 +20,22 @@ const initialDetails = {
   employeeId: '',
 };
 
-export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueID }) {
+
+export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueId }) {
   const [issueDetailData, setIssueDetailData] = useState(initialDetails);
   const handleDrawerOpen = () => {
-    fetchIssueDetails(issueID).then((data) => {
+    fetchIssueDetails(issueId).then((data) => {
       if (data != null) {
         setIssueDetailData(data);
       }
     });
   };
-
   useEffect(() => {
     if (issueDetailsOpen) {
       handleDrawerOpen();
     }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issueDetailsOpen]);
 
   const date = new Date(issueDetailData.dateCreated);
@@ -48,14 +51,14 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
       <React.Fragment key={'right'}>
         <Drawer anchor={'right'} open={issueDetailsOpen} onClose={() => wrapperSetDaitailsOpen(false)}>
           <DrawerToolbar
-            issueID={issueID}
+            issueId={issueId}
             title={issueDetailData.name}
             wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
             employeeId={issueDetailData.employeeId}
           />
           <Box sx={{ width: 660, margin: 5 }}>
             <IssueDetails
-              id={issueID}
+              id={issueId}
               title={issueDetailData.name}
               description={issueDetailData.description}
               reportedBy={issueDetailData.employeeName}

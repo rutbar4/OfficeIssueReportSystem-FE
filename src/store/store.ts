@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import thunk from 'redux-thunk';
+
 import user, {getUserFromLocalStorage} from './slices/userSlice';
-import rootReducer from 'src/reducers/rootReducer';
 import authentication, {getAuthenticationFromLocalStorage} from './slices/authenticationSlice';
+
+import rootReducer from 'src/reducers/rootReducer';
 
   const store =  configureStore({
     reducer: {

@@ -6,6 +6,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { Divider } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import UserChip from '../Chip/UserChip';
 import UpvoteChip from '../Chip/UpvoteChip';
@@ -14,7 +15,6 @@ import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
 import StatusDropdown from 'src/components/IssueDrawer/StatusDropdown';
 import OfficeDropdown from 'src/components/IssueDrawer/OfficeDropdown';
-import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
 
 const tableStyle = {

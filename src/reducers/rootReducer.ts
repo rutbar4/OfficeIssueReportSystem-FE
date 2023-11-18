@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import { issuesReducer, openIssuesReducer, plannedIssuesReducer,
    resolvedIssuesReducer, closedIssuesReducer, userIssuesReducer } from './issues/IssuesReducer';
 

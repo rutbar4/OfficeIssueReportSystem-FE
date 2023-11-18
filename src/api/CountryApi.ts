@@ -1,7 +1,8 @@
-import axios from 'axios';
+
+import HTTP from './index';
 
 import { Country } from 'src/models/AddressModel';
-import HTTP from './index';
+
 
 export const fetchAllCountries = async (): Promise<Country[]> => {
   try {

@@ -1,5 +1,6 @@
-import { Office } from 'src/models/OfficeModel';
 import HTTP from './index';
+
+import { Office } from 'src/models/OfficeModel';
 
 export const fetchAllOffices = async (): Promise<Office[]> => {
   try {
