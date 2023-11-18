@@ -17,6 +17,7 @@ import { Office } from 'src/models/OfficeModel';
 import { fetchAllCountries } from 'src/api/CountryApi';
 import DisabledField from '../formFields/DisabledField';
 import WideDisabledField from '../formFields/WideDisabledField';
+import {COLORS} from '../../values/colors';
 
 
 
@@ -118,9 +119,14 @@ const UserProfile = () => {
           </Typography>
         <Grid container spacing={5}>
             <Grid item xs={4} md={4}>
-              <div style={{ cursor: 'pointer', position: 'relative', width: '300px', height: '300px', border:'2px', borderColor:'grey' }}>
+              <div style={{ cursor: 'pointer', position: 'relative', width: '350px', height: '350px' }}>
 
-                  <img src={user?.avatar} alt="Selected" style={{ width: '100%', height: '100%' }} />
+                  <img src={user?.avatar} alt="Selected" style={{ width: '100%', height: '100%', borderRadius: '6px',
+                      borderColor: COLORS.lighterGray,
+                      borderWidth: '1px',
+                      borderStyle: 'solid',
+                      outlineColor: COLORS.blue,
+                      outlineWidth: '4px', }} />
 
 
               </div>

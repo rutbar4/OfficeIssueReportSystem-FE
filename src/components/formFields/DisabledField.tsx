@@ -25,7 +25,7 @@ const DisabledField=({
         borderStyle: 'solid',
         outlineColor: COLORS.blue,
         outlineWidth: '4px',
-          width:'450px'
+          width:'444px'
       }}
     />
   );

@@ -25,7 +25,7 @@ const WideDisabledField=({
                 borderStyle: 'solid',
                 outlineColor: COLORS.blue,
                 outlineWidth: '4px',
-                width:'935px'
+                width:'928px'
             }}
         />
     );
