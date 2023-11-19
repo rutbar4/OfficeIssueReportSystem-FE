@@ -1,4 +1,14 @@
-import {Alert, Autocomplete, Box, CircularProgress, Divider, Grid, TextField, Typography} from '@mui/material';
+import {
+    Alert,
+    Autocomplete,
+    Box,
+    CircularProgress,
+    Divider,
+    FormControl,
+    Grid, InputLabel, MenuItem, Select,
+    TextField,
+    Typography
+} from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import {  useNavigate } from 'react-router';
 import * as Yup from 'yup';
@@ -18,6 +28,7 @@ import { AppRoutes } from 'src/types/routes';
 import {  Country } from 'src/models/AddressModel';
 import { Office } from 'src/models/OfficeModel';
 import { fetchAllCountries } from 'src/api/CountryApi';
+import * as constants from 'constants';
 
 const labelColor = { color: '#6B706D' };
 
@@ -40,25 +51,12 @@ const UserProfile = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
-  const [offices, setOffices] = useState<Office[]>([]);
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   const user = useSelector((state:RootState) => state.user.user);
 
-  const[selectedCountryId, setSelectedCountryId] = useState('');
-    const getSelectedOfficeId =(countryName:string) => {
-        const selectedCountry = countries.find((o) => o.name === countryName );
-        if (selectedCountry){
-            setSelectedCountryId(selectedCountry.id);
-        } else {
-            setSelectedCountryId('');
-        }
-    };
-    useEffect(() => {
-        console.log(selectedCountryId);
-    }, [selectedCountryId]);
 
   useEffect(() => {
     fetchAllCountries()
@@ -68,12 +66,13 @@ const UserProfile = () => {
   }, []);
 
   const handleUpdateUserSubmit = (values) => {
+      console.log(values);
       updateUser(user?.id, {
           address: {
               street : values.street,
               city : values.city,
               postcode : values.postcode,
-              countryId : selectedCountryId ? selectedCountryId : user?.country.id
+              countryId : values.country.id
           },
           avatar : user?.avatar
 
@@ -238,26 +237,36 @@ const UserProfile = () => {
                                               </Typography>
                                           </Grid>
                                           <Grid item xs={6}>
-                                              <label style={labelColor}>Country</label>
-                                              <Field name="country">
-                                                  {({ field, form }) => (
-                                                      <Autocomplete
-                                                          fullWidth
-                                                          sx={{ marginTop: '7px' }}
-                                                          id="country"
-                                                          options={countries.map((country) => country.name)}
-                                                          value={field.value}
-                                                          renderInput={(params) => <TextField {...params}/>}
-                                                          onChange={(_, newValue) => {
-                                                              form.setFieldValue('country', newValue);
-                                                              getSelectedOfficeId(newValue);
-                                                          }}
-                                                      />
+                                              <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                                                  Country
+                                              </Typography>
+                                              <FormControl fullWidth >
+                                              <Field
+                                                  fullWidth
+                                                  id={'country'}
+                                                  name={'country'}
+                                                  as={Select}
+                                                  style={{
+                                                      fontSize: '14px',
+                                                      paddingLeft: '15px',
+                                                      height: '40px',
+                                                      color: COLORS.blue,
+                                                      borderRadius: '6px',
+                                                      borderColor: COLORS.lighterGray,
+                                                      borderWidth: '1px',
+                                                      borderStyle: 'solid',
+                                                      outlineColor: COLORS.blue,
+                                                      outlineWidth: '4px',
+                                                      mt: '3px'
+                                                  }}
+                                                  onChange={event => props.setFieldValue('country', event.target.value)
+                                                  }
+                                              >
+                                                  {countries.map((country) =>
+                                                      <MenuItem key={country.id} value={country.name}>{country.name}</MenuItem>
                                                   )}
                                               </Field>
-                                              <Typography sx={{ color: 'red' }}>
-                                                  <ErrorMessage name='countryName'/>
-                                              </Typography>
+                                          </FormControl>
                                           </Grid>
                                       </Grid>
                                   </Grid>
