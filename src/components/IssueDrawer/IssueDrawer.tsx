@@ -20,7 +20,6 @@ const initialDetails = {
   employeeId: '',
 };
 
-
 export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueId }) {
   const [issueDetailData, setIssueDetailData] = useState(initialDetails);
   const handleDrawerOpen = () => {
@@ -35,7 +34,7 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
       handleDrawerOpen();
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issueDetailsOpen]);
 
   const date = new Date(issueDetailData.dateCreated);
@@ -70,7 +69,6 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
               employeeId={issueDetailData.employeeId}
             />
           </Box>
-          ;
         </Drawer>
       </React.Fragment>
     </div>
