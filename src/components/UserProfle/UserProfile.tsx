@@ -131,16 +131,21 @@ const UserProfile = () => {
                                       <Typography variant='h5' sx={{ color: '#6B706D', marginBottom: '5px'}}>
                                           Photo
                                       </Typography>
-                                      <div style={{ cursor: 'pointer', position: 'relative', width: '320px', height: '320px' }}>
+                                      <div onClick={handleImageChange} style={{ cursor: 'pointer', position: 'relative', width: '320px', height: '320px' }}>
 
-                                          <img src={user?.avatar} alt="Selected" style={{ width: '100%', height: '100%', borderRadius: '6px',
+                                          { user?.avatar ? <img src={user?.avatar} alt="Selected" style={{ width: '100%', height: '100%', borderRadius: '6px',
                                               borderColor: COLORS.lighterGray,
                                               borderWidth: '1px',
                                               borderStyle: 'solid',
                                               outlineColor: COLORS.blue,
                                               outlineWidth: '4px', }}
-                                          />
+                                          /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                                              <label style={labelColor} id="photoLabel">
+                                                  Select Photo
+                                              </label>
+                                          </div>
 
+                                          }
 
                                       </div>
                                   </Grid>
