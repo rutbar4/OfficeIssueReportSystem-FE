@@ -2,11 +2,13 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { Alert, Box, Button, Container, createTheme, Divider, LinearProgress, Link, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { addUser } from '../../store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../api/userAPI';
 import { useState } from 'react';
+
+import { addUser } from '../../store/slices/userSlice';
+import { login } from '../../api/userAPI';
 import { logInUser } from '../../store/slices/authenticationSlice';
+
 import StyledTextField from 'src/components/formFields/StyledTextField';
 import { COLORS } from 'src/values/colors.js';
 import { EXTERNAL_LINKS } from 'src/values/externalLinks.js';

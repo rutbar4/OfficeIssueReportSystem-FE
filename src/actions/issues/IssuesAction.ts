@@ -1,9 +1,11 @@
 
-import axios, { AxiosResponse } from 'axios';
 import * as actions from './IssuesActionType';
-import { AppDispatch } from 'src/store/store';
 
-import Backend from 'src/api/BackendConfig/BackendConfig'
+import  { AppDispatch } from 'src/store/store';
+import Backend from 'src/api/BackendConfig/BackendConfig';
+import HTTP from 'src/api';
+import axios from 'axios';
+
 const backendURL = Backend.backendURL;
 
 const ActionCreator = (type, payload, page) => {
@@ -12,7 +14,7 @@ const ActionCreator = (type, payload, page) => {
     payload,
     page,
   };
-}
+};
 
 const CreateIssueAction = (actionType: string, endPoint, page: number) => {
   return (dispatch: AppDispatch) => {

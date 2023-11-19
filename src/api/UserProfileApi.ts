@@ -1,5 +1,7 @@
-import { UserProfileModel } from 'src/models/UserProfileModel';
 import HTTP from './index';
+
+import { UserProfileModel } from 'src/models/UserProfileModel';
+
 
 
 export const emptyUserProfile: UserProfileModel = {
