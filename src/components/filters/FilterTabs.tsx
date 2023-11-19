@@ -6,11 +6,9 @@ import Box from '@mui/material/Box';
 import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import IssueTab from './Tab';
-
 import { RootState } from 'src/store/store';
-import { useSelector } from 'react-redux';
+
 
 interface TabPanelProps {
   children?: React.ReactNode;

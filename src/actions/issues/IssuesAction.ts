@@ -4,7 +4,6 @@ import * as actions from './IssuesActionType';
 import  { AppDispatch } from 'src/store/store';
 import Backend from 'src/api/BackendConfig/BackendConfig';
 import HTTP from 'src/api';
-import axios from 'axios';
 
 const backendURL = Backend.backendURL;
 
@@ -18,7 +17,7 @@ const ActionCreator = (type, payload, page) => {
 
 const CreateIssueAction = (actionType: string, endPoint, page: number) => {
   return (dispatch: AppDispatch) => {
-   axios.get(backendURL+ endPoint, {params:{ page: page} }).then(async (result) => {
+   HTTP.get( endPoint, {params:{ page: page} }).then(async (result) => {
      const resultJson = await result.data;
      const action = ActionCreator(`${actionType}Success`, resultJson, page);
      dispatch(action);
