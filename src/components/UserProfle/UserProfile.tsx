@@ -248,16 +248,16 @@ const UserProfile = () => {
                                                   as={Select}
                                                   style={{
                                                       fontSize: '14px',
-                                                      paddingLeft: '15px',
+                                                      paddingLeft: '3px',
                                                       height: '40px',
                                                       color: COLORS.blue,
                                                       borderRadius: '6px',
                                                       borderColor: COLORS.lighterGray,
-                                                      borderWidth: '1px',
-                                                      borderStyle: 'solid',
+                                                      // borderWidth: '0.1px',
+                                                      // borderStyle: 'solid',
                                                       outlineColor: COLORS.blue,
                                                       outlineWidth: '4px',
-                                                      mt: '3px'
+                                                      boxShadow: 'none'
                                                   }}
                                                   onChange={event => props.setFieldValue('country', event.target.value)
                                                   }
