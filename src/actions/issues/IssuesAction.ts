@@ -9,49 +9,50 @@ import { Issue } from 'src/reducers/issues/IssuesReducer';
 
 const backendURL = Backend.backendURL;
 
-const ActionCreator = (type, payload) => {
+const ActionCreator = (type, payload, page) => {
   return {
     type,
     payload,
+    page,
   };
 };
 
-const CreateIssueAction = (actionType: string, endPoint) => {
+const CreateIssueAction = (actionType: string, endPoint, page: number) => {
   return (dispatch: AppDispatch) => {
-   HTTP.get(backendURL + endPoint).then(async (result) => {
+   HTTP.get( endPoint, {params:{ page: page} }).then(async (result) => {
      const resultJson = await result.data;
-     const action = ActionCreator(`${actionType}Success`, resultJson);
+     const action = ActionCreator(`${actionType}Success`, resultJson, page);
      dispatch(action);
    }).catch((error) => {
      console.log(error);
-     const errorAction = ActionCreator(actionType, []);
+     const errorAction = ActionCreator(actionType, [], page);
      dispatch(errorAction);
    });
  };
 };
 
-export const getUserIssues = (userID) => {
-  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`);
+export const getUserIssues = (userID, page) => {
+  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`, page);
 };
 
-export const getClosedIssues = () => {
-  return CreateIssueAction(actions.GET_CLOSED_ISSUES, 'issue/closed');
+export const getClosedIssues = (page) => {
+  return CreateIssueAction(actions.GET_CLOSED_ISSUES, 'issue/closed', page);
 };
 
-export const getResolvedIssues = () => {
-  return CreateIssueAction(actions.GET_RESOLVED_ISSUES, 'issue/resolved');
+export const getResolvedIssues = (page) => {
+  return CreateIssueAction(actions.GET_RESOLVED_ISSUES, 'issue/resolved', page);
 };
 
-export const getPlannedIssues = () => {
-  return CreateIssueAction(actions.GET_PLANNED_ISSUES, 'issue/planned');
+export const getPlannedIssues = (page) => {
+  return CreateIssueAction(actions.GET_PLANNED_ISSUES, 'issue/planned', page);
 };
 
-export const getOpenIssues = () => {
-  return CreateIssueAction(actions.GET_OPEN_ISSUES, 'issue/open');
+export const getOpenIssues = (page) => {
+  return CreateIssueAction(actions.GET_OPEN_ISSUES, 'issue/open', page);
 };
 
-export const getIssues = () => {
-  return CreateIssueAction(actions.GET_ISSUES, 'issue');
+export const getIssues = (page) => {
+  return CreateIssueAction(actions.GET_ISSUES, 'issue', page);
 };
 
 export const addCommentToIssue = (issueId: string, updatedIssue: Issue) => {
@@ -60,3 +61,4 @@ export const addCommentToIssue = (issueId: string, updatedIssue: Issue) => {
     payload: {issueId, updatedIssue}
   };
 };
+
