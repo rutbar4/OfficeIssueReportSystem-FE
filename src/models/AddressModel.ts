@@ -6,6 +6,7 @@ export interface Address {
 }
 
 export interface Country {
-  countryName: string;
+  id : string
+  name : string;
 }
 

@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
 import React from 'react';
+import {COLORS} from '../../values/colors';
 
 type Props = {
   buttonType: 'primary' | 'secondary';
@@ -21,14 +22,14 @@ const StyledButton: React.FC<Props> = ({
 
     const buttonStyles = {
       primary: {
-        backgroundColor: '#0E166E',
+        backgroundColor: COLORS.blue,
         color: 'white',
       },
       secondary: {
         backgroundColor: 'white',
-        color: '#0E166E',
+        color: COLORS.blue ,
         borderColor: '#6B706D',
-        borderWidth: '2px',
+        borderWidth: '1px',
         borderStyle: 'solid'
       },
     };
