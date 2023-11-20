@@ -1,10 +1,7 @@
-import axios from 'axios';
-
 import { VoteModel } from 'src/models/VoteModel';
-import { EXTERNAL_LINKS } from '../values/externalLinks';
 import store from '../store/store';
+import HTTP from '.';
 
-const vote = EXTERNAL_LINKS.voteApi;
 export const emptyVote: VoteModel = {
   isVoted: false,
 };
@@ -12,7 +9,7 @@ export const emptyVote: VoteModel = {
 export async function IsVoted(issueId: string) {
   try {
     let jwt = store.getState().user.jwt;
-    const response = await axios.get(`${vote}/${issueId}`, {
+    const response = await HTTP.get(`/vote/${issueId}`, {
       headers: {
         Authorization: 'Bearer ' + jwt,
       },
@@ -26,7 +23,7 @@ export async function IsVoted(issueId: string) {
 export async function GetVoteCount(issueId) {
   try {
     let jwt = store.getState().user.jwt;
-    const response = await axios.get(`${vote}/count/${issueId}`, {
+    const response = await HTTP.get(`/vote/count/${issueId}`, {
       headers: {
         Authorization: 'Bearer ' + jwt,
       },
@@ -40,7 +37,7 @@ export async function GetVoteCount(issueId) {
 export async function PostVote(issueId) {
   try {
     let jwt = store.getState().user.jwt;
-    const response = await axios.post(`${vote}/${issueId}`, null, {
+    const response = await HTTP.post(`/vote/${issueId}`, null, {
       headers: {
         Authorization: 'Bearer ' + jwt,
       },
@@ -54,7 +51,7 @@ export async function PostVote(issueId) {
 export async function DeleteVote(issueId) {
   try {
     let jwt = store.getState().user.jwt;
-    const response = await axios.delete(`${vote}/${issueId}`, {
+    const response = await HTTP.delete(`/vote/${issueId}`, {
       headers: {
         Authorization: 'Bearer ' + jwt,
       },
