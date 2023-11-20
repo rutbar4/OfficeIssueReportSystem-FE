@@ -2,7 +2,8 @@ import { AnyAction } from 'redux';
 
 import * as actions from '../../actions/issues/IssuesActionType';
 
-interface Issue {
+
+export interface Issue {
   id: string;
   name: string;
   description: string;
@@ -34,6 +35,14 @@ const createIssuesReducer = (actionType: string) => (
             loading: false,
             issues: action.payload,
             };
+        case actions.ADD_COMMENT_TO_ISSUE: {
+          const { issueId, updatedIssue } = action.payload;
+          return {
+            ...state,
+            issues: state.issues.map((issue) =>
+            issue.id === issueId ? updatedIssue : issue),
+          };
+        }
         case actionType:
             return {
             ...state,

@@ -4,6 +4,8 @@ import * as actions from './IssuesActionType';
 import  { AppDispatch } from 'src/store/store';
 import Backend from 'src/api/BackendConfig/BackendConfig';
 import HTTP from 'src/api';
+import { Issue } from 'src/reducers/issues/IssuesReducer';
+
 
 const backendURL = Backend.backendURL;
 
@@ -50,4 +52,11 @@ export const getOpenIssues = () => {
 
 export const getIssues = () => {
   return CreateIssueAction(actions.GET_ISSUES, 'issue');
+};
+
+export const addCommentToIssue = (issueId: string, updatedIssue: Issue) => {
+  return {
+    type: actions.ADD_COMMENT_TO_ISSUE,
+    payload: {issueId, updatedIssue}
+  };
 };
