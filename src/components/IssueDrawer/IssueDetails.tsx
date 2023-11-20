@@ -9,7 +9,6 @@ import { Divider } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import UserChip from '../Chip/UserChip';
-import UpvoteChip from '../Chip/UpvoteChip';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
