@@ -4,11 +4,12 @@ export const fetchPageCount = async (type, userID) => {
     try{
         switch(type) {
             case 'user':
-                return (await HTTP.get(`/issue/reportedBy/${userID}/pageCount`)).data;
+                return (await HTTP.get(`/issue/reportedBy/${userID}/page-count`)).data;
             case '':
-                return (await HTTP.get(`/issue/pageCount`)).data;
+            case null:
+                return (await HTTP.get(`/issue/page-count`)).data;
             default:
-                return (await HTTP.get(`/issue/${type}/pageCount`)).data;
+                return (await HTTP.get(`/issue/${type}/page-count`)).data;
         }
     }
     catch(error){
