@@ -89,87 +89,108 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           toggleDrawer(true, setIssueDetailsOpen, e);
         }}
       >
-        <Box>
-          <Typography variant="h4" sx={{ color: COLORS.blue, marginTop: 2, marginBottom: 2, fontWeight: 500 }}>
-            {issueName}
-          </Typography>
-        </Box>
         <Grid container>
-          <Grid item xs={7}>
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '120px' }}>
+          <Grid item xs={6}>
+            <Box>
               <Typography
+                variant="h4"
                 sx={{
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   display: '-webkit-box',
-                  WebkitLineClamp: '2',
+                  WebkitLineClamp: '1',
                   WebkitBoxOrient: 'vertical',
-                  height: '39px',
-                  fontSize: '14px',
-                  color: COLORS.gray,
+                  color: COLORS.blue,
+                  marginTop: 2,
+                  marginBottom: 2,
+                  fontWeight: 500,
                 }}
               >
-                {issueDescription}
+                {issueName}
               </Typography>
-            </div>
+            </Box>
           </Grid>
-          <Grid item xs={5} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-            <Grid container alignItems="center">
-              <Grid item xs={3}>
-                <Chip
-                  label={issueStatus}
-                  sx={{ borderRadius: '17px', fontSize: '15px' }}
-                  color={issueStatus === 'Open' ? 'success' : issueStatus === 'In progress' ? 'primary' : 'default'}
-                />
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item xs={7}>
+                <div style={{ display: 'flex', flexDirection: 'row', gap: '120px' }}>
+                  <Typography
+                    sx={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: '2',
+                      WebkitBoxOrient: 'vertical',
+                      height: '39px',
+                      fontSize: '14px',
+                      color: COLORS.gray,
+                    }}
+                  >
+                    {issueDescription}
+                  </Typography>
+                </div>
               </Grid>
-              <Grid item xs={3}>
-                <UpvoteCount voteCount={voteCount} key={issueId} />
-              </Grid>
-              <Grid item xs={3}>
-                <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
-                  <Grid item>
-                    <ModeCommentOutlinedIcon sx={{ fontSize: 20, marginRight: '5px', color: 'grey' }} />
+              <Grid item xs={5} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
+                <Grid container alignItems="center">
+                  <Grid item xs={3}>
+                    <Chip
+                      label={issueStatus}
+                      sx={{ borderRadius: '17px', fontSize: '15px' }}
+                      color={issueStatus === 'Open' ? 'success' : issueStatus === 'In progress' ? 'primary' : 'default'}
+                    />
                   </Grid>
-                  <Grid item>
-                    <Typography
-                      sx={{
-                        fontSize: '15px',
-                        color: COLORS.gray,
-                      }}
-                    >
-                      {commentCount}
-                    </Typography>
+                  <Grid item xs={3}>
+                    <UpvoteCount voteCount={voteCount} key={issueId} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
+                      <Grid item>
+                        <ModeCommentOutlinedIcon sx={{ fontSize: 20, marginRight: '5px', color: 'grey' }} />
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          sx={{
+                            fontSize: '15px',
+                            color: COLORS.gray,
+                          }}
+                        >
+                          {commentCount}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={3}>
+                    {/* needs id from sesion */}
+                    <VoteToggleButton
+                      issueId={issueId}
+                      key={issueId}
+                      handleVoteCount={handleVoteCount}
+                      put={'Vote'}
+                      wasVoted={wasVoted}
+                      isError={isError}
+                      setError={setError}
+                      isVoted={isVoted}
+                      setVoted={setVoted}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={3}>
-                {/* needs id from sesion */}
-                <VoteToggleButton
-                  issueId={issueId}
-                  key={issueId}
-                  handleVoteCount={handleVoteCount}
-                  put={'Vote'}
-                  wasVoted={wasVoted}
-                  isError={isError}
-                  setError={setError}
-                  isVoted={isVoted}
-                  setVoted={setVoted}
-                />
-              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid container alignItems="flex-end">
-          <Grid item>
-            <Typography
-              sx={{
-                fontSize: '15px',
-                color: COLORS.gray,
-                marginTop: 1,
-              }}
-            >
-              {date}
-            </Typography>
+          <Grid item xs={12}>
+            <Grid container alignItems="flex-end">
+              <Grid item>
+                <Typography
+                  sx={{
+                    fontSize: '15px',
+                    color: COLORS.gray,
+                    marginTop: 1,
+                  }}
+                >
+                  {date}
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </BoxContainer>
