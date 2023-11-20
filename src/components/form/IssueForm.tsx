@@ -62,8 +62,6 @@ const IssueForm = ({ open, close }) => {
     const [showError, setError] = useState('');
     const user = useSelector((state:RootState) => state.user.user);
 
-
-
     useEffect(() => {
         fetchAllOffices()
             .then((offices) => setOffices(offices))
