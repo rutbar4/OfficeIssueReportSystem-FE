@@ -60,25 +60,8 @@ const IssueForm = ({ open, close }) => {
     const [officesLoading, setOfficesLoading] = useState(true);
     const [offices, setOffices] = useState<Office[]>([]);
     const [showError, setError] = useState('');
-    console.log(offices);
     const user = useSelector((state:RootState) => state.user.user);
-    const[selectedOfficeId, setSelectedOfficeId] = useState('')
 
-    const getSelectedOfficeId =(officeName:string) => {
-        const selectedOffice = offices.find((o) => o.name === officeName )
-        if (selectedOffice){
-            setSelectedOfficeId(selectedOffice.id);
-            console.log('officeId:', selectedOffice.id);
-        } else {
-            setSelectedOfficeId('');
-        }
-    };
-
-
-    useEffect(() => {
-        console.log(selectedOfficeId);
-
-    }, [selectedOfficeId]);
 
 
     useEffect(() => {
@@ -88,18 +71,12 @@ const IssueForm = ({ open, close }) => {
             .finally(() => setOfficesLoading(false));
     }, []);
 
-    useEffect(() => {
-        console.log(selectedOfficeId);
-
-    }, [selectedOfficeId]);
-
-    const onSaveIssue = (values: { name: any; description: any; office: any; attachments: any; }, helpers: { resetForm: () => void; setSubmitting: (arg0: boolean) => void; }) => {
-        getSelectedOfficeId(values.office)
+       const onSaveIssue = (values: { name: any; description: any; office: any; attachments: any; }, helpers: { resetForm: () => void; setSubmitting: (arg0: boolean) => void; }) => {
         console.log('values:',values);
         saveIssue({
             name: values.name,
             description: values.description,
-            officeId: selectedOfficeId,
+            officeId:offices.find((o) => o.name === values.office)?.id,
             employeeId: user?.id
 
         })
@@ -107,17 +84,17 @@ const IssueForm = ({ open, close }) => {
                 close();
             })
             .catch(({ response }) => setError(response.data.reason))
-            .finally(() => {helpers.setSubmitting(false)
+            .finally(() => {helpers.setSubmitting(false);
                 helpers.resetForm();});
     };
 
     return(
         <>
-            { officesLoading? <CircularProgress/> : <Formik
+             <Formik
                 initialValues={{
                     name: '',
                     description: '',
-                    office: user?.country.name,
+                    office: '',
                     attachments: 'https://www.indraconsulting.com/wp-content/uploads/2011/11/problem-solution-1024x775.jpg',
                 }}
                 onSubmit={onSaveIssue}
@@ -153,7 +130,7 @@ const IssueForm = ({ open, close }) => {
                                         </Typography>
                                         <StyledTextField
                                             error={touched.name && !!errors.name}
-                                            errorMessage="Please input your street."
+                                            errorMessage="Short description must between 5 and 150 symbols."
                                             id="name"
                                             name="name"
                                             type="text"
@@ -168,7 +145,7 @@ const IssueForm = ({ open, close }) => {
                                                     <Editor
                                                         id='article_body'
                                                         apiKey='t3fy06mhh684wsiszfxq9iy61vn9kbe5gx98l8vynn7617hx'
-                                                        initialValue='Write...'
+                                                        initialValue=''
                                                         init={{
                                                             menubar: false,
                                                             plugins: "list code hr",
@@ -189,9 +166,9 @@ const IssueForm = ({ open, close }) => {
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Office
                                         </Typography>
-                                        <FormControl   >
+                                        {  officesLoading ? <CircularProgress/> : <FormControl   >
                                             <Field
-                                                                                                id={'office'}
+                                                id={'office'}
                                                 name={'office'}
                                                 as={Select}
                                                 style={{
@@ -213,9 +190,12 @@ const IssueForm = ({ open, close }) => {
                                                     <MenuItem key={o.id} value={o.name}>{o.name}</MenuItem>
                                                 )}
                                             </Field>
-                                        </FormControl>
+                                        </FormControl>   }
+
                                         <Divider />
-                                        <label style={labelColor}>Attachments</label>
+                                        <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
+                                           Attachments
+                                        </Typography>
                                         <Field name = 'attachments' as = {FileDropField} sx ={{width: '100%'}}/>
 
                                     </Stack>
@@ -247,7 +227,6 @@ const IssueForm = ({ open, close }) => {
                     </form>
                 )}
             </Formik>
-            }
         </>
     );
 };
