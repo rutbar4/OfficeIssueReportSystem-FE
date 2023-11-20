@@ -90,7 +90,7 @@ export default function BasicTabs() {
        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IssueTab type={""} userID={userID}/>
+        <IssueTab type={null} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       <IssueTab type={'open'} userID={userID}/>

@@ -9,14 +9,14 @@ import { Pagination } from '@mui/material';
 import { fetchPageCount } from 'src/api/PageCount';
 
 interface IssueListProps {
-    type: string;
+    type: string | null;
     userID: string;
 }
 
-const IssueList = ({ type, userID } : IssueListProps) => {
+const Tab = ({ type, userID } : IssueListProps) => {
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-    const selectFilteredIssues = (state: RootState, type: string) => {
+    const selectFilteredIssues = (state: RootState, type: string | null) => {
         switch(type) {
             case 'open':
                 return state.rootReducer.openIssues;
@@ -32,7 +32,7 @@ const IssueList = ({ type, userID } : IssueListProps) => {
                 return state.rootReducer.issues;
         }
     };
-    const findPage = (state: RootState, type: string) => {
+    const findPage = (state: RootState, type: string | null) => {
       switch(type) {
           case 'open':
               return state.rootReducer.openIssues.page;
@@ -115,4 +115,4 @@ const IssueList = ({ type, userID } : IssueListProps) => {
     
   );
 };
-export default IssueList;
+export default Tab;
