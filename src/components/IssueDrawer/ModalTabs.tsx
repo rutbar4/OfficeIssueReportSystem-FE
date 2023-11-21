@@ -186,6 +186,7 @@ export default function BasicTabs({
           currentUser={currentUser}
           issueComments={comments}
           updateComments={updateComments}
+          issueStatus={status}
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
