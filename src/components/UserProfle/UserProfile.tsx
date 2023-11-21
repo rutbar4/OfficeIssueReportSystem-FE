@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 import {  useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Sidebar from '../sidebar/Sidebar';
 import StyledButton from '../StyledButton/StyledButton';
@@ -21,11 +21,12 @@ import StyledTextField from '../formFields/StyledTextField';
 import DisabledField from '../formFields/DisabledField';
 import WideDisabledField from '../formFields/WideDisabledField';
 import {COLORS} from '../../values/colors';
-import {updateUser} from '../../api/userAPI';
+import {getUserDetails, updateUser} from '../../api/userAPI';
 
 import { AppRoutes } from 'src/types/routes';
 import {  Country } from 'src/models/AddressModel';
 import { fetchAllCountries } from 'src/api/CountryApi';
+import {addUser, getUserFromLocalStorage} from '../../store/slices/userSlice';
 
 const labelColor = { color: '#6B706D' };
 
@@ -53,6 +54,8 @@ const UserProfile = () => {
   const [error, setError] = useState('');
 
   const user = useSelector((state:RootState) => state.user.user);
+  const jwt = useSelector((state:RootState) => state.user.jwt)
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -74,8 +77,17 @@ const UserProfile = () => {
               countryId : countries.find((country) => country.name === values.country)?.id
           },
           avatar : 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/220px-SNice.svg.png'
-
-      }). then(()=> navigate(AppRoutes.HOME))
+      }). then(({data}) => {
+          {
+              dispatch(
+                  addUser({
+                      user:data,
+                      jwt:getUserFromLocalStorage()?.jwt
+                  })
+              );
+      navigate(AppRoutes.HOME);
+  }
+      })
           .catch((err) => console.log(err))
           .finally();
   };
