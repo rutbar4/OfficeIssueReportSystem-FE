@@ -5,12 +5,12 @@ import ListItem from '@mui/material/ListItem';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 
-const StatusDropdown = ({ statusOptions, anchorEl, onClose, onStatusChange }) => {
+const StatusDropdown = ({ statusOptions, anchorEl, onClose, onStatusChange, selectedStatus, setSelectedStatus }) => {
   const handleStatusClick = (status) => {
-    onStatusChange(status); // Notify the parent component of the selected status
-    onClose(); // Close the dropdown
+    setSelectedStatus(status);
+    onStatusChange(status);
+    onClose();
   };
-
   return (
     <Popover
       open={Boolean(anchorEl)}
@@ -24,6 +24,7 @@ const StatusDropdown = ({ statusOptions, anchorEl, onClose, onStatusChange }) =>
         vertical: 'top',
         horizontal: 'left',
       }}
+      style={{ minWidth: '600px !important' }}
     >
       <List>
         {statusOptions.map((status, index) => (
@@ -32,11 +33,23 @@ const StatusDropdown = ({ statusOptions, anchorEl, onClose, onStatusChange }) =>
             onClick={() => handleStatusClick(status)}
             sx={{
               '&:hover': {
+                backgroundColor: '#f0f0f0',
                 cursor: 'pointer',
               },
             }}
           >
             <StatusChip issueStatus={status} />
+            {selectedStatus === status && (
+              <span
+                style={{
+                  marginLeft: '125px',
+                  color: '#000048',
+                  fontWeight: 'bold',
+                }}
+              >
+                ✓
+              </span>
+            )}
           </ListItem>
         ))}
       </List>

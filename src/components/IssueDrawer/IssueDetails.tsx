@@ -179,6 +179,8 @@ function IssueDetails(props: issueDetailsProps) {
         anchorEl={statusDropdownAnchor}
         onClose={handleStatusDropdownClose}
         onStatusChange={handleStatusChange}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
       />
       <OfficeDropdown
         anchorEl={officeDropdownAnchor}

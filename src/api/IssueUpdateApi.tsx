@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
-import axios from 'axios';
-
+import HTTP from 'src/api';
 import Backend from 'src/api/BackendConfig/BackendConfig';
 export async function UpdateIssueById(id: string, status: string, description: string, officeId: string) {
   try {
@@ -11,7 +10,7 @@ export async function UpdateIssueById(id: string, status: string, description: s
       description,
       officeId,
     };
-    const response = await axios.put(apiUrl, requestBody, {
+    const response = await HTTP.put(apiUrl, requestBody, {
       headers: {
         'Content-Type': 'application/json',
       },
