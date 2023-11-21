@@ -73,7 +73,6 @@ const CommentForm: FC<CommentProps> = ({
           <CommentUpvoteButton
             isUpVoted={comment.isUpVoted}
             votes={comment.votes}
-            // onClick={issueStatus !== 'Closed' ? (() => onUpvote?.(comment.id, issueId)) : undefined as unknown as () => void}
             onClick={issueStatus !== 'Closed' ? (() => onUpvote?.(comment.id, issueId)) : () => {}}
           />
           <Typography variant="caption"
