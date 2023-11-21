@@ -15,7 +15,7 @@ import {
     Autocomplete,
     Button,
     CircularProgress,
-    FormControl,
+    FormControl, FormHelperText,
     MenuItem,
     Select,
     Stack,
@@ -150,8 +150,7 @@ const IssueForm = ({ open, close }) => {
                                                             toolbar: "bold italic strikethrough bullist numlist ",
                                                         }}
                                                         onEditorChange={(e) => {
-                                                            const fixedText=e.replace(/^<p\/p>$/, '');
-                                                            handleChange({target:{name:'description', value: fixedText}});
+                                                            handleChange({target:{name:'description', value: e}});
                                                         }}
                                                         textareaName='description'
                                                         onChange={field.onChange}
@@ -166,6 +165,7 @@ const IssueForm = ({ open, close }) => {
                                         </Typography>
                                         {  officesLoading ? <CircularProgress/> : <FormControl   >
                                             <Field
+                                                error={touched.office && !!errors.office}
                                                 id={'office'}
                                                 name={'office'}
                                                 as={Select}
@@ -188,6 +188,9 @@ const IssueForm = ({ open, close }) => {
                                                     <MenuItem key={o.id} value={o.name}>{o.name}</MenuItem>
                                                 )}
                                             </Field>
+                                            <ErrorMessage name={'office'} component={FormHelperText}>
+                                                {(msg) => <div style={{ color: 'red', paddingTop: '1rem' }}> Office is required </div>}
+                                            </ErrorMessage>
                                         </FormControl>   }
 
                                         <Divider />
