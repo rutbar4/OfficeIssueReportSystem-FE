@@ -96,7 +96,7 @@ const IssueForm = ({ open, close }) => {
                     attachments: 'https://www.indraconsulting.com/wp-content/uploads/2011/11/problem-solution-1024x775.jpg',
                 }}
                 onSubmit={onSaveIssue}
-                validator={() => ({})}
+                validationSchema={issueValidationSchema}
             >
 
                 { ({values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting, setFieldValue}) => (
