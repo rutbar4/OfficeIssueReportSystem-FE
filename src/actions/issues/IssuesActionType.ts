@@ -15,3 +15,5 @@ export const GET_CLOSED_ISSUES_SUCCESS = 'getClosedIssuesSuccess';
 
 export const GET_USER_ISSUES = 'getUserIssues';
 export const GET_USER_ISSUES_SUCCESS = 'getUserIssuesSuccess';
+
+export const ADD_COMMENT_TO_ISSUE = 'addCommentToIssue';

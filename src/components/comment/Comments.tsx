@@ -1,6 +1,7 @@
 // eslint-disable-next-line react/jsx-filename-extension
 import { FC, useState } from 'react';
 import { Box, Container, Divider, Paper } from '@mui/material';
+import { useDispatch } from 'react-redux';
 
 import CommentForm from './Comment';
 import AddCommentForm from './AddComment';
@@ -9,6 +10,8 @@ import { COLORS } from '../../values/colors';
 import { createCommentApi, updateCommentApi } from 'src/api/CommentApi';
 import { Employee } from 'src/models/EmployeeModel';
 import { AddComment, Comment } from 'src/models/CommentModel';
+import { addCommentToIssue } from 'src/actions/issues/IssuesAction';
+import store from 'src/store/store';
 
 
 type CommentsProps = {
@@ -16,11 +19,15 @@ type CommentsProps = {
   currentUser: Employee,
   issueComments: Comment[],
   updateComments: (newComments: Comment[]) => void;
+  issueStatus: string,
 };
 
-const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updateComments}) => {
+const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updateComments, issueStatus}) => {
   const [comments, setComments] = useState<Comment[]>(issueComments);
   const [activeComment, setActiveComment] = useState<string | null>(null);
+
+  const dispatch = useDispatch();
+  const issues = store.getState().rootReducer.issues.issues;
 
   const rootComments = comments.filter((comment) => comment.parentId === null);
 
@@ -63,6 +70,12 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updat
       setComments([comment, ...comments]);
       setActiveComment(null);
       updateComments([comment, ...comments]);
+      const currentIssue = issues.find((issue) => issue.id === issueId);
+      const updatedIssue = {
+        ...currentIssue,
+        commentCount: currentIssue.commentCount + 1,
+      };
+      dispatch(addCommentToIssue(issueId, updatedIssue));
     });
   }
   };
@@ -83,10 +96,12 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updat
           addComment={addComment}
           currentUser={currentUser}
           onUpvote={handleUpvote}
+          issueStatus={issueStatus}
           />
         </Paper>
       ))}
     </Box>
+    {issueStatus !== 'Closed' && (
     <Box mt={3} sx={{
           position: 'sticky',
           bottom: '0',
@@ -107,9 +122,11 @@ const Comments: FC<CommentsProps> = ({issueId, currentUser, issueComments, updat
       submitLabel='Add comment'
       />
     </Box>
+    )}
     </Container>
   );
 };
 
 export default Comments;
+
 
