@@ -11,7 +11,7 @@ const FileDropField = () => {
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
   return (
-    <Box sx={{height:'10rem', width:'540px', maxWidth:'100%', textAlign:'center', position:'relative', borderRadius:'1rem',
+    <Box sx={{height:'10rem', width:'850px', maxWidth:'100%', textAlign:'center', position:'relative', borderRadius:'1rem',
       borderWidth:'1px', borderStyle:'dashed', borderColor:'#6B706D'}}
     >
       <div {...getRootProps()}>

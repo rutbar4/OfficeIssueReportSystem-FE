@@ -6,18 +6,15 @@ import Box from '@mui/material/Box';
 import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import IssueTab from './Tab';
-
 import { RootState } from 'src/store/store';
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
-
-
 
 const customTabTheme = createTheme({
   components: {
@@ -93,7 +90,7 @@ export default function BasicTabs() {
        </ThemeProvider>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IssueTab type={''} userID={userID}/>
+        <IssueTab type={null} userID={userID}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       <IssueTab type={'open'} userID={userID}/>
