@@ -1,12 +1,11 @@
 import {
     Alert,
-    Autocomplete,
-    Box,
+    Box, Button,
     CircularProgress,
     Divider,
     FormControl,
-    Grid, InputLabel, MenuItem, Select,
-    TextField,
+    Grid, MenuItem, Select,
+
     Typography
 } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
@@ -26,9 +25,7 @@ import {updateUser} from '../../api/userAPI';
 
 import { AppRoutes } from 'src/types/routes';
 import {  Country } from 'src/models/AddressModel';
-import { Office } from 'src/models/OfficeModel';
 import { fetchAllCountries } from 'src/api/CountryApi';
-import * as constants from 'constants';
 
 const labelColor = { color: '#6B706D' };
 
@@ -43,7 +40,7 @@ const UserProfile = () => {
     .required('State is required!'),
     postcode: Yup.string().max(10, 'Postcode must be max 10 symbols!')
     .required('Postcode is required!'),
-    countryName: Yup.string().max(50, 'Country must be max 50 symbols!')
+    country: Yup.string().max(50, 'Country must be max 50 symbols!')
     .required('Country is required!'),
   });
 
@@ -52,7 +49,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   const [countries, setCountries] = useState<Country[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [countriesLoading, setCountriesLoading] = useState(true);
   const [error, setError] = useState('');
 
   const user = useSelector((state:RootState) => state.user.user);
@@ -62,21 +59,23 @@ const UserProfile = () => {
     fetchAllCountries()
         .then((countries) => setCountries(countries))
         .catch(({response}) => setError(response.data.reason))
-        .finally(()=>setLoading(false));
+        .finally(()=>setCountriesLoading(false));
   }, []);
 
-  const handleUpdateUserSubmit = (values) => {
+  const onUserUpdate = (values) => {
       console.log(values);
-      updateUser(user?.id, {
+      updateUser( {
+          id: user?.id,
           address: {
               street : values.street,
               city : values.city,
+              state: values.state,
               postcode : values.postcode,
-              countryId : values.country.id
+              countryId : countries.find((country) => country.name === values.country)?.id
           },
-          avatar : user?.avatar
+          avatar : 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/220px-SNice.svg.png'
 
-      }). then()
+      }). then(()=> navigate(AppRoutes.HOME))
           .catch((err) => console.log(err))
           .finally();
   };
@@ -96,9 +95,7 @@ const UserProfile = () => {
   };
 
   return (
-      <>
-          {
-              loading ? <CircularProgress/> :  <Formik
+              <Formik
                   initialValues={{
                       fullName: user?.fullName,
                       office: user?.office.name,
@@ -110,11 +107,10 @@ const UserProfile = () => {
                       country: user?.country.name
                   }}
                   validationSchema={UserProfileValidationSchema}
-                  onSubmit={handleUpdateUserSubmit}
-                  enableReinitialize
-              >
-                  {(props) => (
-                      <Form >
+                  onSubmit={onUserUpdate}
+                                                                 >
+                  {({values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting, setFieldValue}) => (
+                      <form onSubmit={handleSubmit} id={'userUpdateForm'} >
                           {error && <Alert severity="error">USER UPDATE FAILED</Alert> }
                           <>
                               <Sidebar />
@@ -139,7 +135,7 @@ const UserProfile = () => {
                                               borderStyle: 'solid',
                                               outlineColor: COLORS.blue,
                                               outlineWidth: '4px', }}
-                                          /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                                                           /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
                                               <label style={labelColor} id="photoLabel">
                                                   Select Photo
                                               </label>
@@ -166,11 +162,9 @@ const UserProfile = () => {
                                                   Department
                                               </Typography>
                                               <DisabledField
-
                                                   id="office"
                                                   name="office"
                                                   type="text"
-
                                               />
                                           </Grid>
                                           <Grid item xs={6}>
@@ -194,7 +188,7 @@ const UserProfile = () => {
                                                   Street address
                                               </Typography>
                                               <StyledTextField
-                                                  error={props.touched.street && !!props.errors.street}
+                                                  error={touched.street && !!errors.street}
                                                   errorMessage="Please input your street."
                                                   id="street"
                                                   name="street"
@@ -206,7 +200,7 @@ const UserProfile = () => {
                                                   City
                                               </Typography>
                                               <StyledTextField
-                                                  error={props.touched.city && !!props.errors.city}
+                                                  error={touched.city && !!errors.city}
                                                   errorMessage="Please input your city."
                                                   id="city"
                                                   name="city"
@@ -218,7 +212,7 @@ const UserProfile = () => {
                                                   State / Province
                                               </Typography>
                                               <StyledTextField
-                                                  error={props.touched.state && !!props.errors.state}
+                                                  error={touched.state && !!errors.state}
                                                   errorMessage="Please input your state."
                                                   id="state"
                                                   name="state"
@@ -230,7 +224,7 @@ const UserProfile = () => {
                                                   Postcode
                                               </Typography>
                                               <StyledTextField
-                                                  error={props.touched.postcode && !!props.errors.postcode}
+                                                  error={touched.postcode && !!errors.postcode}
                                                   errorMessage="Please input your postcode."
                                                   id="postcode"
                                                   name="postcode"
@@ -245,6 +239,7 @@ const UserProfile = () => {
                                               <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                                   Country
                                               </Typography>
+
                                               <FormControl fullWidth >
                                               <Field
                                                   fullWidth
@@ -258,42 +253,36 @@ const UserProfile = () => {
                                                       color: COLORS.blue,
                                                       borderRadius: '6px',
                                                       borderColor: COLORS.lighterGray,
-                                                      // borderWidth: '0.1px',
-                                                      // borderStyle: 'solid',
                                                       outlineColor: COLORS.blue,
                                                       outlineWidth: '4px',
                                                       boxShadow: 'none'
                                                   }}
-                                                  onChange={event => props.setFieldValue('country', event.target.value)
+                                                  onChange={event => setFieldValue('country', event.target.value)
                                                   }
                                               >
                                                   {countries.map((country) =>
                                                       <MenuItem key={country.id} value={country.name}>{country.name}</MenuItem>
                                                   )}
-                                              </Field>
+                                               </Field>
                                           </FormControl>
                                           </Grid>
                                       </Grid>
                                   </Grid>
                               </Grid>
                               <Grid container justifyContent="flex-end" sx={{ marginTop: '50px' }}>
-                                  {props.isSubmitting ? <CircularProgress/> : <>
-                                      <StyledButton buttonType='secondary' buttonSize='small' type='button'
-                                                    onClick={() => navigate(AppRoutes.HOME)}
-                                      >Cancel</StyledButton>
-                                      <StyledButton
-                                          buttonType='primary'
-                                          buttonSize='small'
-                                          type='submit'
-                                      >Save</StyledButton>
-                                  </>}
+                                  <StyledButton buttonType='secondary' buttonSize='small' type='button'
+                                                onClick={() => navigate(AppRoutes.HOME)}
+                                  >Cancel</StyledButton>
+
+                                      <Button type = "submit"
+                                              form={'userUpdateForm'}
+                                      >
+                                          Save</Button>
                               </Grid>
                           </>
-                      </Form>
+                      </form>
                   )}
               </Formik>
-          }
-      </>
   );
 };
 
