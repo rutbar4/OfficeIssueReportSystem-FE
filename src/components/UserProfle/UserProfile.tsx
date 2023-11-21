@@ -274,8 +274,17 @@ const UserProfile = () => {
                                                 onClick={() => navigate(AppRoutes.HOME)}
                                   >Cancel</StyledButton>
 
-                                      <Button type = "submit"
+                                      <Button type="submit"
                                               form={'userUpdateForm'}
+                                              sx={{
+                                                  width: '70px',
+                                                  height: '30px',
+                                                  fontSize: '12px',
+                                                  borderRadius: '35px',
+                                                  marginLeft: '10px',
+                                                  backgroundColor: COLORS.blue,
+                                                  color: 'white',
+                                              }}
                                       >
                                           Save</Button>
                               </Grid>
