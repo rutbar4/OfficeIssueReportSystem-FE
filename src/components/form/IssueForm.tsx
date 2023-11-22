@@ -81,11 +81,12 @@ const IssueForm = ({ open, close }) => {
 
         })
             .then((response) => {
+                helpers.resetForm();
                 close();
             })
-            .catch(({ response }) => setError(response.data.reason))
+            .catch(({ response }) => setError(response.data.message))
             .finally(() => {helpers.setSubmitting(false);
-                helpers.resetForm();});
+                ;});
     };
 
 
@@ -128,7 +129,7 @@ const IssueForm = ({ open, close }) => {
                                     <Typography variant="h4" gutterBottom sx={{ color: 'var(--primary-color)' }}>
                                         Report issue:
                                     </Typography>
-                                    { showError && <Alert severity="error">ISSUE REPORT FAILED!</Alert> }
+                                    { showError && <Alert severity="error" sx ={{fontSize: '14px'}}>{showError}</Alert> }
                                 </DialogTitle>
                                 <IconButton
                                     aria-label="close"
@@ -184,7 +185,7 @@ const IssueForm = ({ open, close }) => {
                                                     />
                                                 </div>)}
                                         </Field>
-                                            { descriptionError ?  <Typography style={{ color: 'red', paddingTop: '1rem' }} >
+                                            { descriptionError ?  <Typography style={{ color: 'red', paddingTop: '1rem', fontSize: '14px' }} >
                                                  {descriptionError}
                                             </Typography> : <></>  }
 
