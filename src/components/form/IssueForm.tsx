@@ -125,9 +125,9 @@ const IssueForm = ({ open, close }) => {
                     <form onSubmit={handleSubmit} id={'issueForm'} >
                         {
                             <BootstrapDialog onClose={close} aria-labelledby="customized-dialog-title" open={open} fullWidth={true} maxWidth={'md'}  >
-                                <DialogTitle variant ='h4' sx={{ m: 3, p: 2 }} id="customized-dialog-title">
+                                <DialogTitle variant ='h4' sx={{ m: 3, p: 2, mb: 0}} id="customized-dialog-title">
                                     <Typography variant="h4" gutterBottom sx={{ color: 'var(--primary-color)' }}>
-                                        Report issue:
+                                        Report issue
                                     </Typography>
                                     { showError && <Alert severity="error" sx ={{fontSize: '14px'}}>{showError}</Alert> }
                                 </DialogTitle>
@@ -143,7 +143,7 @@ const IssueForm = ({ open, close }) => {
                                 >
                                     <CloseIcon />
                                 </IconButton>
-                                <DialogContent sx={{ width: '95%', height: '850px', m: 3, p: 2  }}>
+                                <DialogContent sx={{ width: '95%', height: '850px', mt:0, mb: 3, ml: 3, mr: 3,  p: 2  }}>
                                     <Stack spacing={2} direction="column">
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Short description
