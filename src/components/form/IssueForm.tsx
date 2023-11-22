@@ -61,6 +61,8 @@ const IssueForm = ({ open, close }) => {
     const [offices, setOffices] = useState<Office[]>([]);
     const [showError, setError] = useState('');
     const user = useSelector((state:RootState) => state.user.user);
+    const [description, setDescription] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
 
     useEffect(() => {
         fetchAllOffices()
@@ -86,13 +88,32 @@ const IssueForm = ({ open, close }) => {
                 helpers.resetForm();});
     };
 
+
+
+        const validateDescription = (value) => {
+            console.log(value);
+            const length = value.trim().length;
+            console.log(length);
+            if (!value || value.trim() === '<p></p>') {
+                setDescriptionError('Description is required');
+                console.log(descriptionError);
+            }
+            if (length < 27 || length > 250) {
+                setDescriptionError('Description must be between 20 and 250 characters');
+                console.log(descriptionError);
+            }else{ setDescriptionError('');
+                console.log('no error');}
+        };
+
+
+
     return(
         <>
              <Formik
                 initialValues={{
                     name: '',
                     description: '',
-                    office: '',
+                    office: user?.office.name,
                     attachments: 'https://www.indraconsulting.com/wp-content/uploads/2011/11/problem-solution-1024x775.jpg',
                 }}
                 onSubmit={onSaveIssue}
@@ -137,7 +158,9 @@ const IssueForm = ({ open, close }) => {
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Description
                                         </Typography>
-                                        <Field name='description'>
+                                        <FormControl>
+                                        <Field name='description'
+                                               error={touched.description && !!errors.description}>
                                             {({ field, meta }) => (
                                                 <div>
                                                     <Editor
@@ -148,9 +171,11 @@ const IssueForm = ({ open, close }) => {
                                                             menubar: false,
                                                             plugins: "list code hr",
                                                             toolbar: "bold italic strikethrough bullist numlist ",
+                                                            validate_children : true
                                                         }}
                                                         onEditorChange={(e) => {
                                                             handleChange({target:{name:'description', value: e}});
+                                                            validateDescription(e);
                                                         }}
                                                         textareaName='description'
                                                         onChange={field.onChange}
@@ -159,6 +184,12 @@ const IssueForm = ({ open, close }) => {
                                                     />
                                                 </div>)}
                                         </Field>
+                                            { descriptionError ?  <Typography style={{ color: 'red', paddingTop: '1rem' }} >
+                                                 {descriptionError}
+                                            </Typography> : <></>  }
+
+
+                                        </FormControl>
 
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Office
