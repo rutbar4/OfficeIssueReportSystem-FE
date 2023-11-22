@@ -37,7 +37,8 @@ import StyledTextField from '../formFields/StyledTextField';
 const issueValidationSchema = Yup.object().shape({
     name: Yup.string()
         .min(5, 'minimal short summary size is 10 letters')
-        .max(150, 'maximal short summary size is 150 letters'),
+        .max(150, 'maximal short summary size is 150 letters')
+        .required('short summary is required'),
     description: Yup.string()
         .min(10, 'minimal description size is 10 letters')
         .max(250, 'maximal short summary size is 150 letters')
@@ -89,24 +90,23 @@ const IssueForm = ({ open, close }) => {
                 ;});
     };
 
-
-
         const validateDescription = (value) => {
-            console.log(value);
-            const length = value.trim().length;
+            const text = value.replace(/<\/?p>/g, '')
+                    .replace(/<\/?li>/g, '')
+                .replace(/<\/?ul>/g, '');
+            console.log(text);
+            const length = text.trim().length;
             console.log(length);
-            if (!value || value.trim() === '<p></p>') {
+            if (!text || text.trim() === '') {
                 setDescriptionError('Description is required');
                 console.log(descriptionError);
             }
-            if (length < 27 || length > 250) {
+            if (length < 20 || length > 250) {
                 setDescriptionError('Description must be between 20 and 250 characters');
                 console.log(descriptionError);
             }else{ setDescriptionError('');
                 console.log('no error');}
         };
-
-
 
     return(
         <>
