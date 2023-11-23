@@ -1,9 +1,16 @@
 import * as React from 'react';
+import IssueCard from 'src/components/IssueCard/Issue';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import IssueCard from 'src/components/Issue';
-import { getIssues, getOpenIssues, getPlannedIssues, getResolvedIssues, getClosedIssues, getUserIssues } from 'src/actions/issues/IssuesAction';
+import {
+  getIssues,
+  getOpenIssues,
+  getPlannedIssues,
+  getResolvedIssues,
+  getClosedIssues,
+  getUserIssues,
+} from 'src/actions/issues/IssuesAction';
 import { RootState } from 'src/store/store';
 import { Pagination } from '@mui/material';
 import { fetchPageCount } from 'src/api/PageCount';
@@ -92,9 +99,9 @@ const Tab = ({ type, userID } : IssueListProps) => {
     <div>
       {issues.loading ? (
         <p>Loading...</p>
-        ) : issues.issues.length === 0 ? (
+      ) : issues.issues.length === 0 ? (
         <p>EMPTY</p>
-        ) : (
+      ) : (
         issues.issues.map((issue) => (
           <IssueCard
             key={issue.id}
