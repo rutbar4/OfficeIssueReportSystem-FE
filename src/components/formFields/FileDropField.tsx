@@ -13,25 +13,36 @@ const FileDropField = () => {
 
   const [imageUpload, setImageUpload] = useState<File[]>([]);
 
-  const uploadImage = useCallback((acceptedFiles:File[]) => {
+  const [imageList, setImageList] = useState<string []>([]);
+
+  const uploadImage = useCallback((acceptedFiles: File[]) => {
+    const imagesRef = ref(storage, 'images/');
 
     setImageUpload(acceptedFiles);
-    console.log('lenght of array:', acceptedFiles.length);
 
     if (acceptedFiles.length === 0) return;
 
-    for (const image of acceptedFiles){
+    Promise.all(
+        acceptedFiles.map((image) => {
+          console.log('file:', image.name);
+          const imageRef = ref(storage, `uploads/${image.name}`);
 
-      console.log('file:', image.name);
-
-      const imageRef = ref(storage, `uploads/${image.name}`);
-
-      uploadBytes(imageRef, image).then(()=> alert('image uploaded')).catch().finally();
-
-    }
-
-  }, [imageUpload]);
-
+          return uploadBytes(imageRef, image).then(() => {
+            return getDownloadURL(imageRef).then((url) => {
+              console.log('url:', url);
+              return url;
+            });
+          });
+        })
+    )
+        .then((urls) => {
+          // Update state with the list of URLs
+          setImageList((prev) => [...prev, ...urls]);
+        })
+        .catch((error) => {
+          console.error('Error uploading files:', error);
+        });
+  }, []);
 
   const onDrop = useCallback(acceptedFiles => {
     uploadImage(acceptedFiles);
@@ -43,16 +54,24 @@ const FileDropField = () => {
     <Box sx={{height:'10rem', width:'850px', maxWidth:'100%', textAlign:'center', position:'relative', borderRadius:'1rem',
       borderWidth:'1px', borderStyle:'dashed', borderColor:'#6B706D'}}
     >
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {
-          isDragActive ?
-            <p>Drop the files here ...</p> :<div>
-              <BackupIcon/>
-              <Typography sx={{color: '#6B706D', fontSize:'14'}}>Drop files to attach or browse</Typography>
-            </div>
-        }
-      </div>
+      {
+        imageList.length ===0 ?  <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {
+                isDragActive ?
+                    <p>Drop the files here ...</p> :<div>
+                      <BackupIcon/>
+                      <Typography sx={{color: '#6B706D', fontSize:'14'}}>Drop files to attach or browse</Typography>
+                    </div>
+              }
+            </div> : <div>
+          {
+            imageList.map((url) => {
+              return <img key={url} src={url} alt={''}/>;
+            })
+          }
+        </div>
+      }
     </Box>
   );
 };
