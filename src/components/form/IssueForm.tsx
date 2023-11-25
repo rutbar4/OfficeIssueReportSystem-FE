@@ -229,7 +229,7 @@ const IssueForm = ({ open, close }) => {
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                            Attachments
                                         </Typography>
-                                        <Field name = 'attachments' as = {FileDropField} sx ={{width: '100%'}}/>
+                                        <Field name='attachments' as={FileDropField} sx={{width: '100%'}}/>
 
                                     </Stack>
                                 </DialogContent>
