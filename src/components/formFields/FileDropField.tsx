@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import Box from '@mui/material/Box';
-import {Typography} from '@mui/material';
+import {Button, Card, CardActions, CardContent, CardMedia, Typography} from '@mui/material';
 import BackupIcon from '@mui/icons-material/Backup';
 import {ref, uploadBytes, getDownloadURL, listAll, list,} from 'firebase/storage';
 import {v4} from 'uuid';
@@ -9,7 +9,7 @@ import {v4} from 'uuid';
 import {storage} from '../../firebase/firebaseConfig';
 
 
-const FileDropField = () => {
+const FileDropField = ({setImagesInForm}) => {
 
   const [imageUpload, setImageUpload] = useState<File[]>([]);
 
@@ -38,11 +38,12 @@ const FileDropField = () => {
         .then((urls) => {
           // Update state with the list of URLs
           setImageList((prev) => [...prev, ...urls]);
+          setImagesInForm([...imageList, ...urls]);
         })
         .catch((error) => {
           console.error('Error uploading files:', error);
-        });
-  }, []);
+        }).finally();
+  }, [setImagesInForm]);
 
   const onDrop = useCallback(acceptedFiles => {
     uploadImage(acceptedFiles);
@@ -55,7 +56,7 @@ const FileDropField = () => {
       borderWidth:'1px', borderStyle:'dashed', borderColor:'#6B706D'}}
     >
       {
-        imageList.length ===0 ?  <div {...getRootProps()}>
+        <div {...getRootProps()}>
               <input {...getInputProps()} />
               {
                 isDragActive ?
@@ -64,13 +65,7 @@ const FileDropField = () => {
                       <Typography sx={{color: '#6B706D', fontSize:'14'}}>Drop files to attach or browse</Typography>
                     </div>
               }
-            </div> : <div>
-          {
-            imageList.map((url) => {
-              return <img key={url} src={url} alt={''}/>;
-            })
-          }
-        </div>
+            </div>
       }
     </Box>
   );

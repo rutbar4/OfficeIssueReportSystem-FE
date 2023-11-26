@@ -33,6 +33,7 @@ import {RootState} from "../../store/store";
 import WideDisabledField from '../formFields/WideDisabledField';
 import {COLORS} from '../../values/colors';
 import StyledTextField from '../formFields/StyledTextField';
+import AttachmentsField from '../formFields/AttachmentsField';
 
 const issueValidationSchema = Yup.object().shape({
     name: Yup.string()
@@ -64,6 +65,7 @@ const IssueForm = ({ open, close }) => {
     const user = useSelector((state:RootState) => state.user.user);
     const [description, setDescription] = useState('');
     const [descriptionError, setDescriptionError] = useState('');
+    const [immageList, setImageList]= useState<string []>([]);
 
     useEffect(() => {
         fetchAllOffices()
@@ -229,7 +231,12 @@ const IssueForm = ({ open, close }) => {
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                            Attachments
                                         </Typography>
-                                        <Field name='attachments' as={FileDropField} sx={{width: '100%'}}/>
+                                       <>
+                                           {
+                                               immageList.length===0 ?  <FileDropField setImagesInForm={setImageList}/> :
+                                                   <AttachmentsField imageList={immageList}/>
+                                           }
+                                       </>
 
                                     </Stack>
                                 </DialogContent>
