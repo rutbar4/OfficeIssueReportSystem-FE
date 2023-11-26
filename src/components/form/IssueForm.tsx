@@ -76,6 +76,7 @@ const IssueForm = ({ open, close }) => {
 
        const onSaveIssue = (values: { name: any; description: any; office: any; attachments: any; }, helpers: { resetForm: () => void; setSubmitting: (arg0: boolean) => void; }) => {
         console.log('values:',values);
+        console.log('images:', immageList);
         saveIssue({
             name: values.name,
             description: values.description,
