@@ -80,8 +80,8 @@ const IssueForm = ({ open, close }) => {
             name: values.name,
             description: values.description,
             officeId:offices.find((o) => o.name === values.office)?.id,
-            employeeId: user?.id
-
+            employeeId: user?.id,
+            images: immageList
         })
             .then((response) => {
                 helpers.resetForm();
@@ -117,7 +117,7 @@ const IssueForm = ({ open, close }) => {
                     name: '',
                     description: '',
                     office: user?.office.name,
-                    attachments: 'https://www.indraconsulting.com/wp-content/uploads/2011/11/problem-solution-1024x775.jpg',
+                    attachments: ''
                 }}
                 onSubmit={onSaveIssue}
                 validationSchema={issueValidationSchema}
