@@ -47,6 +47,7 @@ interface issueDetailsProps {
   setError: {};
   isVoted: boolean;
   setVoted: {};
+  wrapperSetDaitailsOpen: any;
 }
 type role =
   | {
@@ -69,6 +70,7 @@ function IssueDetails(props: issueDetailsProps) {
     setError,
     isVoted,
     setVoted,
+    wrapperSetDaitailsOpen,
   } = props;
 
   const [statusDropdownAnchor, setStatusDropdownAnchor] = useState(null);
@@ -173,6 +175,7 @@ function IssueDetails(props: issueDetailsProps) {
         status={selectedStatus}
         issueId={id}
         employeeId={employeeId}
+        wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
       />
       <StatusDropdown
         statusOptions={['Open', 'In progress', 'Pending', 'Blocked', 'Resolved', 'Closed']}
