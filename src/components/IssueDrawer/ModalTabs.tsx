@@ -17,6 +17,7 @@ import { RootState } from 'src/store/store';
 import { Employee } from 'src/models/EmployeeModel';
 import { getAllCommentsApi } from 'src/api/CommentApi';
 import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
+import { getInitialValue } from '@testing-library/user-event/dist/types/document/UI';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -83,6 +84,8 @@ export default function BasicTabs({
   description,
   office,
   status,
+  initialOffice,
+  initialStatus,
   issueId,
   employeeId,
   wrapperSetDaitailsOpen,
@@ -90,16 +93,20 @@ export default function BasicTabs({
   description: string;
   office: string;
   status: string;
+  initialOffice: string;
+  initialStatus: string;
   issueId: string;
   employeeId: string;
   wrapperSetDaitailsOpen: any;
 }) {
   const [value, setValue] = React.useState(0);
   const [isDescriptionEditable, setIsDescriptionEditable] = React.useState(false);
-  const [isDescriptionEdited, setIsDescriptionEdited] = React.useState(false);
+
+  const [isRichTextEdited, setIsRichTextEdited] = React.useState(false);
 
   const [editedDescription, setEditedDescription] = React.useState(description);
   const [comments, setComments] = React.useState<Comment[]>([]);
+  const [isFooterVisible, setIsFooterVisible] = React.useState(false);
 
   React.useEffect(() => {
     getAllCommentsApi(issueId).then((data) => {
@@ -119,7 +126,6 @@ export default function BasicTabs({
   const handleDescriptionClick = () => {
     if (isAdmin || employeeId === user?.id) {
       setIsDescriptionEditable(!isDescriptionEditable);
-      setIsDescriptionEdited(true);
     }
   };
 
@@ -131,7 +137,7 @@ export default function BasicTabs({
 
   const handleSaveDescription = () => {
     if (isAdmin || employeeId === user?.id) {
-      if (isDescriptionEdited) {
+      if (isRichTextEdited) {
         UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
         window.location.reload();
       } else {
@@ -152,8 +158,11 @@ export default function BasicTabs({
     return cleanedHtml;
   };
 
-  const isCommentsTab = value === 1;
+  React.useEffect(() => {
+    setIsFooterVisible(isRichTextEdited || status !== initialStatus || office !== initialOffice);
+  }, [isRichTextEdited, status, initialStatus, office, initialOffice]);
 
+  const isDescriptionTab = value === 0;
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -172,13 +181,23 @@ export default function BasicTabs({
             initialValue={description}
             onSave={(newDescription) => {
               setEditedDescription(newDescription);
+              setIsRichTextEdited(cleanHtml(newDescription) !== description);
               setIsDescriptionEditable(false);
             }}
           />
         ) : (
           <div onClick={handleDescriptionClick} style={{ cursor: 'pointer' }}>
-            <Typography className="ActualDescription">
-              {isDescriptionEdited ? cleanHtml(editedDescription) : description}
+            <Typography
+              className="ActualDescription"
+              style={{
+                width: '100%',
+                whiteSpace: 'pre-wrap',
+                wordWrap: 'break-word',
+                maxHeight: '136px',
+                overflowY: 'auto',
+              }}
+            >
+              {isRichTextEdited ? cleanHtml(editedDescription) : description}
             </Typography>
           </div>
         )}
@@ -195,7 +214,7 @@ export default function BasicTabs({
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
-      {!isCommentsTab && (
+      {isDescriptionTab && isFooterVisible && (
         <div className="TabFooter">
           <Button variant="outlined" className="cancelButton" onClick={handleCancel}>
             <Typography className="cancel">Cancel</Typography>
