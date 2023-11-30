@@ -26,8 +26,8 @@ function TopHeader() {
   const userIcon =
     'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80';
 
+  const userAvatar = useSelector((state: RootState) => state.user.user?.avatar);
   const fullName = useSelector((state: RootState) => state.user.user?.fullName) || 'null';
-
   const jobTitle = useSelector((state: RootState) => state.user.user?.position) || 'null';
 
   // Function to close user's menu when clicked outside
@@ -53,8 +53,6 @@ function TopHeader() {
   const iconSpacing = { marginRight: '12px' };
   const iconStyle = { fontSize: 24, color: 'var(--primary-color)' };
 
-  const user = useSelector((state: RootState) => state.user.user);
-
   return (
     <AppBar
       position="fixed"
@@ -78,7 +76,7 @@ function TopHeader() {
           </div>
           <div ref={menuRef}>
             <IconButton color="inherit" aria-label="User" onClick={toggleUserMenu}>
-              <img src={user?.avatar} alt="MENU" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+              <img src={userAvatar} alt="MENU" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
             </IconButton>
             <div>
               {isDropdownOpen && <UserDropdownMenu fullName={fullName} jobTitle={jobTitle} userIcon={userIcon} />}
