@@ -11,6 +11,8 @@ import { AppRoutes } from 'src/types/routes';
 import { AppDispatch } from 'src/store/store';
 import { removeUser } from '../../store/slices/userSlice';
 import { logOutUser } from '../../store/slices/authenticationSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 type Props = {
   fullName: string;
@@ -21,6 +23,7 @@ type Props = {
 const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.user.user);
 
   const useLogout = (e) => {
     e.preventDefault();
@@ -33,7 +36,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => 
     <Box className="userDropdownMenu">
       <MenuList>
         <div style={{ textAlign: 'center', paddingTop: '15px' }}>
-          <img src={userIcon} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+          <img src={user?.avatar} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
         </div>
         <Typography
           variant="h5"
