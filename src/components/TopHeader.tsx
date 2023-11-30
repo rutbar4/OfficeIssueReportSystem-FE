@@ -75,7 +75,9 @@ function TopHeader() {
               <img src={userAvatar} alt="MENU" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
             </IconButton>
             <div>
-              {isDropdownOpen && <UserDropdownMenu fullName={fullName} jobTitle={jobTitle} userIcon={userIcon} />}
+              {isDropdownOpen && (
+                <UserDropdownMenu fullName={fullName} jobTitle={jobTitle} userAvatar={userAvatar ? userAvatar : ''} />
+              )}
             </div>
           </div>
         </Toolbar>

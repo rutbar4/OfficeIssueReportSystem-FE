@@ -17,13 +17,12 @@ import { RootState } from '../../store/store';
 type Props = {
   fullName: string;
   jobTitle: string;
-  userIcon: string;
+  userAvatar: string;
 };
 
-const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle }) => {
+const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userAvatar }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const userAvatar = useSelector((state: RootState) => state.user.user?.avatar);
 
   const useLogout = (e) => {
     e.preventDefault();
