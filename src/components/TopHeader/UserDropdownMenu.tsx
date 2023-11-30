@@ -23,7 +23,7 @@ type Props = {
 const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const userAavatar = useSelector((state: RootState) => state.user.user?.avatar);
+  const userAvatar = useSelector((state: RootState) => state.user.user?.avatar);
 
   const useLogout = (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => 
     <Box className="userDropdownMenu">
       <MenuList>
         <div style={{ textAlign: 'center', paddingTop: '15px' }}>
-          <img src={userAavatar} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+          <img src={userAvatar} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
         </div>
         <Typography
           variant="h5"
