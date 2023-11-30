@@ -20,7 +20,7 @@ type Props = {
   userIcon: string;
 };
 
-const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => {
+const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const userAvatar = useSelector((state: RootState) => state.user.user?.avatar);

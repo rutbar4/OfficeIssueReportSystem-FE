@@ -22,10 +22,6 @@ function TopHeader() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Placeholder link for user icon, will change after handling backend
-  const userIcon =
-    'https://images.unsplash.com/photo-1585837146751-a44118595680?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2058&q=80';
-
   const userAvatar = useSelector((state: RootState) => state.user.user?.avatar);
   const fullName = useSelector((state: RootState) => state.user.user?.fullName) || 'null';
   const jobTitle = useSelector((state: RootState) => state.user.user?.position) || 'null';
