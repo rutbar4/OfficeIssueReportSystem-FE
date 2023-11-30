@@ -1,19 +1,19 @@
-import {  FC, useState } from 'react';
-import { Box, CardContent, TextField, Avatar } from '@mui/material';
+import { FC, useRef, useState } from 'react';
+import { Box, CardContent, TextField, Avatar, withStyles, makeStyles, styled, Button } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 import { Employee } from 'src/models/EmployeeModel';
-
+import { COLORS } from 'src/values/colors.js';
 
 type AddCommentProps = {
-  picture: string,
-  issueId: string,
-  currentUser: Employee,
-  parentId: string | null
-  handleSubmit: (text: string,  parentId: string | null, issueId: string, currentUserId: string,) => void,
-  submitLabel: string,
-  initialText?: string,
+  picture: string;
+  issueId: string;
+  currentUser: Employee;
+  parentId: string | null;
+  handleSubmit: (text: string, parentId: string | null, issueId: string, currentUserId: string) => void;
+  submitLabel: string;
+  initialText?: string;
 };
-
 
 const AddCommentForm: FC<AddCommentProps> = ({
   picture,
@@ -23,6 +23,16 @@ const AddCommentForm: FC<AddCommentProps> = ({
   handleSubmit,
   initialText = '',
 }) => {
+  // const CustomTextField = styled(TextField)({
+  //   '& .MuiInputBase-root': {
+  //     borderColor: 'red',
+  //   },
+  //   '& .MuiOutlinedInput-notchedOutline': {
+  //     borderColor: COLORS.lighterGray,
+  //     borderRadius: '10px',
+  //   },
+  // });
+
   const [text, setText] = useState(initialText);
 
   const onSubmit = (event: React.FormEvent) => {
@@ -44,23 +54,29 @@ const AddCommentForm: FC<AddCommentProps> = ({
         display: 'flex',
         alignItems: 'center',
         border: 'none',
-        marginBottom: 2,
-        width: '100%',
+        width: '125%',
       }}
     >
-        <Avatar src={picture} alt={`${picture} Photo`} sx={{ width: 40, height: 40, marginLeft: 4 }} />
-      <CardContent sx={{ flex: 5, paddingTop: 2 }}>
+      <Avatar src={picture} alt={`${picture} Photo`} sx={{ width: 40, height: 40, marginLeft: 2 }} />
+      <CardContent>
         <form onSubmit={onSubmit}>
-          <TextField
-            fullWidth
-            multiline
-            rows={1}
-            variant="outlined"
-            label="Add comment..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
+          <div style={{ display: 'flex' }}>
+            <div style={{ paddingRight: '7px' }}>
+              <TextField
+                fullWidth
+                multiline
+                rows={1}
+                label="Add comment..."
+                InputProps={{ disableUnderline: true }}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+            </div>
+            <Button type="submit">
+              <SendIcon sx={{ color: COLORS.blue, width: 20, height: 20 }} />
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Box>
@@ -68,5 +84,3 @@ const AddCommentForm: FC<AddCommentProps> = ({
 };
 
 export default AddCommentForm;
-
-

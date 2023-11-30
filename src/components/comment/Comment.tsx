@@ -1,5 +1,7 @@
 import { Avatar, Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 import CircleIcon from '@mui/icons-material/Circle';
+import SendIcon from '@mui/icons-material/Send';
 import { FC } from 'react';
 
 import AddCommentForm from './AddComment';
@@ -59,7 +61,6 @@ const CommentForm: FC<CommentProps> = ({
       sx={{
         display: 'flex',
         alignItems: 'center',
-        m: 1,
         border: 'none',
         boxShadow: 'none',
         width: '100%',
@@ -67,7 +68,15 @@ const CommentForm: FC<CommentProps> = ({
       }}
     >
       <CardContent
-        sx={{ flex: '1 1 auto', ml: 4, display: 'flex', flexDirection: 'column', paddingBottom: 0, padding: 0 }}
+        sx={{
+          flex: '1 1 auto',
+          ml: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          paddingBottom: 0,
+          padding: 0,
+          width: '100%',
+        }}
       >
         <Stack direction="row" alignItems="center" spacing={2}>
           <Box p={{ xs: '0', sm: '4px' }}>
@@ -96,7 +105,7 @@ const CommentForm: FC<CommentProps> = ({
             {!comment.parentId && (
               <Button
                 variant="text"
-                onClick={() => setActiveComment(comment.id)}
+                onClick={() => (isReplying ? setActiveComment(null) : setActiveComment(comment.id))}
                 sx={{
                   cursor: 'pointer',
                   textTransform: 'capitalize',
@@ -110,7 +119,7 @@ const CommentForm: FC<CommentProps> = ({
             )}
           </Box>
           {isReplying && (
-            <Box sx={{ display: 'flex', alignItems: 'center', width: '110%', height: '-40px' }}>
+            <Box sx={{ display: 'flex', marginLeft: '20px' }}>
               <AddCommentForm
                 issueId={issueId}
                 currentUser={currentUser}
@@ -119,22 +128,6 @@ const CommentForm: FC<CommentProps> = ({
                 submitLabel="Reply"
                 handleSubmit={(text) => addComment(text, replyId, issueId, currentUser.id)}
               />
-              <Box>
-                <Button
-                  onClick={() => setActiveComment(null)}
-                  sx={{
-                    background: 'white',
-                    color: '#6B706D',
-                    padding: '2px',
-                    border: 'none',
-                    top: '-14px',
-                    marginLeft: '-10px',
-                    fontSize: '16px',
-                  }}
-                >
-                  XDSDSD
-                </Button>
-              </Box>
             </Box>
           )}
           {replies.length > 0 && (

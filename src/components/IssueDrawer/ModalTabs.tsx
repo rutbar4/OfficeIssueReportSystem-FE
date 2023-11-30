@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -9,7 +8,7 @@ import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 
-import  Comments  from '../comment/Comments';
+import Comments from '../comment/Comments';
 import { UpdateIssueById } from '../../api/IssueUpdateApi';
 
 import { Comment } from 'src/models/CommentModel';
@@ -17,7 +16,6 @@ import { RootState } from 'src/store/store';
 import { Employee } from 'src/models/EmployeeModel';
 import { getAllCommentsApi } from 'src/api/CommentApi';
 import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
-
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -100,7 +98,6 @@ export default function BasicTabs({
   const [editedDescription, setEditedDescription] = React.useState(description);
   const [comments, setComments] = React.useState<Comment[]>([]);
 
-
   React.useEffect(() => {
     getAllCommentsApi(issueId).then((data) => {
       setComments(data);
@@ -110,7 +107,6 @@ export default function BasicTabs({
   const updateComments = (newComments: Comment[]) => {
     setComments(newComments);
   };
-
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -124,14 +120,11 @@ export default function BasicTabs({
     }
   };
 
-
-
   const currentUser: Employee = {
     id: user?.id || '',
     fullName: user?.fullName || '',
     avatar: user?.avatar || '',
   };
-
 
   const handleSaveDescription = () => {
     if (isAdmin || employeeId === user?.id) {
@@ -160,7 +153,7 @@ export default function BasicTabs({
         <ThemeProvider theme={customTabTheme}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab {...a11yProps(0)} label="Details" />
-            <Tab {...a11yProps(1)} label={`Comments (${comments.length})`}/>
+            <Tab {...a11yProps(1)} label={`Comments (${comments.length})`} />
             <Tab {...a11yProps(2)} label="Activity log" />
           </Tabs>
         </ThemeProvider>
@@ -184,7 +177,8 @@ export default function BasicTabs({
         )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Comments issueId={issueId}
+        <Comments
+          issueId={issueId}
           currentUser={currentUser}
           issueComments={comments}
           updateComments={updateComments}
@@ -194,16 +188,15 @@ export default function BasicTabs({
         Busimi Logai
       </CustomTabPanel>
       {!isCommentsTab && (
-      <div className="TabFooter">
-        <Button variant="outlined" className="cancelButton">
-          <Typography className="cancel">Cancel</Typography>
-        </Button>
-        <Button variant="contained" className="saveButton" onClick={handleSaveDescription}>
-          <Typography className="delete-issue">Save</Typography>
-        </Button>
-      </div>
+        <div className="TabFooter">
+          <Button variant="outlined" className="cancelButton">
+            <Typography className="cancel">Cancel</Typography>
+          </Button>
+          <Button variant="contained" className="saveButton" onClick={handleSaveDescription}>
+            <Typography className="delete-issue">Save</Typography>
+          </Button>
+        </div>
       )}
     </Box>
   );
 }
-
