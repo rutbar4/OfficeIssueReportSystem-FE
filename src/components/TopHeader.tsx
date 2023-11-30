@@ -76,7 +76,7 @@ function TopHeader() {
             </IconButton>
             <div>
               {isDropdownOpen && (
-                <UserDropdownMenu fullName={fullName} jobTitle={jobTitle} userAvatar={userAvatar ? userAvatar : ''} />
+                <UserDropdownMenu fullName={fullName} jobTitle={jobTitle} userAvatar={userAvatar ? userAvatar : ''} setIsDropdownOpen={setIsDropdownOpen} />
               )}
             </div>
           </div>

@@ -18,9 +18,10 @@ type Props = {
   fullName: string;
   jobTitle: string;
   userAvatar: string;
+  setIsDropdownOpen: any;
 };
 
-const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userAvatar }) => {
+const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userAvatar, setIsDropdownOpen }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -56,6 +57,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userAvatar }) =
           }}
           onClick={() => {
             navigate(AppRoutes.USER_PROFILE);
+            setIsDropdownOpen(false);
           }}
         >
           <PersonIcon
