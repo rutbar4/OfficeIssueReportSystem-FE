@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
 import DrawerToolbar from './DrawerToolbar';
-import { fetchIssueDetails } from '../../api/DetailApi';
+import { fetchIssueDetails } from 'src/api/DetailApi';
 
-import IssueDetails from 'src/components/IssueDrawer/IssueDetails';
+import IssueDetails from './IssueDetails';
 import { deleteIssueById } from 'src/api/IssueDeleteApi';
 
 const initialDetails = {
@@ -19,8 +19,18 @@ const initialDetails = {
   officeId: '',
   employeeId: '',
 };
-
-export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueId }) {
+export default function IssueDrawer({
+  wrapperSetDaitailsOpen,
+  issueDetailsOpen,
+  issueId,
+  handleVoteCount,
+  voteCount,
+  wasVoted,
+  isError,
+  setError,
+  isVoted,
+  setVoted,
+}) {
   const [issueDetailData, setIssueDetailData] = useState(initialDetails);
   const handleDrawerOpen = () => {
     fetchIssueDetails(issueId).then((data) => {
@@ -33,8 +43,6 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
     if (issueDetailsOpen) {
       handleDrawerOpen();
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issueDetailsOpen]);
 
   const date = new Date(issueDetailData.dateCreated);
@@ -63,10 +71,16 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
               reportedBy={issueDetailData.employeeName}
               reported={issueDetailData.dateCreated}
               status={issueDetailData.status}
-              upvotes={issueDetailData.rating}
+              upvotes={voteCount}
               office={issueDetailData.officeName}
               officeId={issueDetailData.officeId}
               employeeId={issueDetailData.employeeId}
+              handleVoteCount={handleVoteCount}
+              wasVoted={wasVoted}
+              isError={isError}
+              setError={setError}
+              isVoted={isVoted}
+              setVoted={setVoted}
             />
           </Box>
         </Drawer>

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -137,6 +138,9 @@ export default function BasicTabs({
       }
     }
   };
+  const handleCancel = () => {
+    window.location.reload();
+  };
   const cleanHtml = (htmlString) => {
     let cleanedHtml = htmlString.replace(/^<p>/, '');
 
@@ -182,6 +186,7 @@ export default function BasicTabs({
           currentUser={currentUser}
           issueComments={comments}
           updateComments={updateComments}
+          issueStatus={status}
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
@@ -189,7 +194,7 @@ export default function BasicTabs({
       </CustomTabPanel>
       {!isCommentsTab && (
         <div className="TabFooter">
-          <Button variant="outlined" className="cancelButton">
+          <Button variant="outlined" className="cancelButton" onClick={handleCancel}>
             <Typography className="cancel">Cancel</Typography>
           </Button>
           <Button variant="contained" className="saveButton" onClick={handleSaveDescription}>

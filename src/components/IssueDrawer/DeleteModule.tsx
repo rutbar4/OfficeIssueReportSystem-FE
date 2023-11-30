@@ -7,7 +7,7 @@ import { Modal as BaseModal } from '@mui/base/Modal';
 import { IconButton, Typography, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { deleteIssueById } from '../../api/IssueDeleteApi';
+import { deleteIssueById } from 'src/api/IssueDeleteApi';
 
 export default function ModalUnstyled({ id, title }: { id: string; title: string }) {
   const [open, setOpen] = React.useState(false);

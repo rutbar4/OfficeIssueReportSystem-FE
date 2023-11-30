@@ -2,7 +2,8 @@ import { AnyAction } from 'redux';
 
 import * as actions from '../../actions/issues/IssuesActionType';
 
-interface Issue {
+
+export interface Issue {
   id: string;
   name: string;
   description: string;
@@ -15,17 +16,19 @@ interface Issue {
 interface IssuesState {
   loading: boolean;
   issues: Issue[];
+  page: number;
 }
 
 const initialState: IssuesState = {
   loading: true,
   issues: [],
+  page: 1,
 };
 
 const createIssuesReducer = (actionType: string) => (
   state = initialState,
-  action: { type: string; payload: Issue[] } | AnyAction
-
+  action: { type: string; payload: Issue[], page: number} | AnyAction
+  
 ) => {
     switch (action.type) {
         case `${actionType}Success`:
@@ -33,13 +36,22 @@ const createIssuesReducer = (actionType: string) => (
             ...state,
             loading: false,
             issues: action.payload,
+            page: action.page,
             };
+        case actions.ADD_COMMENT_TO_ISSUE: {
+          const { issueId, updatedIssue } = action.payload;
+          return {
+            ...state,
+            issues: state.issues.map((issue) =>
+            issue.id === issueId ? updatedIssue : issue),
+          };
+        }
         case actionType:
             return {
             ...state,
             loading: true,
+            page: action.page,
             };
-
         default:
             return state;
     };

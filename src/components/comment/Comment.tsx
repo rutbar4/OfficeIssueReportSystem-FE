@@ -22,6 +22,7 @@ type CommentProps = {
   parentId?: string | null;
   currentUser: Employee;
   onUpvote: (commentId: string, issueId: string) => void;
+  issueStatus: string;
 };
 
 const CommentForm: FC<CommentProps> = ({
@@ -35,6 +36,7 @@ const CommentForm: FC<CommentProps> = ({
   parentId = null,
   currentUser,
   onUpvote,
+  issueStatus,
 }) => {
   const isReplying = activeComment && activeComment === comment.id;
   const replyId = parentId ? parentId : comment.id;
@@ -97,7 +99,7 @@ const CommentForm: FC<CommentProps> = ({
             <CommentUpvoteButton
               isUpVoted={comment.isUpVoted}
               votes={comment.votes}
-              onClick={() => onUpvote?.(comment.id, issueId)}
+              onClick={issueStatus !== 'Closed' ? () => onUpvote?.(comment.id, issueId) : () => {}}
             />
             {!comment.parentId && (
               <CircleIcon style={{ fontSize: '5px', color: COLORS.blue, marginLeft: 1, marginRight: 1 }} />
@@ -118,7 +120,7 @@ const CommentForm: FC<CommentProps> = ({
               </Button>
             )}
           </Box>
-          {isReplying && (
+          {isReplying && issueStatus !== 'Closed' && (
             <Box sx={{ display: 'flex', marginLeft: '20px' }}>
               <AddCommentForm
                 issueId={issueId}
@@ -145,6 +147,7 @@ const CommentForm: FC<CommentProps> = ({
                   currentUser={currentUser}
                   employee={employee}
                   onUpvote={() => handleUpvote(reply.id, issueId)}
+                  issueStatus={issueStatus}
                 />
               ))}
             </Box>

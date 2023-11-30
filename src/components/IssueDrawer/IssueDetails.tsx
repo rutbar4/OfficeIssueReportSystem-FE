@@ -9,7 +9,6 @@ import { Divider } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import UserChip from '../Chip/UserChip';
-import UpvoteChip from '../Chip/UpvoteChip';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
@@ -17,6 +16,7 @@ import StatusDropdown from 'src/components/IssueDrawer/StatusDropdown';
 import OfficeDropdown from 'src/components/IssueDrawer/OfficeDropdown';
 import { RootState } from 'src/store/store';
 
+import VoteToggleButton from '../IssueCard/IssueCardComponents/VoteToggleButton';
 const tableStyle = {
   border: 'none',
   fontSize: '14px',
@@ -41,6 +41,12 @@ interface issueDetailsProps {
   office: string;
   officeId: string;
   employeeId: string;
+  handleVoteCount: {};
+  wasVoted: boolean;
+  isError: boolean;
+  setError: {};
+  isVoted: boolean;
+  setVoted: {};
 }
 type role =
   | {
@@ -49,7 +55,21 @@ type role =
   | string;
 
 function IssueDetails(props: issueDetailsProps) {
-  const { id, title, description, reportedBy, reported, status, upvotes, office, officeId, employeeId } = props;
+   const { id,
+    title,
+    description,
+    reportedBy,
+    reported,
+    status,
+    upvotes,
+    office, officeId, employeeId,
+    handleVoteCount,
+    wasVoted,
+    isError,
+    setError,
+    isVoted,
+    setVoted,
+  } = props;
 
   const [statusDropdownAnchor, setStatusDropdownAnchor] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(status);
@@ -118,7 +138,7 @@ function IssueDetails(props: issueDetailsProps) {
             <TableCell style={tableStyle}>{reported}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Status</TableCell>
+            <TableCell style={{  ...tableStyle, ...firstCellStyle  }}>Status</TableCell>
             <TableCell style={{ ...tableStyle, cursor: 'pointer' }} onClick={handleStatusCellClick}>
               <StatusChip issueStatus={selectedStatus} />
             </TableCell>
@@ -126,7 +146,17 @@ function IssueDetails(props: issueDetailsProps) {
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Upvotes</TableCell>
             <TableCell style={tableStyle}>
-              <UpvoteChip count={upvotes} />
+              <VoteToggleButton
+                issueId={props.id}
+                key={props.id}
+                handleVoteCount={handleVoteCount}
+                put={upvotes}
+                wasVoted={wasVoted}
+                isError={isError}
+                setError={setError}
+                isVoted={isVoted}
+                setVoted={setVoted}
+              ></VoteToggleButton>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -149,6 +179,8 @@ function IssueDetails(props: issueDetailsProps) {
         anchorEl={statusDropdownAnchor}
         onClose={handleStatusDropdownClose}
         onStatusChange={handleStatusChange}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
       />
       <OfficeDropdown
         anchorEl={officeDropdownAnchor}
