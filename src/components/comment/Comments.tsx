@@ -79,7 +79,7 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
 
   return (
     <Container maxWidth={false} sx={{ width: '100%', padding: 0, bottom: 0 }}>
-      <Box sx={{ marginLeft: 0, width: '100%', padding: 0 }}>
+      <Box sx={{ marginLeft: 0, width: '100%', padding: 0, paddingBottom: 3 }}>
         {rootComments.map((rootComment) => (
           <Paper
             key={rootComment.id}
@@ -113,7 +113,7 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
             padding: 0,
           }}
         >
-          <Divider style={{ width: '105%', overflow: 'hidden', marginLeft: '-27px' }} />
+          <Divider style={{ width: '103%', overflow: 'hidden', marginLeft: '-10px' }} />
           <AddCommentForm
             issueId={issueId}
             currentUser={currentUser}
