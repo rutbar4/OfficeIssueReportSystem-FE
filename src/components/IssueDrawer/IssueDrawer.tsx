@@ -81,6 +81,7 @@ export default function IssueDrawer({
               setError={setError}
               isVoted={isVoted}
               setVoted={setVoted}
+              wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
             />
           </Box>
         </Drawer>

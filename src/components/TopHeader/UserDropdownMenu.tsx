@@ -11,14 +11,17 @@ import { AppRoutes } from 'src/types/routes';
 import { AppDispatch } from 'src/store/store';
 import { removeUser } from '../../store/slices/userSlice';
 import { logOutUser } from '../../store/slices/authenticationSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 type Props = {
   fullName: string;
   jobTitle: string;
-  userIcon: string;
+  userAvatar: string;
+  setIsDropdownOpen: any;
 };
 
-const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => {
+const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userAvatar, setIsDropdownOpen }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -33,7 +36,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => 
     <Box className="userDropdownMenu">
       <MenuList>
         <div style={{ textAlign: 'center', paddingTop: '15px' }}>
-          <img src={userIcon} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+          <img src={userAvatar} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
         </div>
         <Typography
           variant="h5"
@@ -54,6 +57,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userIcon }) => 
           }}
           onClick={() => {
             navigate(AppRoutes.USER_PROFILE);
+            setIsDropdownOpen(false);
           }}
         >
           <PersonIcon

@@ -85,12 +85,14 @@ export default function BasicTabs({
   status,
   issueId,
   employeeId,
+  wrapperSetDaitailsOpen,
 }: {
   description: string;
   office: string;
   status: string;
   issueId: string;
   employeeId: string;
+  wrapperSetDaitailsOpen: any;
 }) {
   const [value, setValue] = React.useState(0);
   const [isDescriptionEditable, setIsDescriptionEditable] = React.useState(false);
@@ -139,7 +141,8 @@ export default function BasicTabs({
     }
   };
   const handleCancel = () => {
-    window.location.reload();
+    wrapperSetDaitailsOpen(false);
+    // window.location.reload();
   };
   const cleanHtml = (htmlString) => {
     let cleanedHtml = htmlString.replace(/^<p>/, '');

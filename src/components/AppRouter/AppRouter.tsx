@@ -7,6 +7,7 @@ import SignIn from 'src/pages/Login/Login';
 import ProtectedRoute from './protectedRoute';
 import { RootState } from 'src/store/store';
 import { useSelector } from 'react-redux';
+import Page404 from 'src/pages/404/404Page';
 
 const AppRouter = () => {
   const loginState = useSelector((state: RootState) => state.authentication);
@@ -32,6 +33,7 @@ const AppRouter = () => {
           />
         </Route>
         <Route path={AppRoutes.SIGN_IN} element={<SignIn />} />
+        <Route path={AppRoutes.PAGE404} element={<Page404/>} />
       </Route>
     )
   );
