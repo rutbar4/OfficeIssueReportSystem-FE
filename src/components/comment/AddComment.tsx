@@ -13,6 +13,7 @@ type AddCommentProps = {
   handleSubmit: (text: string, parentId: string | null, issueId: string, currentUserId: string) => void;
   submitLabel: string;
   initialText?: string;
+  fieldWidth: any;
 };
 
 const AddCommentForm: FC<AddCommentProps> = ({
@@ -22,6 +23,7 @@ const AddCommentForm: FC<AddCommentProps> = ({
   parentId,
   handleSubmit,
   initialText = '',
+  fieldWidth,
 }) => {
   // const CustomTextField = styled(TextField)({
   //   '& .MuiInputBase-root': {
@@ -54,26 +56,38 @@ const AddCommentForm: FC<AddCommentProps> = ({
         display: 'flex',
         alignItems: 'center',
         border: 'none',
-        width: '125%',
+        width: '100%',
       }}
     >
-      <Avatar src={picture} alt={`${picture} Photo`} sx={{ width: 40, height: 40, marginLeft: 2 }} />
+      <Avatar src={picture} alt={`${picture} Photo`} sx={{ width: 40, height: 40, marginLeft: 2, marginTop: -1 }} />
       <CardContent>
         <form onSubmit={onSubmit}>
           <div style={{ display: 'flex' }}>
-            <div style={{ paddingRight: '7px' }}>
+            <div style={{ paddingRight: '7px', width: fieldWidth }}>
               <TextField
                 fullWidth
                 multiline
-                rows={1}
-                label="Add comment..."
-                InputProps={{ disableUnderline: true }}
+                placeholder="Add comment..."
+                InputProps={{
+                  sx: {
+                    '&.Mui-focused fieldset': {
+                      borderColor: COLORS.blue + ' !important',
+                      borderWidth: '2px !important',
+                    },
+                    borderRadius: '8px',
+                    borderColor: COLORS.lighterGray,
+                    outlineColor: COLORS.blue,
+                    color: COLORS.blue,
+                    fontSize: '12px',
+                  },
+                }}
+                InputLabelProps={{ shrink: false }}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 onKeyPress={handleKeyPress}
               />
             </div>
-            <Button type="submit">
+            <Button type="submit" sx={{}}>
               <SendIcon sx={{ color: COLORS.blue, width: 20, height: 20 }} />
             </Button>
           </div>

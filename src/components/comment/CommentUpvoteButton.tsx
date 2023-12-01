@@ -11,7 +11,7 @@ type CommentUpvoteButtonProps = {
 };
 
 const CommentUpvoteButton: React.FC<CommentUpvoteButtonProps> = ({ isUpVoted, votes, onClick }) => {
-  const backgroundColor = isUpVoted ? COLORS.lightBlue : COLORS.white;
+  const votedColor = isUpVoted ? COLORS.lightBlue : COLORS.white;
 
   return (
     <Button
@@ -21,13 +21,16 @@ const CommentUpvoteButton: React.FC<CommentUpvoteButtonProps> = ({ isUpVoted, vo
         marginLeft: '-18px',
         cursor: 'pointer',
         textTransform: 'capitalize',
-        fontSize: '12px',
-        borderRadius: '16px',
         color: COLORS.blue,
-        backgroundColor: backgroundColor,
+        backgroundColor: votedColor,
+        padding: 0,
+        scale: '0.75',
+        borderRadius: '16px',
+        outline: 'none',
+        border: 'none',
       }}
     >
-      {votes === 0 ? 'Upvote' : <UpvoteChip count={votes} />}
+      <UpvoteChip count={votes} />
     </Button>
   );
 };

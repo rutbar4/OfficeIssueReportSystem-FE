@@ -78,13 +78,13 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
   };
 
   return (
-    <Container maxWidth={false} sx={{ width: '100%', padding: 0 }}>
+    <Container maxWidth={false} sx={{ width: '100%', padding: 0, bottom: 0 }}>
       <Box sx={{ marginLeft: 0, width: '100%', padding: 0 }}>
         {rootComments.map((rootComment) => (
           <Paper
             key={rootComment.id}
             elevation={0}
-            sx={{ marginLeft: -11, marginRight: 'auto', width: '100%', marginTop: 0, padding: 0 }}
+            sx={{ marginLeft: -10, marginRight: 'auto', width: '100%', marginTop: 0, padding: 0 }}
           >
             <CommentForm
               issueId={issueId}
@@ -106,14 +106,14 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
           sx={{
             position: 'sticky',
             bottom: '0',
-            left: '20px',
+            left: '27px',
             width: '100%',
             backgroundColor: COLORS.white,
-            marginLeft: -15,
+            marginLeft: -10,
             padding: 0,
           }}
         >
-          <Divider style={{ width: '135%', marginLeft: '-20px', overflow: 'hidden' }} />
+          <Divider style={{ width: '137%', marginLeft: '-40px', overflow: 'hidden' }} />
           <AddCommentForm
             issueId={issueId}
             currentUser={currentUser}
@@ -121,6 +121,7 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
             handleSubmit={addComment}
             picture={currentUser.avatar}
             submitLabel="Add comment"
+            fieldWidth="550px"
           />
         </Box>
       )}
