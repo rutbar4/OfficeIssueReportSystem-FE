@@ -2,5 +2,6 @@ export enum AppRoutes {
   HOME = '/',
   SIGN_IN = '/login',
   PROFILE = '/profile',
-  USER_PROFILE = '/user-profile'
+  USER_PROFILE = '/user-profile',
+  PAGE404 = '/*',
 }
