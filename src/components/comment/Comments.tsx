@@ -104,16 +104,16 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
       {issueStatus !== 'Closed' && (
         <Box
           sx={{
-            position: 'sticky',
+            position: 'fixed',
             bottom: '0',
-            left: '27px',
-            width: '100%',
+            right: '27px',
+            width: '550',
             backgroundColor: COLORS.white,
             marginLeft: -10,
             padding: 0,
           }}
         >
-          <Divider style={{ width: '137%', marginLeft: '-40px', overflow: 'hidden' }} />
+          <Divider style={{ width: '105%', overflow: 'hidden', marginLeft: '-27px' }} />
           <AddCommentForm
             issueId={issueId}
             currentUser={currentUser}
