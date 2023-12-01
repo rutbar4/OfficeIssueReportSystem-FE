@@ -1,8 +1,9 @@
 import { AnyAction } from 'redux';
+
 import * as actions from '../../actions/issues/IssuesActionType';
 
 interface Issue {
-  id: number;
+  id: string;
   name: string;
   description: string;
   status: string;
@@ -14,16 +15,18 @@ interface Issue {
 interface IssuesState {
   loading: boolean;
   issues: Issue[];
+  page: number;
 }
 
 const initialState: IssuesState = {
   loading: true,
   issues: [],
+  page: 1,
 };
 
 const createIssuesReducer = (actionType: string) => (
   state = initialState,
-  action: { type: string; payload: Issue[] } | AnyAction
+  action: { type: string; payload: Issue[], page: number} | AnyAction
   
 ) => {
     switch (action.type) {
@@ -32,13 +35,14 @@ const createIssuesReducer = (actionType: string) => (
             ...state,
             loading: false,
             issues: action.payload,
+            page: action.page,
             };
         case actionType:
             return {
             ...state,
             loading: true,
+            page: action.page,
             };
-        
         default:
             return state;
     };

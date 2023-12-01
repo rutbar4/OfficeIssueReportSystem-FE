@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp */
+
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -6,13 +6,18 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'src/scss/ModalTabsStyles.scss';
+import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 
+import  Comments  from '../comment/Comments';
 import { UpdateIssueById } from '../../api/IssueUpdateApi';
 
-import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
-import { useSelector } from 'react-redux';
+import { Comment } from 'src/models/CommentModel';
 import { RootState } from 'src/store/store';
+import { Employee } from 'src/models/EmployeeModel';
+import { getAllCommentsApi } from 'src/api/CommentApi';
+import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -69,6 +74,7 @@ function a11yProps(index: number) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
+
 type role =
   | {
       value: string;
@@ -92,6 +98,19 @@ export default function BasicTabs({
   const [isDescriptionEdited, setIsDescriptionEdited] = React.useState(false);
 
   const [editedDescription, setEditedDescription] = React.useState(description);
+  const [comments, setComments] = React.useState<Comment[]>([]);
+
+
+  React.useEffect(() => {
+    getAllCommentsApi(issueId).then((data) => {
+      setComments(data);
+    });
+  }, [issueId]);
+
+  const updateComments = (newComments: Comment[]) => {
+    setComments(newComments);
+  };
+
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -104,6 +123,15 @@ export default function BasicTabs({
       setIsDescriptionEdited(true);
     }
   };
+
+
+
+  const currentUser: Employee = {
+    id: user?.id || '',
+    fullName: user?.fullName || '',
+    avatar: user?.avatar || '',
+  };
+
 
   const handleSaveDescription = () => {
     if (isAdmin || employeeId === user?.id) {
@@ -123,13 +151,16 @@ export default function BasicTabs({
 
     return cleanedHtml;
   };
+
+  const isCommentsTab = value === 1;
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <ThemeProvider theme={customTabTheme}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab {...a11yProps(0)} label="Details" />
-            <Tab {...a11yProps(1)} label="Comments" />
+            <Tab {...a11yProps(1)} label={`Comments (${comments.length})`}/>
             <Tab {...a11yProps(2)} label="Activity log" />
           </Tabs>
         </ThemeProvider>
@@ -153,11 +184,16 @@ export default function BasicTabs({
         )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Busimi Komentarai
+        <Comments issueId={issueId}
+          currentUser={currentUser}
+          issueComments={comments}
+          updateComments={updateComments}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
+      {!isCommentsTab && (
       <div className="TabFooter">
         <Button variant="outlined" className="cancelButton">
           <Typography className="cancel">Cancel</Typography>
@@ -166,6 +202,8 @@ export default function BasicTabs({
           <Typography className="delete-issue">Save</Typography>
         </Button>
       </div>
+      )}
     </Box>
   );
 }
+
