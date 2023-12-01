@@ -148,7 +148,6 @@ export default function BasicTabs({
   };
   const handleCancel = () => {
     wrapperSetDaitailsOpen(false);
-    // window.location.reload();
   };
   const cleanHtml = (htmlString) => {
     let cleanedHtml = htmlString.replace(/^<p>/, '');
@@ -162,6 +161,9 @@ export default function BasicTabs({
     setIsFooterVisible(isRichTextEdited || status !== initialStatus || office !== initialOffice);
   }, [isRichTextEdited, status, initialStatus, office, initialOffice]);
 
+  React.useEffect(() => {
+    setEditedDescription(description);
+  }, [description]);
   const isDescriptionTab = value === 0;
   return (
     <Box sx={{ width: '100%' }}>
@@ -178,7 +180,7 @@ export default function BasicTabs({
         <Typography className="Description">Description</Typography>
         {isDescriptionEditable ? (
           <RichTextComponent
-            initialValue={description}
+            initialValue={editedDescription}
             onSave={(newDescription) => {
               setEditedDescription(newDescription);
               setIsRichTextEdited(cleanHtml(newDescription) !== description);
