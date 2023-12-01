@@ -87,7 +87,7 @@ const CommentForm: FC<CommentProps> = ({
           <Typography variant="h6" sx={{ fontSize: '14px', fontWeight: 'bold', color: COLORS.blue }}>
             {employee.fullName}
           </Typography>
-          <Typography variant="h6" sx={{ color: COLORS.gray }}>
+          <Typography variant="h6" sx={{ color: COLORS.gray, paddingTop: '2px' }}>
             {formattedDate}
           </Typography>
         </Stack>
