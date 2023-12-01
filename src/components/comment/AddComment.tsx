@@ -25,16 +25,6 @@ const AddCommentForm: FC<AddCommentProps> = ({
   initialText = '',
   fieldWidth,
 }) => {
-  // const CustomTextField = styled(TextField)({
-  //   '& .MuiInputBase-root': {
-  //     borderColor: 'red',
-  //   },
-  //   '& .MuiOutlinedInput-notchedOutline': {
-  //     borderColor: COLORS.lighterGray,
-  //     borderRadius: '10px',
-  //   },
-  // });
-
   const [text, setText] = useState(initialText);
 
   const onSubmit = (event: React.FormEvent) => {
