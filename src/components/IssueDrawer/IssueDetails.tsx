@@ -183,7 +183,7 @@ function IssueDetails(props: issueDetailsProps) {
         wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
       />
       <StatusDropdown
-        statusOptions={['Open', 'In progress', 'Pending', 'Blocked', 'Resolved', 'Closed']}
+        statusOptions={['Open', 'In progress', 'Blocked', 'Pending', 'Resolved', 'Closed']}
         anchorEl={statusDropdownAnchor}
         onClose={handleStatusDropdownClose}
         onStatusChange={handleStatusChange}

@@ -188,8 +188,8 @@ export default function BasicTabs({
             }}
           />
         ) : (
-          <div onClick={handleDescriptionClick} style={{ cursor: 'pointer' }}>
-            <Typography
+          <div onClick={handleDescriptionClick} style={{ cursor: 'pointer', width: '100%' }}>
+            <div
               className="ActualDescription"
               style={{
                 width: '100%',
@@ -199,8 +199,8 @@ export default function BasicTabs({
                 overflowY: 'auto',
               }}
             >
-              {isRichTextEdited ? cleanHtml(editedDescription) : description}
-            </Typography>
+              <span dangerouslySetInnerHTML={{ __html: editedDescription }} />
+            </div>
           </div>
         )}
       </CustomTabPanel>
