@@ -122,11 +122,12 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                       WebkitLineClamp: '2',
                       WebkitBoxOrient: 'vertical',
                       height: '39px',
+                      width: '573px',
                       fontSize: '14px',
                       color: COLORS.gray,
                     }}
                   >
-                    {issueDescription}
+                    <span dangerouslySetInnerHTML={{ __html: issueDescription }} />
                   </Typography>
                 </div>
               </Grid>

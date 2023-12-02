@@ -16,7 +16,8 @@ import { Comment } from 'src/models/CommentModel';
 import { RootState } from 'src/store/store';
 import { Employee } from 'src/models/EmployeeModel';
 import { getAllCommentsApi } from 'src/api/CommentApi';
-import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
+import RichTextComponent from 'src/components/formFields/RichTextCompDesc';
+
 import { getInitialValue } from '@testing-library/user-event/dist/types/document/UI';
 
 interface TabPanelProps {
@@ -107,6 +108,7 @@ export default function BasicTabs({
   const [editedDescription, setEditedDescription] = React.useState(description);
   const [comments, setComments] = React.useState<Comment[]>([]);
   const [isFooterVisible, setIsFooterVisible] = React.useState(false);
+  const [richTextError, setRichTextError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     getAllCommentsApi(issueId).then((data) => {
@@ -138,8 +140,12 @@ export default function BasicTabs({
   const handleSaveDescription = () => {
     if (isAdmin || employeeId === user?.id) {
       if (isRichTextEdited) {
-        UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
-        window.location.reload();
+        if (editedDescription.length >= 20) {
+          UpdateIssueById(issueId, status, editedDescription, office);
+          window.location.reload();
+        } else {
+          console.error('Description must be at least 20 characters');
+        }
       } else {
         UpdateIssueById(issueId, status, description, office);
         window.location.reload();
@@ -164,6 +170,11 @@ export default function BasicTabs({
   React.useEffect(() => {
     setEditedDescription(description);
   }, [description]);
+
+  React.useEffect(() => {
+    setIsFooterVisible(!richTextError);
+  }, [richTextError]);
+
   const isDescriptionTab = value === 0;
   return (
     <Box sx={{ width: '100%' }}>
@@ -185,6 +196,11 @@ export default function BasicTabs({
               setEditedDescription(newDescription);
               setIsRichTextEdited(cleanHtml(newDescription) !== description);
               setIsDescriptionEditable(false);
+              setRichTextError(null);
+            }}
+            onError={(error) => {
+              console.error(error);
+              setRichTextError(error);
             }}
           />
         ) : (
@@ -193,7 +209,6 @@ export default function BasicTabs({
               className="ActualDescription"
               style={{
                 width: '100%',
-                whiteSpace: 'pre-wrap',
                 wordWrap: 'break-word',
                 maxHeight: '136px',
                 overflowY: 'auto',
@@ -216,7 +231,7 @@ export default function BasicTabs({
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
-      {isDescriptionTab && isFooterVisible && (
+      {isDescriptionTab && isFooterVisible && !richTextError && (
         <div className="TabFooter">
           <Button variant="outlined" className="cancelButton" onClick={handleCancel}>
             <Typography className="cancel">Cancel</Typography>
