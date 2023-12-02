@@ -16,86 +16,86 @@ import { Pagination } from '@mui/material';
 import { fetchPageCount } from 'src/api/PageCount';
 
 interface IssueListProps {
-    type: string | null;
-    userID: string;
+  type: string | null;
+  userID: string;
+  officeId: any | null;
 }
 
-const Tab = ({ type, userID } : IssueListProps) => {
-    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+const Tab = ({ type, userID, officeId }: IssueListProps) => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-    const selectFilteredIssues = (state: RootState, type: string | null) => {
-        switch(type) {
-            case 'open':
-                return state.rootReducer.openIssues;
-            case 'closed':
-                return state.rootReducer.closedIssues;
-            case 'planned':
-                return state.rootReducer.plannedIssues;
-            case 'resolved':
-                return state.rootReducer.resolvedIssues;
-            case 'user':
-                return state.rootReducer.userIssues;
-            default:
-                return state.rootReducer.issues;
-        }
-    };
-    const findPage = (state: RootState, type: string | null) => {
-      switch(type) {
-          case 'open':
-              return state.rootReducer.openIssues.page;
-          case 'closed':
-              return state.rootReducer.closedIssues.page;
-          case 'planned':
-              return state.rootReducer.plannedIssues.page;
-          case 'resolved':
-              return state.rootReducer.resolvedIssues.page;
-          case 'user':
-              return state.rootReducer.userIssues.page;
-          default:
-              return state.rootReducer.issues.page;
-      }
+  const selectFilteredIssues = (state: RootState, type: string | null) => {
+    switch (type) {
+      case 'open':
+        return state.rootReducer.openIssues;
+      case 'closed':
+        return state.rootReducer.closedIssues;
+      case 'planned':
+        return state.rootReducer.plannedIssues;
+      case 'resolved':
+        return state.rootReducer.resolvedIssues;
+      case 'user':
+        return state.rootReducer.userIssues;
+      default:
+        return state.rootReducer.issues;
+    }
+  };
+  const findPage = (state: RootState, type: string | null) => {
+    switch (type) {
+      case 'open':
+        return state.rootReducer.openIssues.page;
+      case 'closed':
+        return state.rootReducer.closedIssues.page;
+      case 'planned':
+        return state.rootReducer.plannedIssues.page;
+      case 'resolved':
+        return state.rootReducer.resolvedIssues.page;
+      case 'user':
+        return state.rootReducer.userIssues.page;
+      default:
+        return state.rootReducer.issues.page;
+    }
   };
 
-    const issues = useSelector((state: RootState) => selectFilteredIssues(state, type));
-    const currentPage = useSelector((state: RootState) => findPage(state, type));
-    const [page, setPage] = React.useState(currentPage);
+  const issues = useSelector((state: RootState) => selectFilteredIssues(state, type));
+  const currentPage = useSelector((state: RootState) => findPage(state, type));
+  const [page, setPage] = React.useState(currentPage);
 
-    useEffect(() => {
-        switch(type) {
-            case 'open':
-                dispatch(getOpenIssues(page));
-                break;
-            case 'closed':
-                dispatch(getClosedIssues(page));
-                break;
-            case 'planned':
-                dispatch(getPlannedIssues(page));
-                break;
-            case 'resolved':
-                dispatch(getResolvedIssues(page));
-                break;
-            case 'user':
-                dispatch(getUserIssues(userID, page));
-                break;
-            default:
-                dispatch(getIssues(page));
-        }
-    }, [ type, page]);
+  useEffect(() => {
+    switch (type) {
+      case 'open':
+        dispatch(getOpenIssues(page, officeId));
+        break;
+      case 'closed':
+        dispatch(getClosedIssues(page, officeId));
+        break;
+      case 'planned':
+        dispatch(getPlannedIssues(page, officeId));
+        break;
+      case 'resolved':
+        dispatch(getResolvedIssues(page, officeId));
+        break;
+      case 'user':
+        dispatch(getUserIssues(userID, page, officeId));
+        break;
+      default:
+        dispatch(getIssues(page, officeId));
+    }
+  }, [type, page, officeId]);
 
-    
-    const [pageCount, setPageCount] = React.useState(1);
-  
-    React.useEffect(() => {
-      fetchPageCount(type, userID).then((count) => {
-        setPageCount(count);
-      });
-    }, []);
-  
-    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-      setPage(value);
-    };
-  
-    return (
+  const [pageCount, setPageCount] = React.useState(1);
+
+  React.useEffect(() => {
+    fetchPageCount(type, userID).then((count) => {
+      setPageCount(count);
+    });
+  }, [officeId]);
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
+  return (
     <div>
       {issues.loading ? (
         <p>Loading...</p>
@@ -115,11 +115,16 @@ const Tab = ({ type, userID } : IssueListProps) => {
           />
         ))
       )}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Pagination sx={{'& .MuiPaginationItem-root': {fontSize: '14px'}}} count={pageCount} page={page} onChange={handleChange} color={'primary'}/>
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Pagination
+          sx={{ '& .MuiPaginationItem-root': { fontSize: '14px' } }}
+          count={pageCount}
+          page={page}
+          onChange={handleChange}
+          color={'primary'}
+        />
+      </div>
     </div>
-    
   );
 };
 export default Tab;

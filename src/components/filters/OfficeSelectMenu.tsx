@@ -10,11 +10,10 @@ import { Office } from 'src/models/OfficeModel';
 import { COLORS } from 'src/values/colors.js';
 import { makeStyles } from '@mui/material';
 
-export default function OfficeSelectMenu() {
+export default function OfficeSelectMenu({ setOffice, selectedOffice }) {
   //const dummyOffices = [{ officeName: 'Office 1' }, { officeName: 'Office 2' }];
 
   const [offices, getOffices] = useState<Office[]>([]);
-  const [selectedOffice, setOffice] = useState('');
 
   useEffect(() => {
     const fetchOffices = async () => {
@@ -45,7 +44,7 @@ export default function OfficeSelectMenu() {
       >
         <MenuItem value="">All Offices</MenuItem>
         {offices.map((office) => (
-          <MenuItem color="black" key={office.name} value={office.name}>
+          <MenuItem color="black" key={office.name} value={office.id}>
             {office.name}
           </MenuItem>
         ))}

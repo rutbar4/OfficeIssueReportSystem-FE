@@ -5,6 +5,7 @@ import { Box, SelectChangeEvent, createStyles, makeStyles } from '@mui/material'
 
 import { fetchAllUsers } from 'src/api/UserListApi';
 import { User } from 'src/models/BasicUserModel';
+import { useEffect, useState } from 'react';
 import { COLORS } from 'src/values/colors.js';
 
 export default function EmployeeSelectMenu() {
@@ -31,7 +32,7 @@ export default function EmployeeSelectMenu() {
       id="employee-selection"
       options={users}
       getOptionLabel={(user: User) => user.fullName}
-      sx={{ p: 1, minWidth: 160, color: COLORS.blue }}
+      sx={{ p: 1, minWidth: 200, color: COLORS.blue }}
       size="small"
       renderInput={(params) => (
         <TextField
@@ -40,7 +41,6 @@ export default function EmployeeSelectMenu() {
           sx={{
             fieldset: {
               borderRadius: '20px',
-              color: COLORS.blue,
             },
           }}
         />
