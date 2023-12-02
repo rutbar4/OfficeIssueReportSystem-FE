@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
+import { CLEAR_ISSUES } from 'src/actions/issues/IssuesActionType';
 
 import { issuesReducer, openIssuesReducer, plannedIssuesReducer,
    resolvedIssuesReducer, closedIssuesReducer, userIssuesReducer } from './issues/IssuesReducer';
 
-
-export default combineReducers({
+const appReducer = combineReducers({
   issues: issuesReducer,
   openIssues: openIssuesReducer,
   plannedIssues: plannedIssuesReducer,
@@ -12,3 +12,12 @@ export default combineReducers({
   closedIssues: closedIssuesReducer,
   userIssues: userIssuesReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === CLEAR_ISSUES) {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
+
+export default rootReducer;

@@ -13,6 +13,7 @@ import { removeUser } from '../../store/slices/userSlice';
 import { logOutUser } from '../../store/slices/authenticationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { clearIssues } from 'src/actions/issues/IssuesAction'
 
 type Props = {
   fullName: string;
@@ -29,6 +30,7 @@ const UserDropdownMenu: React.FC<Props> = ({ fullName, jobTitle, userAvatar, set
     e.preventDefault();
     dispatch(removeUser());
     dispatch(logOutUser());
+    dispatch(clearIssues())
     navigate(AppRoutes.SIGN_IN);
   };
 
