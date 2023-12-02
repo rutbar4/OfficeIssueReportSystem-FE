@@ -29,6 +29,7 @@ export default function OfficeSelectMenu({ setOffice }) {
 
   return (
     <Autocomplete
+      clearIcon={<div style={{ marginTop: 14 }} />}
       disablePortal
       id="employee-selection"
       options={offices}

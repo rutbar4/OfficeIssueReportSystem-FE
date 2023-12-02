@@ -24,6 +24,7 @@ export default function EmployeeSelectMenu({ setSelectedUser }) {
   return (
     <>
       <Autocomplete
+        clearIcon={<div style={{ marginTop: 14 }} />} 
         disablePortal
         id="employee-selection"
         options={users}
