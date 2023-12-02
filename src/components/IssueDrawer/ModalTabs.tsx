@@ -144,7 +144,7 @@ export default function BasicTabs({
           UpdateIssueById(issueId, status, editedDescription, office);
           window.location.reload();
         } else {
-          console.error('Description must be at least 20 characters');
+          console.error('Description must be at least 20 characters long');
         }
       } else {
         UpdateIssueById(issueId, status, description, office);
