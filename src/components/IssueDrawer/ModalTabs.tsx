@@ -16,7 +16,9 @@ import { Comment } from 'src/models/CommentModel';
 import { RootState } from 'src/store/store';
 import { Employee } from 'src/models/EmployeeModel';
 import { getAllCommentsApi } from 'src/api/CommentApi';
-import RichTextComponent from 'src/components/formFields/RichTextFieldDesc';
+import RichTextComponent from 'src/components/formFields/RichTextCompDesc';
+
+import { getInitialValue } from '@testing-library/user-event/dist/types/document/UI';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -83,21 +85,30 @@ export default function BasicTabs({
   description,
   office,
   status,
+  initialOffice,
+  initialStatus,
   issueId,
   employeeId,
+  wrapperSetDaitailsOpen,
 }: {
   description: string;
   office: string;
   status: string;
+  initialOffice: string;
+  initialStatus: string;
   issueId: string;
   employeeId: string;
+  wrapperSetDaitailsOpen: any;
 }) {
   const [value, setValue] = React.useState(0);
   const [isDescriptionEditable, setIsDescriptionEditable] = React.useState(false);
-  const [isDescriptionEdited, setIsDescriptionEdited] = React.useState(false);
+
+  const [isRichTextEdited, setIsRichTextEdited] = React.useState(false);
 
   const [editedDescription, setEditedDescription] = React.useState(description);
   const [comments, setComments] = React.useState<Comment[]>([]);
+  const [isFooterVisible, setIsFooterVisible] = React.useState(false);
+  const [richTextError, setRichTextError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     getAllCommentsApi(issueId).then((data) => {
@@ -117,7 +128,6 @@ export default function BasicTabs({
   const handleDescriptionClick = () => {
     if (isAdmin || employeeId === user?.id) {
       setIsDescriptionEditable(!isDescriptionEditable);
-      setIsDescriptionEdited(true);
     }
   };
 
@@ -129,9 +139,13 @@ export default function BasicTabs({
 
   const handleSaveDescription = () => {
     if (isAdmin || employeeId === user?.id) {
-      if (isDescriptionEdited) {
-        UpdateIssueById(issueId, status, cleanHtml(editedDescription), office);
-        window.location.reload();
+      if (isRichTextEdited) {
+        if (editedDescription.length >= 20) {
+          UpdateIssueById(issueId, status, editedDescription, office);
+          window.location.reload();
+        } else {
+          console.error('Description must be at least 20 characters long');
+        }
       } else {
         UpdateIssueById(issueId, status, description, office);
         window.location.reload();
@@ -139,7 +153,7 @@ export default function BasicTabs({
     }
   };
   const handleCancel = () => {
-    window.location.reload();
+    wrapperSetDaitailsOpen(false);
   };
   const cleanHtml = (htmlString) => {
     let cleanedHtml = htmlString.replace(/^<p>/, '');
@@ -149,8 +163,19 @@ export default function BasicTabs({
     return cleanedHtml;
   };
 
-  const isCommentsTab = value === 1;
+  React.useEffect(() => {
+    setIsFooterVisible(isRichTextEdited || status !== initialStatus || office !== initialOffice);
+  }, [isRichTextEdited, status, initialStatus, office, initialOffice]);
 
+  React.useEffect(() => {
+    setEditedDescription(description);
+  }, [description]);
+
+  React.useEffect(() => {
+    setIsFooterVisible(!richTextError);
+  }, [richTextError]);
+
+  const isDescriptionTab = value === 0;
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -166,17 +191,31 @@ export default function BasicTabs({
         <Typography className="Description">Description</Typography>
         {isDescriptionEditable ? (
           <RichTextComponent
-            initialValue={description}
+            initialValue={editedDescription}
             onSave={(newDescription) => {
               setEditedDescription(newDescription);
+              setIsRichTextEdited(cleanHtml(newDescription) !== description);
               setIsDescriptionEditable(false);
+              setRichTextError(null);
+            }}
+            onError={(error) => {
+              console.error(error);
+              setRichTextError(error);
             }}
           />
         ) : (
-          <div onClick={handleDescriptionClick} style={{ cursor: 'pointer' }}>
-            <Typography className="ActualDescription">
-              {isDescriptionEdited ? cleanHtml(editedDescription) : description}
-            </Typography>
+          <div onClick={handleDescriptionClick} style={{ cursor: 'pointer', width: '100%' }}>
+            <div
+              className="ActualDescription"
+              style={{
+                width: '100%',
+                wordWrap: 'break-word',
+                maxHeight: '136px',
+                overflowY: 'auto',
+              }}
+            >
+              <span dangerouslySetInnerHTML={{ __html: editedDescription }} />
+            </div>
           </div>
         )}
       </CustomTabPanel>
@@ -192,7 +231,7 @@ export default function BasicTabs({
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
-      {!isCommentsTab && (
+      {isDescriptionTab && isFooterVisible && !richTextError && (
         <div className="TabFooter">
           <Button variant="outlined" className="cancelButton" onClick={handleCancel}>
             <Typography className="cancel">Cancel</Typography>

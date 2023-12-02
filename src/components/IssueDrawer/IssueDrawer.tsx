@@ -19,8 +19,18 @@ const initialDetails = {
   officeId: '',
   employeeId: '',
 };
-
-export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, issueId, handleVoteCount, voteCount, wasVoted, isError, setError, isVoted, setVoted }) {
+export default function IssueDrawer({
+  wrapperSetDaitailsOpen,
+  issueDetailsOpen,
+  issueId,
+  handleVoteCount,
+  voteCount,
+  wasVoted,
+  isError,
+  setError,
+  isVoted,
+  setVoted,
+}) {
   const [issueDetailData, setIssueDetailData] = useState(initialDetails);
   const handleDrawerOpen = () => {
     fetchIssueDetails(issueId).then((data) => {
@@ -71,9 +81,9 @@ export default function IssueDrawer({ wrapperSetDaitailsOpen, issueDetailsOpen, 
               setError={setError}
               isVoted={isVoted}
               setVoted={setVoted}
+              wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
             />
           </Box>
-          ;
         </Drawer>
       </React.Fragment>
     </div>
