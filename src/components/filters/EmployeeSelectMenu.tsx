@@ -4,7 +4,6 @@ import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 
 import { fetchAllUsers } from 'src/api/UserListApi';
 import { User } from 'src/models/BasicUserModel';
-import { COLORS } from 'src/values/colors.js';
 
 export default function EmployeeSelectMenu({ setSelectedUser }) {
   const [users, setUsers] = React.useState<User[]>([]);
@@ -28,15 +27,15 @@ export default function EmployeeSelectMenu({ setSelectedUser }) {
         disablePortal
         id="employee-selection"
         options={users}
+        defaultValue={{ fullName: 'All Employees', id: '' }}
         getOptionLabel={(user: User) => user.fullName}
-        sx={{ width: 200,[`&& .${autocompleteClasses.inputRoot}`]: {
-          paddingRight: 2
-        } }}
+        sx={{ width: 200 }}
         size="small"
         renderInput={(params) => (
           <TextField
             {...params}
-            label="All Employees"
+            label="Employee:"
+            placeholder="Employee"
             sx={{
               fieldset: {
                 borderRadius: '20px',
