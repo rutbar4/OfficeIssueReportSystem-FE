@@ -1,19 +1,20 @@
-import {  FC, useState } from 'react';
-import { Box, CardContent, TextField, Avatar } from '@mui/material';
+import { FC, useRef, useState } from 'react';
+import { Box, CardContent, TextField, Avatar, withStyles, makeStyles, styled, Button } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 import { Employee } from 'src/models/EmployeeModel';
-
+import { COLORS } from 'src/values/colors.js';
 
 type AddCommentProps = {
-  picture: string,
-  issueId: string,
-  currentUser: Employee,
-  parentId: string | null
-  handleSubmit: (text: string,  parentId: string | null, issueId: string, currentUserId: string,) => void,
-  submitLabel: string,
-  initialText?: string,
+  picture: string;
+  issueId: string;
+  currentUser: Employee;
+  parentId: string | null;
+  handleSubmit: (text: string, parentId: string | null, issueId: string, currentUserId: string) => void;
+  submitLabel: string;
+  initialText?: string;
+  fieldWidth: any;
 };
-
 
 const AddCommentForm: FC<AddCommentProps> = ({
   picture,
@@ -22,6 +23,7 @@ const AddCommentForm: FC<AddCommentProps> = ({
   parentId,
   handleSubmit,
   initialText = '',
+  fieldWidth,
 }) => {
   const [text, setText] = useState(initialText);
 
@@ -44,23 +46,41 @@ const AddCommentForm: FC<AddCommentProps> = ({
         display: 'flex',
         alignItems: 'center',
         border: 'none',
-        marginBottom: 2,
         width: '100%',
       }}
     >
-        <Avatar src={picture} alt={`${picture} Photo`} sx={{ width: 40, height: 40, marginLeft: 4 }} />
-      <CardContent sx={{ flex: 5, paddingTop: 2 }}>
+      <Avatar src={picture} alt={`${picture} Photo`} sx={{ width: 40, height: 40, marginLeft: 2, marginTop: -1 }} />
+      <CardContent>
         <form onSubmit={onSubmit}>
-          <TextField
-            fullWidth
-            multiline
-            rows={1}
-            variant="outlined"
-            label="Add comment..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
+          <div style={{ display: 'flex' }}>
+            <div style={{ paddingRight: '7px', width: fieldWidth }}>
+              <TextField
+                fullWidth
+                multiline
+                placeholder="Add comment..."
+                InputProps={{
+                  sx: {
+                    '&.Mui-focused fieldset': {
+                      borderColor: COLORS.blue + ' !important',
+                      borderWidth: '2px !important',
+                    },
+                    borderRadius: '8px',
+                    borderColor: COLORS.lighterGray,
+                    outlineColor: COLORS.blue,
+                    color: COLORS.blue,
+                    fontSize: '12px',
+                  },
+                }}
+                InputLabelProps={{ shrink: false }}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+            </div>
+            <Button type="submit" sx={{}}>
+              <SendIcon sx={{ color: COLORS.blue, width: 20, height: 20 }} />
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Box>
@@ -68,5 +88,3 @@ const AddCommentForm: FC<AddCommentProps> = ({
 };
 
 export default AddCommentForm;
-
-

@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import UpvoteChip from '../Chip/UpvoteChip';
 import { COLORS } from '../../values/colors';
 
-
 type CommentUpvoteButtonProps = {
   isUpVoted: boolean;
   votes: number;
@@ -12,29 +11,28 @@ type CommentUpvoteButtonProps = {
 };
 
 const CommentUpvoteButton: React.FC<CommentUpvoteButtonProps> = ({ isUpVoted, votes, onClick }) => {
-  const backgroundColor = isUpVoted ? COLORS.lightBlue : COLORS.white;
+  const votedColor = isUpVoted ? COLORS.lightBlue : COLORS.white;
 
   return (
     <Button
-    variant="text"
-    onClick={onClick}
-    sx={{
-      marginTop: 2,
-      marginLeft: '-12px',
-      cursor: 'pointer',
-      textTransform: 'capitalize',
-      fontSize: '12px',
-      padding: '0px 0px',
-      minWidth: 'unset',
-      borderRadius: '16px',
-      color: COLORS.blue,
-      backgroundColor: backgroundColor,
-    }}
+      variant="text"
+      onClick={onClick}
+      sx={{
+        marginLeft: '-18px',
+        cursor: 'pointer',
+        textTransform: 'capitalize',
+        color: COLORS.blue,
+        backgroundColor: votedColor,
+        padding: 0,
+        scale: '0.75',
+        borderRadius: '16px',
+        outline: 'none',
+        border: 'none',
+      }}
     >
-    {votes === 0 ? 'Upvote' : <UpvoteChip count={votes} />}
-  </Button>
+      <UpvoteChip count={votes} />
+    </Button>
   );
 };
 
 export default CommentUpvoteButton;
-

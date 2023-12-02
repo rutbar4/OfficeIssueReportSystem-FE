@@ -13,7 +13,6 @@ const FormTextInput = ({
 }) => (
   <FormControl error={error} fullWidth>
     <Field
-      fullWidth
       id={id}
       name={name}
       type={type}
