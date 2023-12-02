@@ -1,10 +1,9 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 
 import { fetchAllUsers } from 'src/api/UserListApi';
 import { User } from 'src/models/BasicUserModel';
-import { useEffect, useState } from 'react';
 import { COLORS } from 'src/values/colors.js';
 
 export default function EmployeeSelectMenu({ setSelectedUser }) {
@@ -26,10 +25,13 @@ export default function EmployeeSelectMenu({ setSelectedUser }) {
   return (
     <>
       <Autocomplete
+        disablePortal
         id="employee-selection"
         options={users}
         getOptionLabel={(user: User) => user.fullName}
-        sx={{ p: 1, minWidth: 200, color: COLORS.blue }}
+        sx={{ width: 200,[`&& .${autocompleteClasses.inputRoot}`]: {
+          paddingRight: 2
+        } }}
         size="small"
         renderInput={(params) => (
           <TextField

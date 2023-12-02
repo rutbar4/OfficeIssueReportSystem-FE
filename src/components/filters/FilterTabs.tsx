@@ -95,7 +95,7 @@ export default function BasicTabs() {
           </Tabs>
         </ThemeProvider>
       </Box>
-      <Box sx={{ display: 'flex', marginTop: '10px' }}>
+      <Box sx={{ display: 'flex', marginTop: '20px' }}>
         <OfficeSelectMenu setOffice={setOffice} selectedOffice={selectedOffice} />
         <EmployeeSelectMenu setSelectedUser={setSelectedUser} />
       </Box>

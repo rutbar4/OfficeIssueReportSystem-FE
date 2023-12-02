@@ -32,7 +32,7 @@ export default function OfficeSelectMenu({ setOffice, selectedOffice }) {
   //console.log(offices[1].officeName);
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120, height: 10 }} size="small">
+    <FormControl sx={{ mr: 1, minWidth: 120}} size="small">
       <InputLabel id="office-selection">All Offices</InputLabel>
       <Select
         labelId="office-select-label"
