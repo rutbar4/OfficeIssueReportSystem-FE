@@ -87,7 +87,7 @@ const Tab = ({ type, userID, officeId, userId }: IssueListProps) => {
   const [pageCount, setPageCount] = React.useState(1);
 
   React.useEffect(() => {
-    fetchPageCount(type, userID).then((count) => {
+    fetchPageCount(type, userID, officeId, userId).then((count) => {
       setPageCount(count);
     });
   }, [officeId, userId]);
