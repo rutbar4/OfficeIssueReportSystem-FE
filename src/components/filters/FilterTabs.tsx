@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IssueTab from './Tab';
 
+import { User } from 'src/models/BasicUserModel';
 import { RootState } from 'src/store/store';
 import EmployeeSelectMenu from 'src/components/filters/EmployeeSelectMenu';
 import OfficeSelectMenu from 'src/components/filters/OfficeSelectMenu';
@@ -72,6 +73,7 @@ function a11yProps(index: number) {
 // eslint-disable-next-line react/no-multi-comp
 export default function BasicTabs() {
   const [selectedOffice, setOffice] = useState('');
+  const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
   const [value, setValue] = React.useState(0);
   const userID = useSelector((state: RootState) => state.user.user?.id) || 'null';
 
@@ -94,26 +96,26 @@ export default function BasicTabs() {
         </ThemeProvider>
       </Box>
       <Box sx={{ display: 'flex', marginTop: '10px' }}>
-        <OfficeSelectMenu setOffice={setOffice}  selectedOffice={selectedOffice}/>
-        <EmployeeSelectMenu />
+        <OfficeSelectMenu setOffice={setOffice} selectedOffice={selectedOffice} />
+        <EmployeeSelectMenu setSelectedUser={setSelectedUser} />
       </Box>
       <CustomTabPanel value={value} index={0}>
-      <IssueTab type={null} userID={userID} officeId={selectedOffice} />
+        <IssueTab type={null} userID={userID} officeId={selectedOffice} userId={selectedUser?.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <IssueTab type={'open'} userID={userID} officeId={selectedOffice} />
+        <IssueTab type={'open'} userID={userID} officeId={selectedOffice} userId={selectedUser?.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <IssueTab type={'planned'} userID={userID} officeId={selectedOffice} />
+        <IssueTab type={'planned'} userID={userID} officeId={selectedOffice} userId={selectedUser?.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <IssueTab type={'resolved'} userID={userID} officeId={selectedOffice} />
+        <IssueTab type={'resolved'} userID={userID} officeId={selectedOffice} userId={selectedUser?.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <IssueTab type={'closed'} userID={userID} officeId={selectedOffice} />
+        <IssueTab type={'closed'} userID={userID} officeId={selectedOffice} userId={selectedUser?.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <IssueTab type={'user'} userID={userID} officeId={selectedOffice} />
+        <IssueTab type={'user'} userID={userID} officeId={selectedOffice} userId={selectedUser?.id} />
       </CustomTabPanel>
     </Box>
   );

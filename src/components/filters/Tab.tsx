@@ -19,9 +19,10 @@ interface IssueListProps {
   type: string | null;
   userID: string;
   officeId: any | null;
+  userId: any | null;
 }
 
-const Tab = ({ type, userID, officeId }: IssueListProps) => {
+const Tab = ({ type, userID, officeId, userId }: IssueListProps) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   const selectFilteredIssues = (state: RootState, type: string | null) => {
@@ -64,24 +65,24 @@ const Tab = ({ type, userID, officeId }: IssueListProps) => {
   useEffect(() => {
     switch (type) {
       case 'open':
-        dispatch(getOpenIssues(page, officeId));
+        dispatch(getOpenIssues(page, officeId, userId));
         break;
       case 'closed':
-        dispatch(getClosedIssues(page, officeId));
+        dispatch(getClosedIssues(page, officeId, userId));
         break;
       case 'planned':
-        dispatch(getPlannedIssues(page, officeId));
+        dispatch(getPlannedIssues(page, officeId, userId));
         break;
       case 'resolved':
-        dispatch(getResolvedIssues(page, officeId));
+        dispatch(getResolvedIssues(page, officeId, userId));
         break;
       case 'user':
-        dispatch(getUserIssues(userID, page, officeId));
+        dispatch(getUserIssues(userID, page, officeId, userId));
         break;
       default:
-        dispatch(getIssues(page, officeId));
+        dispatch(getIssues(page, officeId, userId));
     }
-  }, [type, page, officeId]);
+  }, [type, page, officeId, userId]);
 
   const [pageCount, setPageCount] = React.useState(1);
 
@@ -89,7 +90,7 @@ const Tab = ({ type, userID, officeId }: IssueListProps) => {
     fetchPageCount(type, userID).then((count) => {
       setPageCount(count);
     });
-  }, [officeId]);
+  }, [officeId, userId]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
