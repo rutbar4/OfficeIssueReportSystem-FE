@@ -1,27 +1,34 @@
 import {Box} from '@mui/system';
-import {Button, Card, CardActions, CardMedia, Stack} from '@mui/material';
-import React from 'react';
+import {Stack} from '@mui/material';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 
-const AttachmentsField =({imageList})=> {
+import FilePreviewElement from './FilePreviewElement';
+
+const AttachmentsField =({imageList, updateImageList})=> {
+
+    const deleteUpload = (url) => {
+        const index = imageList.indexOf(url);
+        if(index > -1){
+            const newImageList=[...imageList];
+            newImageList.splice(index);
+            updateImageList(newImageList);
+        }
+    };
+
     return(
+
         <Box maxWidth={'400px'} maxHeight={'400px'}>
             <Stack direction="row" spacing={2}>
+                <></>
                 {
                     imageList.map((url) => (
-                        <Card key ={url} sx={{ maxWidth: 150 }} >
-                            <CardMedia
-                                component="img"
-                                alt="issue"
-                                height="50"
-                                width={'50'}
-                                image={url}
-                            />
-                            <CardActions>
-                                <Button size="small">Media</Button>
-                                <Button size="small">Download</Button>
-                            </CardActions>
-                        </Card>
+                        <FilePreviewElement
+                            key={url}
+                            fileName={'file'}
+                            link={url}
+                            removeUpload={deleteUpload}
+                        />
                     ))
                 }
             </Stack>
@@ -33,6 +40,7 @@ const AttachmentsField =({imageList})=> {
 
 AttachmentsField.propTypes = {
     imageList: PropTypes.arrayOf(PropTypes.string).isRequired,
+    updateImageList: PropTypes.func.isRequired
 };
 
 export default AttachmentsField;

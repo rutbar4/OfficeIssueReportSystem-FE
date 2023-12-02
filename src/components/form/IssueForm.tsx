@@ -9,28 +9,26 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import StyledButton from '../StyledButton/StyledButton';
 import {
     Alert,
-    Autocomplete,
     Button,
     CircularProgress,
     FormControl, FormHelperText,
     MenuItem,
     Select,
-    Stack,
-    TextField
+    Stack
 } from '@mui/material';
 import {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Formik} from 'formik';
+import {Editor} from '@tinymce/tinymce-react';
+import {useSelector} from 'react-redux';
+
+import StyledButton from '../StyledButton/StyledButton';
 import {Office} from '../../models/OfficeModel';
 import {fetchAllOffices} from '../../api/OfficeApi';
 import {saveIssue} from '../../api/issueAPI';
-import {Editor} from "@tinymce/tinymce-react";
-import FileDropField from "../formFields/FileDropField";
-import {useSelector} from "react-redux";
-import {RootState} from "../../store/store";
-import WideDisabledField from '../formFields/WideDisabledField';
+import FileDropField from '../formFields/FileDropField';
+import {RootState} from '../../store/store';
 import {COLORS} from '../../values/colors';
 import StyledTextField from '../formFields/StyledTextField';
 import AttachmentsField from '../formFields/AttachmentsField';
@@ -65,7 +63,7 @@ const IssueForm = ({ open, close }) => {
     const user = useSelector((state:RootState) => state.user.user);
     const [description, setDescription] = useState('');
     const [descriptionError, setDescriptionError] = useState('');
-    const [immageList, setImageList]= useState<string []>([]);
+    const [imageList, setImageList]= useState<string []>([]);
 
     useEffect(() => {
         fetchAllOffices()
@@ -76,13 +74,13 @@ const IssueForm = ({ open, close }) => {
 
        const onSaveIssue = (values: { name: any; description: any; office: any; attachments: any; }, helpers: { resetForm: () => void; setSubmitting: (arg0: boolean) => void; }) => {
         console.log('values:',values);
-        console.log('images:', immageList);
+        console.log('images:', imageList);
         saveIssue({
             name: values.name,
             description: values.description,
             officeId:offices.find((o) => o.name === values.office)?.id,
             employeeId: user?.id,
-            images: immageList
+            images: imageList
         })
             .then((response) => {
                 helpers.resetForm();
@@ -122,17 +120,17 @@ const IssueForm = ({ open, close }) => {
                 }}
                 onSubmit={onSaveIssue}
                 validationSchema={issueValidationSchema}
-            >
+             >
 
                 { ({values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting, setFieldValue}) => (
                     <form onSubmit={handleSubmit} id={'issueForm'} >
                         {
                             <BootstrapDialog onClose={close} aria-labelledby="customized-dialog-title" open={open} fullWidth={true} maxWidth={'md'}  >
-                                <DialogTitle variant ='h4' sx={{ m: 3, p: 2, mb: 0}} id="customized-dialog-title">
+                                <DialogTitle variant='h4' sx={{ m: 3, p: 2, mb: 0}} id="customized-dialog-title">
                                     <Typography variant="h4" gutterBottom sx={{ color: 'var(--primary-color)' }}>
                                         Report issue
                                     </Typography>
-                                    { showError && <Alert severity="error" sx ={{fontSize: '14px'}}>{showError}</Alert> }
+                                    { showError && <Alert severity="error" sx={{fontSize: '14px'}}>{showError}</Alert> }
                                 </DialogTitle>
                                 <IconButton
                                     aria-label="close"
@@ -164,7 +162,8 @@ const IssueForm = ({ open, close }) => {
                                         </Typography>
                                         <FormControl>
                                         <Field name='description'
-                                               error={touched.description && !!errors.description}>
+                                               error={touched.description && !!errors.description}
+                                        >
                                             {({ field, meta }) => (
                                                 <div>
                                                     <Editor
@@ -173,8 +172,8 @@ const IssueForm = ({ open, close }) => {
                                                         initialValue=''
                                                         init={{
                                                             menubar: false,
-                                                            plugins: "list code hr",
-                                                            toolbar: "bold italic strikethrough bullist numlist ",
+                                                            plugins: 'list code hr',
+                                                            toolbar: 'bold italic strikethrough bullist numlist ',
                                                             validate_children : true
                                                         }}
                                                         onEditorChange={(e) => {
@@ -234,8 +233,8 @@ const IssueForm = ({ open, close }) => {
                                         </Typography>
                                        <>
                                            {
-                                               immageList.length===0 ?  <FileDropField setImagesInForm={setImageList}/> :
-                                                   <AttachmentsField imageList={immageList}/>
+                                               imageList.length===0 ?  <FileDropField setImagesInForm={setImageList}/> :
+                                                   <AttachmentsField imageList={imageList} updateImageList={setImageList}/>
                                            }
                                        </>
 
@@ -257,7 +256,8 @@ const IssueForm = ({ open, close }) => {
                                                     fontSize: '14px',
                                                     borderRadius: '30px',
                                                     color: 'white',}}
-                                                type={'submit'} form={'issueForm'}>
+                                                type={'submit'} form={'issueForm'}
+                                            >
                                                 Report issue
                                             </Button>
                                         </>
