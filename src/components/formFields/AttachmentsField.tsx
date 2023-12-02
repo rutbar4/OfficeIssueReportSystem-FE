@@ -1,6 +1,6 @@
 import {Box} from '@mui/system';
 import {Stack} from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import FilePreviewElement from './FilePreviewElement';
@@ -20,7 +20,6 @@ const AttachmentsField =({imageList, updateImageList})=> {
 
         <Box maxWidth={'400px'} maxHeight={'400px'}>
             <Stack direction="row" spacing={2}>
-                <></>
                 {
                     imageList.map((url) => (
                         <FilePreviewElement
