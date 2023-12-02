@@ -56,14 +56,17 @@ type role =
   | string;
 
 function IssueDetails(props: issueDetailsProps) {
-   const { id,
+  const {
+    id,
     title,
     description,
     reportedBy,
     reported,
     status,
     upvotes,
-    office, officeId, employeeId,
+    office,
+    officeId,
+    employeeId,
     handleVoteCount,
     wasVoted,
     isError,
@@ -140,7 +143,7 @@ function IssueDetails(props: issueDetailsProps) {
             <TableCell style={tableStyle}>{reported}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell style={{  ...tableStyle, ...firstCellStyle  }}>Status</TableCell>
+            <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Status</TableCell>
             <TableCell style={{ ...tableStyle, cursor: 'pointer' }} onClick={handleStatusCellClick}>
               <StatusChip issueStatus={selectedStatus} />
             </TableCell>
@@ -173,12 +176,14 @@ function IssueDetails(props: issueDetailsProps) {
         description={description}
         office={officeToSend}
         status={selectedStatus}
+        initialOffice={officeId}
+        initialStatus={status}
         issueId={id}
         employeeId={employeeId}
         wrapperSetDaitailsOpen={wrapperSetDaitailsOpen}
       />
       <StatusDropdown
-        statusOptions={['Open', 'In progress', 'Pending', 'Blocked', 'Resolved', 'Closed']}
+        statusOptions={['Open', 'In progress', 'Blocked', 'Pending', 'Resolved', 'Closed']}
         anchorEl={statusDropdownAnchor}
         onClose={handleStatusDropdownClose}
         onStatusChange={handleStatusChange}
