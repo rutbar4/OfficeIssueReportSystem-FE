@@ -2,53 +2,53 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import { fetchAllOffices } from 'src/api/OfficeApi';
 import { Office } from 'src/models/OfficeModel';
 import { COLORS } from 'src/values/colors.js';
-import { makeStyles } from '@mui/material';
 
-export default function OfficeSelectMenu({ setOffice, selectedOffice }) {
-  //const dummyOffices = [{ officeName: 'Office 1' }, { officeName: 'Office 2' }];
-
+export default function OfficeSelectMenu({ setOffice }) {
   const [offices, getOffices] = useState<Office[]>([]);
 
   useEffect(() => {
     const fetchOffices = async () => {
       const fetchedOffices = await fetchAllOffices();
       getOffices(fetchedOffices);
-      //console.log(fetchedOffices);
     };
 
     fetchOffices();
   }, []);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setOffice(event.target.value);
+  const handleChange = (event, newValue: Office | null) => {
+    setOffice(newValue);
   };
 
-  //console.log(offices[1].officeName);
-
   return (
-    <FormControl sx={{ mr: 1, minWidth: 120}} size="small">
-      <InputLabel id="office-selection">All Offices</InputLabel>
-      <Select
-        labelId="office-select-label"
-        id="office-select"
-        value={selectedOffice}
-        label="All Offices"
-        onChange={handleChange}
-        sx={{ borderRadius: '20px', color: COLORS.blue }}
-      >
-        <MenuItem value="">All Offices</MenuItem>
-        {offices.map((office) => (
-          <MenuItem color="black" key={office.name} value={office.id}>
-            {office.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Autocomplete
+      disablePortal
+      id="employee-selection"
+      options={offices}
+      defaultValue={{ name: 'All Offices', id: '' }}
+      getOptionLabel={(office: Office) => office.name}
+      sx={{ width: 200 }}
+      size="small"
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Office:"
+          placeholder="Office"
+          sx={{
+            fieldset: {
+              borderRadius: '20px',
+            },
+          }}
+        />
+      )}
+      onChange={handleChange}
+    />
   );
 }
