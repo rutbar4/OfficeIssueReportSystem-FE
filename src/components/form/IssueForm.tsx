@@ -9,40 +9,46 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import StyledButton from '../StyledButton/StyledButton';
 import {
     Alert,
-    Autocomplete,
     Button,
     CircularProgress,
-    FormControl,
+    FormControl, FormHelperText,
     MenuItem,
     Select,
-    Stack,
-    TextField
+    Stack
 } from '@mui/material';
 import {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Formik} from 'formik';
+import {Editor} from '@tinymce/tinymce-react';
+import {useSelector} from 'react-redux';
+
+import StyledButton from '../StyledButton/StyledButton';
 import {Office} from '../../models/OfficeModel';
 import {fetchAllOffices} from '../../api/OfficeApi';
 import {saveIssue} from '../../api/issueAPI';
-import {Editor} from "@tinymce/tinymce-react";
-import FileDropField from "../formFields/FileDropField";
-import {useSelector} from "react-redux";
-import {RootState} from "../../store/store";
-import WideDisabledField from '../formFields/WideDisabledField';
+import FileDropField from '../formFields/FileDropField';
+import {RootState} from '../../store/store';
 import {COLORS} from '../../values/colors';
 import StyledTextField from '../formFields/StyledTextField';
+import AttachmentsField from '../formFields/AttachmentsField';
 
 const issueValidationSchema = Yup.object().shape({
     name: Yup.string()
         .min(5, 'minimal short summary size is 10 letters')
-        .max(150, 'maximal short summary size is 150 letters'),
+        .max(150, 'maximal short summary size is 150 letters')
+        .required('short summary is required'),
     description: Yup.string()
         .min(10, 'minimal description size is 10 letters')
         .max(250, 'maximal short summary size is 150 letters')
         .required('Description is required'),
     office: Yup.string().required('Office select is required'),
+});
+
+const FlexContainer = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
 });
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -61,6 +67,9 @@ const IssueForm = ({ open, close }) => {
     const [offices, setOffices] = useState<Office[]>([]);
     const [showError, setError] = useState('');
     const user = useSelector((state:RootState) => state.user.user);
+    const [description, setDescription] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
+    const [imageList, setImageList]= useState<string []>([]);
 
     useEffect(() => {
         fetchAllOffices()
@@ -71,20 +80,40 @@ const IssueForm = ({ open, close }) => {
 
        const onSaveIssue = (values: { name: any; description: any; office: any; attachments: any; }, helpers: { resetForm: () => void; setSubmitting: (arg0: boolean) => void; }) => {
         console.log('values:',values);
+        console.log('images:', imageList);
         saveIssue({
             name: values.name,
             description: values.description,
             officeId:offices.find((o) => o.name === values.office)?.id,
-            employeeId: user?.id
-
+            employeeId: user?.id,
+            images: imageList
         })
             .then((response) => {
+                helpers.resetForm();
                 close();
             })
-            .catch(({ response }) => setError(response.data.reason))
+            .catch(({ response }) => setError(response.data.message))
             .finally(() => {helpers.setSubmitting(false);
-                helpers.resetForm();});
+                ;});
     };
+
+        const validateDescription = (value) => {
+            const text = value.replace(/<\/?p>/g, '')
+                    .replace(/<\/?li>/g, '')
+                .replace(/<\/?ul>/g, '');
+            console.log(text);
+            const length = text.trim().length;
+            console.log(length);
+            if (!text || text.trim() === '') {
+                setDescriptionError('Description is required');
+                console.log(descriptionError);
+            }
+            if (length < 20 || length > 250) {
+                setDescriptionError('Description must be between 20 and 250 characters');
+                console.log(descriptionError);
+            }else{ setDescriptionError('');
+                console.log('no error');}
+        };
 
     return(
         <>
@@ -92,22 +121,22 @@ const IssueForm = ({ open, close }) => {
                 initialValues={{
                     name: '',
                     description: '',
-                    office: '',
-                    attachments: 'https://www.indraconsulting.com/wp-content/uploads/2011/11/problem-solution-1024x775.jpg',
+                    office: user?.office.name,
+                    attachments: ''
                 }}
                 onSubmit={onSaveIssue}
                 validationSchema={issueValidationSchema}
-            >
+             >
 
                 { ({values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting, setFieldValue}) => (
                     <form onSubmit={handleSubmit} id={'issueForm'} >
                         {
                             <BootstrapDialog onClose={close} aria-labelledby="customized-dialog-title" open={open} fullWidth={true} maxWidth={'md'}  >
-                                <DialogTitle variant ='h4' sx={{ m: 3, p: 2 }} id="customized-dialog-title">
+                                <DialogTitle variant='h4' sx={{ m: 3, p: 2, mb: 0}} id="customized-dialog-title">
                                     <Typography variant="h4" gutterBottom sx={{ color: 'var(--primary-color)' }}>
-                                        Report issue:
+                                        Report issue
                                     </Typography>
-                                    { showError && <Alert severity="error">ISSUE REPORT FAILED!</Alert> }
+                                    { showError && <Alert severity="error" sx={{fontSize: '14px'}}>{showError}</Alert> }
                                 </DialogTitle>
                                 <IconButton
                                     aria-label="close"
@@ -121,7 +150,7 @@ const IssueForm = ({ open, close }) => {
                                 >
                                     <CloseIcon />
                                 </IconButton>
-                                <DialogContent sx={{ width: '95%', height: '850px', m: 3, p: 2  }}>
+                                <DialogContent sx={{ width: '95%', height: '850px', mt:0, mb: 3, ml: 3, mr: 3,  p: 2  }}>
                                     <Stack spacing={2} direction="column">
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Short description
@@ -137,7 +166,10 @@ const IssueForm = ({ open, close }) => {
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Description
                                         </Typography>
-                                        <Field name='description'>
+                                        <FormControl>
+                                        <Field name='description'
+                                               error={touched.description && !!errors.description}
+                                        >
                                             {({ field, meta }) => (
                                                 <div>
                                                     <Editor
@@ -146,12 +178,13 @@ const IssueForm = ({ open, close }) => {
                                                         initialValue=''
                                                         init={{
                                                             menubar: false,
-                                                            plugins: "list code hr",
-                                                            toolbar: "bold italic strikethrough bullist numlist ",
+                                                            plugins: 'list code hr',
+                                                            toolbar: 'bold italic strikethrough bullist numlist ',
+                                                            validate_children : true
                                                         }}
                                                         onEditorChange={(e) => {
-                                                            const fixedText=e.replace(/^<p\/p>$/, '');
-                                                            handleChange({target:{name:'description', value: fixedText}});
+                                                            handleChange({target:{name:'description', value: e}});
+                                                            validateDescription(e);
                                                         }}
                                                         textareaName='description'
                                                         onChange={field.onChange}
@@ -160,12 +193,19 @@ const IssueForm = ({ open, close }) => {
                                                     />
                                                 </div>)}
                                         </Field>
+                                            { descriptionError ?  <Typography style={{ color: 'red', paddingTop: '1rem', fontSize: '14px' }} >
+                                                 {descriptionError}
+                                            </Typography> : <></>  }
+
+
+                                        </FormControl>
 
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Office
                                         </Typography>
                                         {  officesLoading ? <CircularProgress/> : <FormControl   >
                                             <Field
+                                                error={touched.office && !!errors.office}
                                                 id={'office'}
                                                 name={'office'}
                                                 as={Select}
@@ -188,13 +228,38 @@ const IssueForm = ({ open, close }) => {
                                                     <MenuItem key={o.id} value={o.name}>{o.name}</MenuItem>
                                                 )}
                                             </Field>
+                                            <ErrorMessage name={'office'} component={FormHelperText}>
+                                                {(msg) => <div style={{ color: 'red', paddingTop: '1rem' }}> Office is required </div>}
+                                            </ErrorMessage>
                                         </FormControl>   }
 
                                         <Divider />
+
+                                      <FlexContainer>
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
-                                           Attachments
+                                          Attachments
                                         </Typography>
-                                        <Field name = 'attachments' as = {FileDropField} sx ={{width: '100%'}}/>
+                                        {
+                                          imageList.length ===0 ? <></> :
+                                            <Button
+                                              variant={'text'}
+                                              sx={{ backgroundColor: 'white',
+                                              width: '158px',
+                                              height: '38px',
+                                              fontSize: '14px',
+                                              color: '#0E166E',}}
+                                            type={'submit'}
+                                            >
+                                              Upload file
+                                            </Button>
+                                        }
+                                      </FlexContainer>
+                                       <>
+                                           {
+                                               imageList.length===0 ?  <FileDropField setImagesInForm={setImageList}/> :
+                                                   <AttachmentsField imageList={imageList} updateImageList={setImageList}/>
+                                           }
+                                       </>
 
                                     </Stack>
                                 </DialogContent>
@@ -214,7 +279,8 @@ const IssueForm = ({ open, close }) => {
                                                     fontSize: '14px',
                                                     borderRadius: '30px',
                                                     color: 'white',}}
-                                                type={'submit'} form={'issueForm'}>
+                                                type={'submit'} form={'issueForm'}
+                                            >
                                                 Report issue
                                             </Button>
                                         </>
