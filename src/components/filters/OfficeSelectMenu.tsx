@@ -1,13 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Autocomplete from '@mui/material/Autocomplete';
-
 import { fetchAllOffices } from 'src/api/OfficeApi';
+import CloseIcon from '@mui/icons-material/Close';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Office } from 'src/models/OfficeModel';
 import { COLORS } from 'src/values/colors.js';
 
@@ -29,22 +26,28 @@ export default function OfficeSelectMenu({ setOffice }) {
 
   return (
     <Autocomplete
-      clearIcon={<div style={{ marginTop: 14 }} />}
+      clearIcon={<CloseIcon style={{ marginTop: 2 }}/>}
+      popupIcon={<ArrowDropDownIcon style={{ marginTop: 2 }}/>}
       disablePortal
+      size="small"
       id="employee-selection"
       options={offices}
       defaultValue={{ name: 'All Offices', id: '' }}
       getOptionLabel={(office: Office) => office.name}
-      sx={{ width: 200 }}
-      size="small"
+      ListboxProps={{ style: { fontSize: '14px' } }}
+      sx={{ width: '200px' }}
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Office:"
+          InputProps={{ ...params.InputProps, style: { fontSize: '14px', color: COLORS.blue } }}
+          InputLabelProps={{ style: { fontSize: '12px' } }}
+          label="Office"
           placeholder="Office"
           sx={{
             fieldset: {
               borderRadius: '20px',
+              alignContent: 'center',
+              alignItems: 'center',
             },
           }}
         />
