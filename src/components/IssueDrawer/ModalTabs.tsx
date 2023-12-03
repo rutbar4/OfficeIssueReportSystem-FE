@@ -9,6 +9,8 @@ import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 
+import MiniDropZone from '../formFields/MiniDropZone';
+import AttachmentsField from '../formFields/AttachmentsFieldDetails';
 import Comments from '../comment/Comments';
 import { UpdateIssueById } from '../../api/IssueUpdateApi';
 
@@ -17,6 +19,8 @@ import { RootState } from 'src/store/store';
 import { Employee } from 'src/models/EmployeeModel';
 import { getAllCommentsApi } from 'src/api/CommentApi';
 import RichTextComponent from 'src/components/formFields/RichTextCompDesc';
+import HTTP from 'src/api';
+import Backend from 'src/api/BackendConfig/BackendConfig';
 
 import { getInitialValue } from '@testing-library/user-event/dist/types/document/UI';
 
@@ -110,6 +114,50 @@ export default function BasicTabs({
   const [isFooterVisible, setIsFooterVisible] = React.useState(false);
   const [richTextError, setRichTextError] = React.useState<string | null>(null);
 
+  const [imageList, setImageList] = React.useState<string[]>([]);
+
+  const [initialImageListSize, setInitialImageListSize] = React.useState<number>(0);
+  const [isAddedPicture, setIsAddedPicture] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    const fetchImageList = async () => {
+      try {
+        const response = await HTTP.get(`${Backend.backendURL}issue/${issueId}/links`);
+
+        if (!response.data) {
+          throw new Error('Network response was not ok');
+        }
+        const newImageList = response.data as string[];
+        setImageList(newImageList);
+        setInitialImageListSize(newImageList.length);
+      } catch (error) {
+        console.error('Error fetching image list:', error);
+      }
+    };
+
+    fetchImageList();
+  }, [issueId]);
+
+  React.useEffect(() => {
+    setIsAddedPicture(imageList.length !== initialImageListSize);
+  }, [imageList, initialImageListSize]);
+
+  const handleUploadImages = async () => {
+    console.log(imageList);
+    for (const imageUrl of imageList) {
+      try {
+        const uploadUrl = `${Backend.backendURL}issue/addpicture`;
+        await HTTP.post(uploadUrl, {
+          url: imageUrl,
+          issueId: issueId,
+          employeeId: employeeId,
+        });
+      } catch (error) {
+        console.error('Error uploading picture:', error);
+      }
+    }
+  };
+
   React.useEffect(() => {
     getAllCommentsApi(issueId).then((data) => {
       setComments(data);
@@ -137,7 +185,8 @@ export default function BasicTabs({
     avatar: user?.avatar || '',
   };
 
-  const handleSaveDescription = () => {
+  const handleSaveDescription = async () => {
+    await handleUploadImages();
     if (isAdmin || employeeId === user?.id) {
       if (isRichTextEdited) {
         if (editedDescription.length >= 20) {
@@ -171,11 +220,12 @@ export default function BasicTabs({
     setEditedDescription(description);
   }, [description]);
 
-  React.useEffect(() => {
-    setIsFooterVisible(!richTextError);
-  }, [richTextError]);
-
   const isDescriptionTab = value === 0;
+  console.log('isFooterVisible:', isFooterVisible);
+  console.log('isAddedpicture:', isAddedPicture);
+  console.log('isDescriptionTAb:', isDescriptionTab);
+  console.log('richtexterror:', richTextError);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -218,6 +268,18 @@ export default function BasicTabs({
             </div>
           </div>
         )}
+        <div className="AttachmentsLine" style={{ marginTop: '50px', display: 'flex', alignItems: 'center' }}>
+          <div style={{ marginTop: '-50px' }}>
+            <Typography className="Description">Attachments</Typography>
+          </div>
+
+          <div style={{ marginLeft: '448px', marginTop: '-50px' }}>
+            <a>
+              <MiniDropZone imageListF={imageList} setImagesInForm={setImageList} />
+            </a>
+          </div>
+        </div>
+        <AttachmentsField imageList={imageList} updateImageList={setImageList} issueID={issueId} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <Comments
@@ -231,7 +293,7 @@ export default function BasicTabs({
       <CustomTabPanel value={value} index={2}>
         Busimi Logai
       </CustomTabPanel>
-      {isDescriptionTab && isFooterVisible && !richTextError && (
+      {(isFooterVisible === true || isAddedPicture === true) && isDescriptionTab === true && !richTextError && (
         <div className="TabFooter">
           <Button variant="outlined" className="cancelButton" onClick={handleCancel}>
             <Typography className="cancel">Cancel</Typography>
