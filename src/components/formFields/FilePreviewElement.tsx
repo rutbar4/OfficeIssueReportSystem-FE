@@ -3,6 +3,7 @@ import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import { getStorage, ref } from "firebase/storage";
+import {COLORS} from '../../values/colors';
 
 const FilePreviewElement =({link, fileName,removeUpload})=> {
 
@@ -34,12 +35,12 @@ const FilePreviewElement =({link, fileName,removeUpload})=> {
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography variant="body2" gutterBottom>
-                  {fileNames}
+
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                  Download
+                <Typography sx={{ fontSize:14, color:COLORS.blue }} variant="body2">
+                  {fileNames}
                 </Typography>
               </Grid>
             </Grid>
