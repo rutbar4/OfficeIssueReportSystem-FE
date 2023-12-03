@@ -45,6 +45,12 @@ const issueValidationSchema = Yup.object().shape({
     office: Yup.string().required('Office select is required'),
 });
 
+const FlexContainer = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+});
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -228,9 +234,26 @@ const IssueForm = ({ open, close }) => {
                                         </FormControl>   }
 
                                         <Divider />
+
+                                      <FlexContainer>
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
-                                           Attachments
+                                          Attachments
                                         </Typography>
+                                        {
+                                          imageList.length ===0 ? <></> :
+                                            <Button
+                                              variant={'text'}
+                                              sx={{ backgroundColor: 'white',
+                                              width: '158px',
+                                              height: '38px',
+                                              fontSize: '14px',
+                                              color: '#0E166E',}}
+                                            type={'submit'}
+                                            >
+                                              Upload file
+                                            </Button>
+                                        }
+                                      </FlexContainer>
                                        <>
                                            {
                                                imageList.length===0 ?  <FileDropField setImagesInForm={setImageList}/> :
