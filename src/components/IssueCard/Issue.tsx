@@ -122,11 +122,12 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                       WebkitLineClamp: '2',
                       WebkitBoxOrient: 'vertical',
                       height: '39px',
+                      width: '573px',
                       fontSize: '14px',
                       color: COLORS.gray,
                     }}
                   >
-                    {issueDescription}
+                    <span dangerouslySetInnerHTML={{ __html: issueDescription }} />
                   </Typography>
                 </div>
               </Grid>
@@ -136,7 +137,15 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                     <Chip
                       label={issueStatus}
                       sx={{ borderRadius: '17px', fontSize: '15px' }}
-                      color={issueStatus === 'Open' ? 'success' : issueStatus === 'In progress' ? 'primary' : 'default'}
+                      color={
+                        issueStatus === 'Open'
+                          ? 'success'
+                          : issueStatus === 'In progress'
+                          ? 'primary'
+                          : issueStatus === 'Blocked'
+                          ? 'error'
+                          : 'default'
+                      }
                     />
                   </Grid>
                   <Grid item xs={3}>
