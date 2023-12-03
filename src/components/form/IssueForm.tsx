@@ -32,6 +32,7 @@ import {RootState} from '../../store/store';
 import {COLORS} from '../../values/colors';
 import StyledTextField from '../formFields/StyledTextField';
 import AttachmentsField from '../formFields/AttachmentsField';
+import MiniDropZone from '../formFields/MiniDropZone';
 
 const issueValidationSchema = Yup.object().shape({
     name: Yup.string()
@@ -128,7 +129,7 @@ const IssueForm = ({ open, close }) => {
                 validationSchema={issueValidationSchema}
              >
 
-                { ({values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting, setFieldValue}) => (
+                { ({values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting, setFieldValue, resetForm}) => (
                     <form onSubmit={handleSubmit} id={'issueForm'} >
                         {
                             <BootstrapDialog onClose={close} aria-labelledby="customized-dialog-title" open={open} fullWidth={true} maxWidth={'md'}  >
@@ -241,17 +242,7 @@ const IssueForm = ({ open, close }) => {
                                         </Typography>
                                         {
                                           imageList.length ===0 ? <></> :
-                                            <Button
-                                              variant={'text'}
-                                              sx={{ backgroundColor: 'white',
-                                              width: '158px',
-                                              height: '38px',
-                                              fontSize: '14px',
-                                              color: '#0E166E',}}
-                                            type={'submit'}
-                                            >
-                                              Upload file
-                                            </Button>
+                                            <MiniDropZone imageListF={imageList} setImagesInForm={setImageList}/>
                                         }
                                       </FlexContainer>
                                        <>
