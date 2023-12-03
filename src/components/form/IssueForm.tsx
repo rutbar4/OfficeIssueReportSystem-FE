@@ -236,7 +236,7 @@ const IssueForm = ({ open, close }) => {
 
                                         <Divider />
 
-                                      <FlexContainer>
+                                      <FlexContainer sx={{display:'flex', paddingBottom:'5px'}}>
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                           Attachments
                                         </Typography>
@@ -245,12 +245,13 @@ const IssueForm = ({ open, close }) => {
                                             <MiniDropZone imageListF={imageList} setImagesInForm={setImageList}/>
                                         }
                                       </FlexContainer>
-                                       <>
+
+                                       <div style={{paddingTop:'1px'}}>
                                            {
                                                imageList.length===0 ?  <FileDropField setImagesInForm={setImageList}/> :
                                                    <AttachmentsField imageList={imageList} updateImageList={setImageList}/>
                                            }
-                                       </>
+                                       </div>
 
                                     </Stack>
                                 </DialogContent>
