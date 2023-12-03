@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux';
-
+import {logOutUser} from 'src/store/slices/authenticationSlice';
 import { issuesReducer, openIssuesReducer, plannedIssuesReducer,
    resolvedIssuesReducer, closedIssuesReducer, userIssuesReducer } from './issues/IssuesReducer';
 
-
-export default combineReducers({
+const appReducer = combineReducers({
   issues: issuesReducer,
   openIssues: openIssuesReducer,
   plannedIssues: plannedIssuesReducer,
@@ -12,3 +11,13 @@ export default combineReducers({
   closedIssues: closedIssuesReducer,
   userIssues: userIssuesReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === logOutUser.type) {
+    state = undefined;
+  }
+  
+  return appReducer(state, action);
+};
+
+export default rootReducer;
