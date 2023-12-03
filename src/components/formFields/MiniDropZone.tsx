@@ -62,7 +62,7 @@ const MiniDropZone = ({imageListF, setImagesInForm}) => {
             isDragActive ?
               <p>Upload file.</p> :<div>
               <Stack direction={'row'} spacing={1}>
-                <Typography sx={{color: COLORS.blue, fontSize:14, textDecoration:'underline'}}>Upload File</Typography>
+                <Typography sx={{color: COLORS.blue, fontSize:14, textDecoration:'underline'}}>Upload file</Typography>
               </Stack>
 
               </div>

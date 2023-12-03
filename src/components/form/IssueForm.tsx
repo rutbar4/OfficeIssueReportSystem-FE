@@ -181,7 +181,8 @@ const IssueForm = ({ open, close }) => {
                                                             menubar: false,
                                                             plugins: 'list code hr',
                                                             toolbar: 'bold italic strikethrough bullist numlist ',
-                                                            validate_children : true
+                                                            validate_children : true,
+                                                            height: '350px'
                                                         }}
                                                         onEditorChange={(e) => {
                                                             handleChange({target:{name:'description', value: e}});
@@ -256,21 +257,25 @@ const IssueForm = ({ open, close }) => {
                                     </Stack>
                                 </DialogContent>
                                 <Divider />
-                                <DialogActions>
+                                <DialogActions sx={{ marginRight: '3%' }}>
                                     {isSubmitting ? (
                                         <CircularProgress />
                                     ) : (
-                                        <div style={{paddingRight:'20px'}}>
-                                            <StyledButton buttonSize={'medium'} buttonType={'secondary'} type={'button'} onClick={close}>
+                                        <div >
+                                            <StyledButton buttonSize={'medium'} buttonType={'secondary'} type={'button'} onClick={close} >
                                                 Cancel
                                             </StyledButton>
                                             <Button
-                                                sx={{ backgroundColor: '#0E166E',
+                                                sx={{ backgroundColor: COLORS.blue,
                                                     width: '158px',
                                                     height: '38px',
                                                     fontSize: '14px',
+                                                    textTransform: 'none',
                                                     borderRadius: '30px',
-                                                    color: 'white',}}
+                                                    color: 'white',
+                                                  '&:hover': {
+                                                    backgroundColor: COLORS.blue
+                                                  }}}
                                                 type={'submit'} form={'issueForm'}
                                             >
                                                 Report issue
