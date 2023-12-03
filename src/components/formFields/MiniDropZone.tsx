@@ -38,7 +38,7 @@ const MiniDropZone = ({imageListF, setImagesInForm}) => {
       .then((urls) => {
         // Update state with the list of URLs
         setImageList((prev) => [...prev, ...urls]);
-        setImagesInForm([...imageList, ...urls]);
+        setImagesInForm((imageListF) => [...imageListF, ...urls]);
       })
       .catch((error) => {
         console.error('Error uploading files:', error);
