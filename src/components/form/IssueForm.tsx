@@ -32,6 +32,7 @@ import {RootState} from '../../store/store';
 import {COLORS} from '../../values/colors';
 import StyledTextField from '../formFields/StyledTextField';
 import AttachmentsField from '../formFields/AttachmentsField';
+import MiniDropZone from '../formFields/MiniDropZone';
 
 const issueValidationSchema = Yup.object().shape({
     name: Yup.string()
@@ -128,7 +129,7 @@ const IssueForm = ({ open, close }) => {
                 validationSchema={issueValidationSchema}
              >
 
-                { ({values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting, setFieldValue}) => (
+                { ({values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting, setFieldValue, resetForm}) => (
                     <form onSubmit={handleSubmit} id={'issueForm'} >
                         {
                             <BootstrapDialog onClose={close} aria-labelledby="customized-dialog-title" open={open} fullWidth={true} maxWidth={'md'}  >
@@ -150,7 +151,7 @@ const IssueForm = ({ open, close }) => {
                                 >
                                     <CloseIcon />
                                 </IconButton>
-                                <DialogContent sx={{ width: '95%', height: '850px', mt:0, mb: 3, ml: 3, mr: 3,  p: 2  }}>
+                                <DialogContent sx={{ width: '94%', height: '850px', mt:0, mb: 3, ml: 3, mr: 3,  p: 2  }}>
                                     <Stack spacing={2} direction="column">
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Short description
@@ -180,7 +181,8 @@ const IssueForm = ({ open, close }) => {
                                                             menubar: false,
                                                             plugins: 'list code hr',
                                                             toolbar: 'bold italic strikethrough bullist numlist ',
-                                                            validate_children : true
+                                                            validate_children : true,
+                                                            height: '350px'
                                                         }}
                                                         onEditorChange={(e) => {
                                                             handleChange({target:{name:'description', value: e}});
@@ -235,55 +237,50 @@ const IssueForm = ({ open, close }) => {
 
                                         <Divider />
 
-                                      <FlexContainer>
+                                      <FlexContainer sx={{display:'flex', paddingBottom:'15px'}}>
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                           Attachments
                                         </Typography>
                                         {
-                                          imageList.length ===0 ? <></> :
-                                            <Button
-                                              variant={'text'}
-                                              sx={{ backgroundColor: 'white',
-                                              width: '158px',
-                                              height: '38px',
-                                              fontSize: '14px',
-                                              color: '#0E166E',}}
-                                            type={'submit'}
-                                            >
-                                              Upload file
-                                            </Button>
+                                          imageList.length ===0 || imageList.length > 3 ? <></> :
+                                            <MiniDropZone imageListF={imageList} setImagesInForm={setImageList}/>
                                         }
                                       </FlexContainer>
-                                       <>
+
+                                       <div style={{paddingTop:'10px'}}>
                                            {
                                                imageList.length===0 ?  <FileDropField setImagesInForm={setImageList}/> :
                                                    <AttachmentsField imageList={imageList} updateImageList={setImageList}/>
                                            }
-                                       </>
+                                       </div>
 
                                     </Stack>
                                 </DialogContent>
                                 <Divider />
-                                <DialogActions>
+                                <DialogActions sx={{ marginRight: '3%' }}>
                                     {isSubmitting ? (
                                         <CircularProgress />
                                     ) : (
-                                        <>
-                                            <StyledButton buttonSize={'medium'} buttonType={'secondary'} type={'button'} onClick={close}>
+                                        <div >
+                                            <StyledButton buttonSize={'medium'} buttonType={'secondary'} type={'button'} onClick={close} >
                                                 Cancel
                                             </StyledButton>
                                             <Button
-                                                sx={{ backgroundColor: '#0E166E',
+                                                sx={{ backgroundColor: COLORS.blue,
                                                     width: '158px',
                                                     height: '38px',
                                                     fontSize: '14px',
+                                                    textTransform: 'none',
                                                     borderRadius: '30px',
-                                                    color: 'white',}}
+                                                    color: 'white',
+                                                  '&:hover': {
+                                                    backgroundColor: COLORS.blue
+                                                  }}}
                                                 type={'submit'} form={'issueForm'}
                                             >
                                                 Report issue
                                             </Button>
-                                        </>
+                                        </div>
                                     )}
                                 </DialogActions>
                             </BootstrapDialog>
