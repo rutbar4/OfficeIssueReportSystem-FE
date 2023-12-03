@@ -1,9 +1,10 @@
-import {FormControl, FormHelperText, TextField} from "@mui/material";
-import {ErrorMessage, Field} from "formik";
+import {FormControl, FormHelperText, TextField} from '@mui/material';
+import {ErrorMessage, Field} from 'formik';
 
 const FormTextInput = ({error, name, label = 'Type something here', ...props}) => (
   <FormControl error={error}
-               fullWidth>
+               fullWidth
+  >
     <Field id={name}
            name={name}
            as={TextField}
@@ -13,7 +14,8 @@ const FormTextInput = ({error, name, label = 'Type something here', ...props}) =
            {...props}
     />
     <ErrorMessage name={name}
-                  component={FormHelperText}/>
+                  component={FormHelperText}
+    />
   </FormControl>
 );
 
