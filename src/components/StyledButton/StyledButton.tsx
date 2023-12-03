@@ -47,6 +47,7 @@ const StyledButton: React.FC<Props> = ({
         height: '38px',
         fontSize: '14px',
         borderRadius: '30px',
+        marginRight:'4px'
       },
       large: {
         width: '200px',
