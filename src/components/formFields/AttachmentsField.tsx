@@ -11,7 +11,7 @@ const AttachmentsField =({imageList, updateImageList})=> {
         const index = imageList.indexOf(url);
         if(index > -1){
             const newImageList=[...imageList];
-            newImageList.splice(index);
+            newImageList.splice(index,1);
             updateImageList(newImageList);
         }
     };
