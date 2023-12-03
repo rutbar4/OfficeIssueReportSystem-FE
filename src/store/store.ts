@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 
 import user, {getUserFromLocalStorage} from './slices/userSlice';
 import authentication, {getAuthenticationFromLocalStorage} from './slices/authenticationSlice';
+import refresh from './slices/refreshSlice';
 
 import rootReducer from 'src/reducers/rootReducer';
 
@@ -12,6 +13,7 @@ import rootReducer from 'src/reducers/rootReducer';
       rootReducer,
       authentication,
       user,
+      refresh,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 

@@ -24,6 +24,7 @@ interface IssueListProps {
 
 const Tab = ({ type, userID, officeId, userId }: IssueListProps) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const refreshKey = useSelector((state: RootState) => state.refresh);
 
   const selectFilteredIssues = (state: RootState, type: string | null) => {
     switch (type) {
@@ -95,6 +96,10 @@ const Tab = ({ type, userID, officeId, userId }: IssueListProps) => {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [refreshKey, pageCount]);
 
   return (
     <div>
