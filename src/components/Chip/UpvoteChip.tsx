@@ -7,7 +7,7 @@ const UpvoteChip = ({ count }: { count: number }) => {
     <Chip
       label={count}
       avatar={<BiSolidUpArrowAlt color="#0E166E" />}
-      sx={{ borderRadius: '17px', fontSize: '17px', padding: 0 }}
+      sx={{ borderRadius: '17px', fontSize: '17px', padding: '3px' }}
     />
   );
 };
