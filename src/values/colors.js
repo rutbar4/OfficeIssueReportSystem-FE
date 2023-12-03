@@ -4,4 +4,6 @@ export const COLORS = {
   lighterGray: '#acacac',
   lightBlue: '#78ECE8',
   white: 'white',
+  hoverLightBlue: '#54A5A2',
+  hoverUnvotedLightBlue: '#D6F9F8',
 };
