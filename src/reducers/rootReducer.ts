@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
-import { CLEAR_ISSUES } from 'src/actions/issues/IssuesActionType';
-
+import {logOutUser} from 'src/store/slices/authenticationSlice';
 import { issuesReducer, openIssuesReducer, plannedIssuesReducer,
    resolvedIssuesReducer, closedIssuesReducer, userIssuesReducer } from './issues/IssuesReducer';
 
@@ -14,9 +13,10 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === CLEAR_ISSUES) {
+  if (action.type === logOutUser.type) {
     state = undefined;
   }
+  
   return appReducer(state, action);
 };
 
