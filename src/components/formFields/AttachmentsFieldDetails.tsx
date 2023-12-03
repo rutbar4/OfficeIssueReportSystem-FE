@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import { Stack } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -40,12 +40,14 @@ const AttachmentsFieldDetails = ({ imageList, updateImageList, issueID }) => {
   };
 
   return (
-    <Box maxWidth={'400px'} maxHeight={'400px'}>
-      <Stack direction="row" spacing={2}>
+    <Box maxWidth={'800px'} maxHeight={'200px'} overflow="auto">
+      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 8, md: 12 }} style={{}}>
         {imageList.map((url) => (
-          <FilePreviewElement key={url} fileName={'file'} link={url} removeUpload={deleteUpload} />
+          <Grid item key={url} xs={5} style={{ width: '150px', height: '120px', margin: '20px' }}>
+            <FilePreviewElement key={url} fileName={'file'} link={url} removeUpload={deleteUpload} />
+          </Grid>
         ))}
-      </Stack>
+      </Grid>
     </Box>
   );
 };

@@ -268,11 +268,11 @@ export default function BasicTabs({
           </div>
         )}
         <div className="AttachmentsLine" style={{ marginTop: '50px', display: 'flex', alignItems: 'center' }}>
-          <div>
+          <div style={{ marginTop: '-50px' }}>
             <Typography className="Description">Attachments</Typography>
           </div>
 
-          <div style={{ marginLeft: '448px' }}>
+          <div style={{ marginLeft: '448px', marginTop: '-50px' }}>
             <a>
               <MiniDropZone imageListF={imageList} setImagesInForm={setImageList} />
             </a>
