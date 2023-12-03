@@ -82,10 +82,10 @@ const CommentForm: FC<CommentProps> = ({
       >
         <Stack direction="row" alignItems="center" spacing={2}>
           <Box p={{ xs: '0', sm: '4px' }}>
-            <Avatar src={employee.avatar} alt={`${employee.fullName} Photo`} sx={{ marginTop: 1 }} />
+            <Avatar src={comment.employee.avatar} alt={`${comment.employee.fullName} Photo`} sx={{ marginTop: 1 }} />
           </Box>
           <Typography variant="h6" sx={{ fontSize: '14px', fontWeight: 'bold', color: COLORS.blue }}>
-            {employee.fullName}
+            {comment.employee.fullName}
           </Typography>
           <Typography variant="h6" sx={{ color: COLORS.gray, paddingTop: '2px' }}>
             {formattedDate}
