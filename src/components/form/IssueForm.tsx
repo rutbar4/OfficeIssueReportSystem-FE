@@ -242,7 +242,7 @@ const IssueForm = ({ open, close }) => {
                                           Attachments
                                         </Typography>
                                         {
-                                          imageList.length ===0 ? <></> :
+                                          imageList.length ===0 || imageList.length > 3 ? <></> :
                                             <MiniDropZone imageListF={imageList} setImagesInForm={setImageList}/>
                                         }
                                       </FlexContainer>
