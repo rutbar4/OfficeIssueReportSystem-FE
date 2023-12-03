@@ -1,12 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import Box from '@mui/material/Box';
-import {Button, Card, CardActions, CardContent, CardMedia, Typography} from '@mui/material';
+import {Button, Card, CardActions, CardContent, CardMedia, colors, Stack, Typography} from '@mui/material';
 import BackupIcon from '@mui/icons-material/Backup';
 import {ref, uploadBytes, getDownloadURL, listAll, list,} from 'firebase/storage';
 import {v4} from 'uuid';
 
 import {storage} from '../../firebase/firebaseConfig';
+import {COLORS} from '../../values/colors';
 
 
 const MiniDropZone = ({imageListF, setImagesInForm}) => {
@@ -52,7 +53,7 @@ const MiniDropZone = ({imageListF, setImagesInForm}) => {
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
   return (
-    <Box sx={{height:'5px', width:'100px', maxWidth:'100%', textAlign:'center', position:'relative'}}
+    <Box
     >
       {
         <div {...getRootProps()}>
@@ -60,8 +61,10 @@ const MiniDropZone = ({imageListF, setImagesInForm}) => {
           {
             isDragActive ?
               <p>Upload file.</p> :<div>
-                <BackupIcon/>
-                <Typography sx={{color: '#6B706D', fontSize:'14'}}>Upload File</Typography>
+              <Stack direction={'row'} spacing={1}>
+                <Typography sx={{color: COLORS.blue, fontSize:14, textDecoration:'underline'}}>Upload File</Typography>
+              </Stack>
+
               </div>
           }
         </div>

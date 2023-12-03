@@ -34,13 +34,14 @@ const FilePreviewElement =({link, fileName,removeUpload})=> {
           <Grid item xs={6} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
-                <Typography variant="body2" gutterBottom>
+                <Typography variant="body2" sx={{ fontSize:18, color:COLORS.blue }} gutterBottom>
+                  {fileNames}
 
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography sx={{ fontSize:14, color:COLORS.blue }} variant="body2">
-                  {fileNames}
+                <Typography sx={{ fontSize:14, color:'grey' }} variant="body2">
+                  Media  Download
                 </Typography>
               </Grid>
             </Grid>

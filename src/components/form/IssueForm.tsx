@@ -151,7 +151,7 @@ const IssueForm = ({ open, close }) => {
                                 >
                                     <CloseIcon />
                                 </IconButton>
-                                <DialogContent sx={{ width: '95%', height: '850px', mt:0, mb: 3, ml: 3, mr: 3,  p: 2  }}>
+                                <DialogContent sx={{ width: '94%', height: '850px', mt:0, mb: 3, ml: 3, mr: 3,  p: 2  }}>
                                     <Stack spacing={2} direction="column">
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                             Short description
@@ -236,7 +236,7 @@ const IssueForm = ({ open, close }) => {
 
                                         <Divider />
 
-                                      <FlexContainer sx={{display:'flex', paddingBottom:'5px'}}>
+                                      <FlexContainer sx={{display:'flex', paddingBottom:'15px'}}>
                                         <Typography variant="h5" style={{ color: 'grey', paddingBottom: '5px' }}>
                                           Attachments
                                         </Typography>
@@ -246,7 +246,7 @@ const IssueForm = ({ open, close }) => {
                                         }
                                       </FlexContainer>
 
-                                       <div style={{paddingTop:'1px'}}>
+                                       <div style={{paddingTop:'10px'}}>
                                            {
                                                imageList.length===0 ?  <FileDropField setImagesInForm={setImageList}/> :
                                                    <AttachmentsField imageList={imageList} updateImageList={setImageList}/>
@@ -260,7 +260,7 @@ const IssueForm = ({ open, close }) => {
                                     {isSubmitting ? (
                                         <CircularProgress />
                                     ) : (
-                                        <>
+                                        <div style={{paddingRight:'20px'}}>
                                             <StyledButton buttonSize={'medium'} buttonType={'secondary'} type={'button'} onClick={close}>
                                                 Cancel
                                             </StyledButton>
@@ -275,7 +275,7 @@ const IssueForm = ({ open, close }) => {
                                             >
                                                 Report issue
                                             </Button>
-                                        </>
+                                        </div>
                                     )}
                                 </DialogActions>
                             </BootstrapDialog>
