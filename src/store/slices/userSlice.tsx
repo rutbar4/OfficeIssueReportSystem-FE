@@ -56,7 +56,7 @@ const userSlice = createSlice({
     removeUser(state) {
       removeFromLocalStorage('user');
       return initialState;
-    },
+    }
   },
 });
 
