@@ -31,7 +31,6 @@ const CreateIssueAction = (actionType: string, endPoint, page: number) => {
  };
 };
 
-
 export const getUserIssues = (userID, page) => {
   return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`, page);
 };
