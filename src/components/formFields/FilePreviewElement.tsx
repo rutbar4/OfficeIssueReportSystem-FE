@@ -2,10 +2,16 @@ import { Grid, IconButton, Paper, Typography} from '@mui/material';
 import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import { getStorage, ref } from "firebase/storage";
+import {COLORS} from '../../values/colors';
 
 const FilePreviewElement =({link, fileName,removeUpload})=> {
 
     const handleDeleteFile = () => removeUpload(link);
+
+    const storage=getStorage();
+    const storageRef=ref(storage, link);
+    const fileNames = storageRef.name;
 
     return (
 
@@ -28,13 +34,14 @@ const FilePreviewElement =({link, fileName,removeUpload})=> {
           <Grid item xs={6} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
-                <Typography variant="body2" gutterBottom>
-                  Full resolution 1920x1080 • JPEG
+                <Typography variant="body2" sx={{ fontSize:18, color:COLORS.blue }} gutterBottom>
+                  {fileNames}
+
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                  Download
+                <Typography sx={{ fontSize:14, color:'grey' }} variant="body2">
+                  Media  Download
                 </Typography>
               </Grid>
             </Grid>
