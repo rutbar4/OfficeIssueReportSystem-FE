@@ -6,6 +6,7 @@ import { Button } from '@mui/base';
 import { Grid } from '@mui/material';
 
 import { COLORS } from '../../values/colors';
+import StyledButton from '../StyledButton/StyledButton';
 
 type PopupProps = {
   onContinue: () => void;
@@ -57,23 +58,12 @@ const Popup: React.FC<PopupProps> = ({ onContinue, show }) => {
       >
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <h5>{`Session expires in ${countdown} seconds. Do you want to continue?`}</h5>
+            <h4>{`Session expires in ${countdown} seconds. Do you want to continue?`}</h4>
           </Grid>
-          <Grid item xs={12}>
-            <Button
-              onClick={handleContinue}
-              style={{
-                width: '40%',
-                padding: '10px',
-                borderRadius: '15px',
-                backgroundColor: 'red',
-                color: 'white',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
+          <Grid item xs={12} style={{marginBottom: '16px'}}>
+            <StyledButton buttonType='primary' buttonSize='large' type='button' onClick={handleContinue}>
               Continue
-            </Button>
+            </StyledButton>
           </Grid>
         </Grid>
       </Box>

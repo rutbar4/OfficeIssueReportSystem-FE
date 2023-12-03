@@ -25,7 +25,6 @@ const App = () => {
   useEffect(() => {
     const checkTokenExpiration = () => {
       const jwt = store.getState().user.jwt;
-
       if (jwt) {
         const tokenPayload = jwt.split('.')[1];
         const decodedTokenPayload = window.atob(tokenPayload);

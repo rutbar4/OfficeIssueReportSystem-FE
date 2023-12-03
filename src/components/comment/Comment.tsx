@@ -102,7 +102,7 @@ const CommentForm: FC<CommentProps> = ({
               onClick={issueStatus !== 'Closed' ? () => onUpvote?.(comment.id, issueId) : () => {}}
             />
             {!comment.parentId && (
-              <CircleIcon style={{ fontSize: '5px', color: COLORS.blue, marginLeft: 0, marginRight: 3 }} />
+              <CircleIcon style={{ fontSize: '5px', color: COLORS.blue, marginLeft: 6, marginRight: 0 }} />
             )}
             {!comment.parentId && (
               <Button
@@ -115,6 +115,7 @@ const CommentForm: FC<CommentProps> = ({
                   color: COLORS.blue,
                   borderRadius: '17px',
                   maxHeight: '24px',
+                  marginLeft: '-2px',
                 }}
               >
                 Reply
