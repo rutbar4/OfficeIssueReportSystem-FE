@@ -5,19 +5,28 @@ import { Button, Card, CardActions, CardContent, CardMedia, colors, Stack, Typog
 import BackupIcon from '@mui/icons-material/Backup';
 import { ref, uploadBytes, getDownloadURL, listAll, list } from 'firebase/storage';
 import { v4 } from 'uuid';
+
 import { storage } from '../../firebase/firebaseConfig';
+import { COLORS } from '../../values/colors';
+
 const MiniDropZone = ({ imageListF, setImagesInForm }) => {
   const [imageUpload, setImageUpload] = useState<File[]>([]);
+
   const [imageList, setImageList] = useState<string[]>(imageListF);
+
   const uploadImage = useCallback(
     (acceptedFiles: File[]) => {
       const imagesRef = ref(storage, 'images/');
+
       setImageUpload(acceptedFiles);
+
       if (acceptedFiles.length === 0) return;
+
       Promise.all(
         acceptedFiles.map((image) => {
           console.log('file:', image.name);
           const imageRef = ref(storage, `uploads/${image.name}`);
+
           return uploadBytes(imageRef, image).then(() => {
             return getDownloadURL(imageRef).then((url) => {
               console.log('url:', url);
@@ -38,15 +47,18 @@ const MiniDropZone = ({ imageListF, setImagesInForm }) => {
     },
     [setImagesInForm]
   );
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       uploadImage(acceptedFiles);
     },
     [uploadImage]
   );
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
-    <Box sx={{ height: '5px', width: '100px', maxWidth: '100%', textAlign: 'center', position: 'relative' }}>
+    <Box>
       {
         <div {...getRootProps()}>
           <input {...getInputProps()} />
@@ -54,8 +66,11 @@ const MiniDropZone = ({ imageListF, setImagesInForm }) => {
             <p>Upload file.</p>
           ) : (
             <div>
-              <BackupIcon />
-              <Typography sx={{ color: '#6B706D', fontSize: '14' }}>Upload File</Typography>
+              <Stack direction={'row'} spacing={1}>
+                <Typography sx={{ color: COLORS.blue, fontSize: 14, textDecoration: 'underline' }}>
+                  Upload file
+                </Typography>
+              </Stack>
             </div>
           )}
         </div>
@@ -63,4 +78,5 @@ const MiniDropZone = ({ imageListF, setImagesInForm }) => {
     </Box>
   );
 };
+
 export default MiniDropZone;

@@ -15,6 +15,7 @@ const initialDetails = {
   rating: 0,
   dateCreated: 'Loading...',
   employeeName: 'Loading...',
+  employeeAvatar: '',
   officeName: 'Loading...',
   officeId: '',
   employeeId: '',
@@ -69,6 +70,7 @@ export default function IssueDrawer({
               title={issueDetailData.name}
               description={issueDetailData.description}
               reportedBy={issueDetailData.employeeName}
+              reportedByAvatar={issueDetailData.employeeAvatar}
               reported={issueDetailData.dateCreated}
               status={issueDetailData.status}
               upvotes={voteCount}

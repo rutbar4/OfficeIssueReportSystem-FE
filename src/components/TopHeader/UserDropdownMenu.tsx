@@ -11,8 +11,6 @@ import { AppRoutes } from 'src/types/routes';
 import { AppDispatch } from 'src/store/store';
 import { removeUser } from '../../store/slices/userSlice';
 import { logOutUser } from '../../store/slices/authenticationSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 
 type Props = {
   fullName: string;
