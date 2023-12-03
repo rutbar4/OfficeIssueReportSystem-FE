@@ -20,6 +20,7 @@ import { Employee } from 'src/models/EmployeeModel';
 import { getAllCommentsApi } from 'src/api/CommentApi';
 import RichTextComponent from 'src/components/formFields/RichTextCompDesc';
 import HTTP from 'src/api';
+import Backend from 'src/api/BackendConfig/BackendConfig';
 
 import { getInitialValue } from '@testing-library/user-event/dist/types/document/UI';
 
@@ -121,7 +122,7 @@ export default function BasicTabs({
   React.useEffect(() => {
     const fetchImageList = async () => {
       try {
-        const response = await HTTP.get(`http://localhost:8080/issue/${issueId}/links`);
+        const response = await HTTP.get(`${Backend.backendURL}issue/${issueId}/links`);
 
         if (!response.data) {
           throw new Error('Network response was not ok');
@@ -145,7 +146,7 @@ export default function BasicTabs({
     console.log(imageList);
     for (const imageUrl of imageList) {
       try {
-        const uploadUrl = 'http://localhost:8080/issue/addpicture';
+        const uploadUrl = `${Backend.backendURL}issue/addpicture`;
         await HTTP.post(uploadUrl, {
           url: imageUrl,
           issueId: issueId,

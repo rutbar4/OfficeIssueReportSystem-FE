@@ -6,11 +6,11 @@ import PropTypes from 'prop-types';
 import FilePreviewElement from './FilePreviewElement';
 
 import HTTP from 'src/api';
-
+import Backend from 'src/api/BackendConfig/BackendConfig';
 const AttachmentsFieldDetails = ({ imageList, updateImageList, issueID }) => {
   const deleteUpload = async (url) => {
     try {
-      const response = await HTTP.delete('http://localhost:8080/issue/deletePicture', {
+      const response = await HTTP.delete(`${Backend.backendURL}issue/deletePicture`, {
         params: {
           issueId: issueID,
           link: url,
