@@ -197,7 +197,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                 <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap">
                   <Grid item>
                     <ModeCommentOutlinedIcon
-                      sx={{ fontSize: 20, marginRight: '5px', color: 'grey', marginTop: '2px' }}
+                      sx={{ fontSize: 20, marginRight: '5px', color: '#999999', marginTop: '2px' }}
                     />
                   </Grid>
                   <Grid item>
