@@ -105,30 +105,26 @@ export default function BasicTabs() {
     <>
       <Box sx={{ width: '100%' }} key={refreshKey}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Grid container sx={{ justifyContent: 'space-between' }}>
-            <Grid item>
-              <ThemeProvider theme={customTabTheme}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
-                  TabIndicatorProps={{
-                    style: {
-                      backgroundColor: COLORS.cyan,
-                      height: '3px',
-                    },
-                  }}
-                >
-                  <Tab {...a11yProps(0)} label="All issues" />
-                  <Tab {...a11yProps(1)} label="Open" />
-                  <Tab {...a11yProps(2)} label="Planned" />
-                  <Tab {...a11yProps(3)} label="Resolved" />
-                  <Tab {...a11yProps(5)} label="Closed" />
-                  <Tab {...a11yProps(6)} label="Reported by me" />
-                </Tabs>
-              </ThemeProvider>
-            </Grid>
-          </Grid>
+          <ThemeProvider theme={customTabTheme}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: COLORS.cyan,
+                  height: '3px',
+                },
+              }}
+            >
+              <Tab {...a11yProps(0)} label="All issues" />
+              <Tab {...a11yProps(1)} label="Open" />
+              <Tab {...a11yProps(2)} label="Planned" />
+              <Tab {...a11yProps(3)} label="Resolved" />
+              <Tab {...a11yProps(5)} label="Closed" />
+              <Tab {...a11yProps(6)} label="Reported by me" />
+            </Tabs>
+          </ThemeProvider>
         </Box>
         <Grid container sx={{ display: 'flex', marginTop: '15px', paddingBottom: '20px' }} spacing={2}>
           <Grid item>
