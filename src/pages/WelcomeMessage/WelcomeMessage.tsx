@@ -5,9 +5,10 @@ import { Add } from '@mui/icons-material';
 import IssueForm from '../../components/form/IssueForm';
 
 import StyledButton from 'src/components/StyledButton/StyledButton';
+import { COLORS } from 'src/values/colors.js';
 
 type Props = {
-  name: string | null ;
+  name: string | 'user';
 };
 
 const WelcomeMessage: React.FC<Props> = ({ name }) => {
@@ -21,12 +22,12 @@ const WelcomeMessage: React.FC<Props> = ({ name }) => {
   };
 
   return (
-    <Box display="flex" alignItems="center" p={2}>
+    <Box display="flex" alignItems="center" sx={{ paddingTop: 2, paddingBottom: 4 }}>
       <Box>
-        <Typography variant="h3" gutterBottom sx={{ color: '#0E166E' }}>
-          Welcome, {name}
+        <Typography variant="h3" gutterBottom sx={{ color: COLORS.blue }}>
+          Welcome, {name.split(' ')[0]}
         </Typography>
-        <Typography variant="h5" sx={{ color: '#6B706D', marginBottom: '10px' }}>
+        <Typography variant="h5" sx={{ color: COLORS.gray, marginBottom: '10px' }}>
           Discover, report and vote for office issue that requires our attention and fix
         </Typography>
       </Box>

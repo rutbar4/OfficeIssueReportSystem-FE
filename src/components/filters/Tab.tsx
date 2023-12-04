@@ -12,8 +12,11 @@ import {
   getUserIssues,
 } from 'src/actions/issues/IssuesAction';
 import { RootState } from 'src/store/store';
-import { Pagination } from '@mui/material';
+import { Alert, AlertTitle, Box, CircularProgress, LinearProgress, Pagination, Typography } from '@mui/material';
 import { fetchPageCount } from 'src/api/PageCount';
+import { COLORS } from 'src/values/colors.js';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
+import { fontWeight } from '@mui/system';
 
 interface IssueListProps {
   type: string | null;
@@ -100,9 +103,37 @@ const Tab = ({ type, userID, officeId, userId, sortParam }: IssueListProps) => {
   return (
     <div>
       {issues.loading ? (
-        <p>Loading...</p>
+        <Box sx={{ width: '100%', display: 'flex', marginTop: '25px', paddingLeft: '15px', alignItems: 'center' }}>
+          <CircularProgress sx={{ fontSize: '45px', color: COLORS.blue, marginRight: '15px' }} />
+          <Box>
+            <Typography variant="h5" color={COLORS.blue}>
+              Loading issues
+            </Typography>
+            <Typography variant="h6" color={COLORS.gray}>
+              Please wait!
+            </Typography>
+          </Box>
+        </Box>
       ) : issues.issues.length === 0 ? (
-        <p>EMPTY</p>
+        <Box
+          sx={{
+            width: '100%',
+            marginTop: '25px',
+            paddingLeft: '15px',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <SearchOffIcon sx={{ fontSize: '45px', color: COLORS.blue, marginRight: '15px' }} />
+          <Box>
+            <Typography variant="h5" color={COLORS.blue}>
+              No issues found
+            </Typography>
+            <Typography variant="h6" color={COLORS.gray}>
+              Try changing status tabs or filters
+            </Typography>
+          </Box>
+        </Box>
       ) : (
         issues.issues.map((issue) => (
           <IssueCard
@@ -117,15 +148,29 @@ const Tab = ({ type, userID, officeId, userId, sortParam }: IssueListProps) => {
           />
         ))
       )}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Pagination
-          sx={{ '& .MuiPaginationItem-root': { fontSize: '14px' } }}
-          count={pageCount}
-          page={page}
-          onChange={handleChange}
-          color={'primary'}
-        />
-      </div>
+      {issues.issues.length !== 0 && (
+        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '30px' }}>
+          <Pagination
+            sx={{
+              '& .MuiPaginationItem-root': {
+                fontSize: '14px',
+                color: COLORS.blue + ' !important',
+                fontWeight: 'bold',
+                backgroundColor: '#FFFFFF !important',
+              },
+              '& .Mui-selected': {
+                backgroundColor: COLORS.cyan + ' !important',
+                border: 'none !important',
+              },
+            }}
+            count={pageCount}
+            page={page}
+            onChange={handleChange}
+            color="primary"
+            variant="outlined"
+          />
+        </div>
+      )}
     </div>
   );
 };

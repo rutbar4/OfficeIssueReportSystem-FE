@@ -6,4 +6,5 @@ export const COLORS = {
   white: 'white',
   hoverLightBlue: '#54A5A2',
   hoverUnvotedLightBlue: '#D6F9F8',
+  cyan: '#78ECE8',
 };

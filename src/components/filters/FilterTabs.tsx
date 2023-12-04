@@ -17,6 +17,7 @@ import { User } from 'src/models/BasicUserModel';
 import { SortParameters } from 'src/models/SortParametersModel';
 import { Grid } from '@mui/material';
 import SortSelectMenu from './SortSelectMenu';
+import { COLORS } from 'src/values/colors.js';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -90,7 +91,17 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <ThemeProvider theme={customTabTheme}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: COLORS.cyan,
+                height: '3px',
+              },
+            }}
+          >
             <Tab {...a11yProps(0)} label="All issues" />
             <Tab {...a11yProps(1)} label="Open" />
             <Tab {...a11yProps(2)} label="Planned" />
@@ -100,7 +111,7 @@ export default function BasicTabs() {
           </Tabs>
         </ThemeProvider>
       </Box>
-      <Grid container sx={{ display: 'flex', marginTop: '15px' }} spacing={2}>
+      <Grid container sx={{ display: 'flex', marginTop: '15px', paddingBottom: '20px' }} spacing={2}>
         <Grid item>
           <OfficeSelectMenu setOffice={setOffice} />
         </Grid>

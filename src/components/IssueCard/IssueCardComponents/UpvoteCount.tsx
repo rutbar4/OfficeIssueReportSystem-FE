@@ -5,12 +5,11 @@ import Typography from '@mui/material/Typography';
 import { COLORS } from '../../../values/colors';
 import { GetVoteCount } from '../../../api/VoteApi';
 
-export default function UpvoteCount({ voteCount}) {
-
-return (
+export default function UpvoteCount({ voteCount }) {
+  return (
     <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
       <Grid item>
-        <BiSolidUpArrowAlt fontSize={25} color="grey" />
+        <BiSolidUpArrowAlt fontSize={25} color="#999999" />
       </Grid>
       <Grid item>
         <Typography
