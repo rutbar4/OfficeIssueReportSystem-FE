@@ -108,7 +108,7 @@ const Login = () => {
                 />
 
                 <Box style={{ paddingBottom: '10px', paddingTop: '10px' }}>
-                  <Link variant="h5" onClick={forgotPasswordClick} color={COLORS.blue}>
+                  <Link variant="h5" onClick={forgotPasswordClick} color={COLORS.blue} sx={{ cursor: 'pointer' }}>
                     Forgot password?
                   </Link>
                 </Box>
