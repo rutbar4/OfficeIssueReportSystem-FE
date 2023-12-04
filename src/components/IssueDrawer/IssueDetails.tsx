@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 
 import UserChip from '../Chip/UserChip';
 import { COLORS } from '../../values/colors';
+import VoteToggleButton from '../IssueCard/IssueCardComponents/VoteToggleButton';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
@@ -17,7 +18,6 @@ import StatusDropdown from 'src/components/IssueDrawer/StatusDropdown';
 import OfficeDropdown from 'src/components/IssueDrawer/OfficeDropdown';
 import { RootState } from 'src/store/store';
 
-import VoteToggleButton from '../IssueCard/IssueCardComponents/VoteToggleButton';
 const tableStyle = {
   border: 'none',
   fontSize: '14px',
@@ -29,6 +29,7 @@ const tableStyle = {
 const firstCellStyle = {
   color: '#B3B3B3',
   width: '170px',
+
 };
 
 interface issueDetailsProps {
@@ -132,6 +133,7 @@ function IssueDetails(props: issueDetailsProps) {
       <Divider variant="middle" />
       <Table sx={{ tableLayout: 'fixed', width: 650 }}>
         <TableBody sx={{ border: 0 }}>
+        <TableRow style={{ height: '30px' }} />
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Reported by</TableCell>
             <TableCell style={tableStyle}>
@@ -141,16 +143,19 @@ function IssueDetails(props: issueDetailsProps) {
               />
             </TableCell>
           </TableRow>
+          <TableRow style={{ height: '10px' }} />
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Reported</TableCell>
             <TableCell style={tableStyle}>{reported}</TableCell>
           </TableRow>
+          <TableRow style={{ height: '10px' }} />
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Status</TableCell>
             <TableCell style={{ ...tableStyle, cursor: 'pointer' }} onClick={handleStatusCellClick}>
               <StatusChip issueStatus={selectedStatus} />
             </TableCell>
           </TableRow>
+          <TableRow style={{ height: '10px' }} />
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Upvotes</TableCell>
             <TableCell style={tableStyle}>
@@ -167,12 +172,14 @@ function IssueDetails(props: issueDetailsProps) {
               ></VoteToggleButton>
             </TableCell>
           </TableRow>
+          <TableRow style={{ height: '10px' }} />
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Office</TableCell>
             <TableCell style={{ ...tableStyle, cursor: 'pointer' }} onClick={handleOfficeCellClick}>
               {selectedOffice}
             </TableCell>
           </TableRow>
+          <TableRow style={{ height: '40px' }} />
         </TableBody>
       </Table>
       <Tabs
