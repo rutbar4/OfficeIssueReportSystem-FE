@@ -17,9 +17,9 @@ const App = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
 
-  const refreshAccessToken = () => {
-    RefreshTokenApi(dispatch);
+  const refreshAccessToken = async () => {
     setShowPopup(false);
+    await RefreshTokenApi(dispatch);
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const App = () => {
           dispatch(logOutUser());
           <Navigate to={AppRoutes.SIGN_IN}/>;
         }
-        if (timeUntilExpiration <= 30) {
+        if (timeUntilExpiration <= 30 && timeUntilExpiration > 0) {
           setShowPopup(true);
         } else {
           setShowPopup(false);
