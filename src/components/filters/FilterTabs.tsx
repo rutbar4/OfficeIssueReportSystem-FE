@@ -82,13 +82,20 @@ export default function BasicTabs() {
   const [sort, setSort] = React.useState<SortParameters | null>(null);
   const [value, setValue] = React.useState(0);
   const userID = useSelector((state: RootState) => state.user.user?.id) || 'null';
+  const refreshKey = useSelector((state: RootState) => state.refresh);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    setValue(0);
+    setOffice(null);
+    setSelectedUser(null);
+  }, [refreshKey]);
+
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%' }} key={refreshKey}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <ThemeProvider theme={customTabTheme}>
           <Tabs

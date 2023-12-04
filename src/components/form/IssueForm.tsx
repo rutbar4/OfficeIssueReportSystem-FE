@@ -21,7 +21,7 @@ import {
 import {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Formik} from 'formik';
 import {Editor} from '@tinymce/tinymce-react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import StyledButton from '../StyledButton/StyledButton';
 import {Office} from '../../models/OfficeModel';
@@ -32,6 +32,7 @@ import {RootState} from '../../store/store';
 import {COLORS} from '../../values/colors';
 import StyledTextField from '../formFields/StyledTextField';
 import AttachmentsField from '../formFields/AttachmentsField';
+import { refresh } from 'src/store/slices/refreshSlice';
 import MiniDropZone from '../formFields/MiniDropZone';
 
 const issueValidationSchema = Yup.object().shape({
@@ -64,6 +65,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const labelColor = { color: '#6B706D' };
 
 const IssueForm = ({ open, close }) => {
+    const dispatch = useDispatch();
     const [officesLoading, setOfficesLoading] = useState(true);
     const [offices, setOffices] = useState<Office[]>([]);
     const [showError, setError] = useState('');
@@ -71,6 +73,7 @@ const IssueForm = ({ open, close }) => {
     const [description, setDescription] = useState('');
     const [descriptionError, setDescriptionError] = useState('');
     const [imageList, setImageList]= useState<string []>([]);
+
 
     useEffect(() => {
         fetchAllOffices()
@@ -80,8 +83,6 @@ const IssueForm = ({ open, close }) => {
     }, []);
 
        const onSaveIssue = (values: { name: any; description: any; office: any; attachments: any; }, helpers: { resetForm: () => void; setSubmitting: (arg0: boolean) => void; }) => {
-        console.log('values:',values);
-        console.log('images:', imageList);
         saveIssue({
             name: values.name,
             description: values.description,
@@ -92,6 +93,7 @@ const IssueForm = ({ open, close }) => {
             .then((response) => {
                 helpers.resetForm();
                 close();
+                dispatch(refresh());
             })
             .catch(({ response }) => setError(response.data.message))
             .finally(() => {helpers.setSubmitting(false);
