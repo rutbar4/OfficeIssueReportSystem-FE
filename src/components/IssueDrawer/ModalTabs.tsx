@@ -8,11 +8,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
+import { getInitialValue } from '@testing-library/user-event/dist/types/document/UI';
 
 import MiniDropZone from '../formFields/MiniDropZone';
 import AttachmentsField from '../formFields/AttachmentsFieldDetails';
 import Comments from '../comment/Comments';
 import { UpdateIssueById } from '../../api/IssueUpdateApi';
+import { COLORS } from '../../values/colors';
 
 import { Comment } from 'src/models/CommentModel';
 import { RootState } from 'src/store/store';
@@ -22,7 +24,6 @@ import RichTextComponent from 'src/components/formFields/RichTextCompDesc';
 import HTTP from 'src/api';
 import Backend from 'src/api/BackendConfig/BackendConfig';
 
-import { getInitialValue } from '@testing-library/user-event/dist/types/document/UI';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,10 +43,10 @@ const customTabTheme = createTheme({
           letterSpacing: '0em',
           textAlign: 'left',
           textTransform: 'none',
-          color: '#000048',
+          color: COLORS.blue,
           '&.Mui-selected': {
             fontWeight: 600,
-            color: '#000048',
+            color: COLORS.blue,
           },
         },
       },
@@ -230,10 +231,17 @@ export default function BasicTabs({
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <ThemeProvider theme={customTabTheme}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tabs value={value} onChange={handleChange}
+           aria-label="basic tabs example"
+           TabIndicatorProps={{
+              style: {
+                backgroundColor: COLORS.cyan,
+                height: '3px',
+              },
+            }}
+          >
             <Tab {...a11yProps(0)} label="Details" />
             <Tab {...a11yProps(1)} label={`Comments (${comments.length})`} />
-            <Tab {...a11yProps(2)} label="Activity log" />
           </Tabs>
         </ThemeProvider>
       </Box>

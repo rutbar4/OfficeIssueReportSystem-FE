@@ -4,9 +4,15 @@ import ReactDOM from 'react-dom';
 import { Box } from '@mui/system';
 import { Button } from '@mui/base';
 import { Grid } from '@mui/material';
+import { Navigate } from 'react-router';
 
 import { COLORS } from '../../values/colors';
 import StyledButton from '../StyledButton/StyledButton';
+
+import { removeUser } from 'src/store/slices/userSlice';
+import { logOutUser } from 'src/store/slices/authenticationSlice';
+import { AppRoutes } from 'src/types/routes';
+
 
 type PopupProps = {
   onContinue: () => void;
@@ -18,7 +24,17 @@ const Popup: React.FC<PopupProps> = ({ onContinue, show }) => {
 
   useEffect(() => {
     const countdownTimer = setInterval(() => {
-      setCountdown((prevCountdown) => (prevCountdown > 0 ? prevCountdown - 1 : 30));
+      setCountdown((prevCountdown) => {
+        if (prevCountdown > 0) {
+          return prevCountdown - 1;
+        } else {
+          dispatch(removeUser());
+          dispatch(logOutUser());
+          <Navigate to={AppRoutes.SIGN_IN} />;
+          clearInterval(countdownTimer);
+          return prevCountdown;
+        }
+      });
     }, 1000);
 
     return () => clearInterval(countdownTimer);
@@ -74,4 +90,8 @@ const Popup: React.FC<PopupProps> = ({ onContinue, show }) => {
 };
 
 export default Popup;
+
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}
 

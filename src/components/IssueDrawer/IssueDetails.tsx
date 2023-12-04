@@ -9,6 +9,7 @@ import { Divider } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import UserChip from '../Chip/UserChip';
+import { COLORS } from '../../values/colors';
 
 import StatusChip from 'src/components/Chip/StatusChip';
 import Tabs from 'src/components/IssueDrawer/ModalTabs';
@@ -125,7 +126,7 @@ function IssueDetails(props: issueDetailsProps) {
 
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
-      <Typography variant="h1" sx={{ color: '#0E166E' }}>
+      <Typography variant="h1" sx={{ color: COLORS.sapphire }}>
         {title}
       </Typography>
       <Divider variant="middle" />

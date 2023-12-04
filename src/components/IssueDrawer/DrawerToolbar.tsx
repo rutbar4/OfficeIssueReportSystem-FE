@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IconButton } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -62,11 +61,7 @@ export default function DrawerToolbar(props: issueDetailsProps) {
           p: 1,
         }}
       >
-        <Box>
-          <IconButton>
-            <OpenInFullIcon fontSize="large" />
-          </IconButton>
-        </Box>
+        {isAdmin || user?.id === employeeId && (
         <Box>
           <IconButton onClick={toggleDeletePopup}>
             <MoreVertIcon fontSize="large" />
@@ -77,6 +72,7 @@ export default function DrawerToolbar(props: issueDetailsProps) {
             </div>
           )}
         </Box>
+        )}
         <Box>
           <IconButton onClick={() => wrapperSetDaitailsOpen(false)}>
             <CloseIcon fontSize="large" />
