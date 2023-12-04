@@ -7,4 +7,5 @@ export const COLORS = {
   hoverLightBlue: '#54A5A2',
   hoverUnvotedLightBlue: '#D6F9F8',
   cyan: '#78ECE8',
+  sapphire: '#0E166E',
 };

@@ -32,20 +32,22 @@ const App = () => {
         const currentTime = Math.floor(Date.now() / 1000);
         const timeUntilExpiration = parsedTokenClaims.exp - currentTime;
 
+        if (timeUntilExpiration === 0) {
+          setShowPopup(false);
+          dispatch(removeUser());
+          dispatch(logOutUser());
+          <Navigate to={AppRoutes.SIGN_IN}/>;
+        }
         if (timeUntilExpiration <= 30) {
           setShowPopup(true);
         } else {
           setShowPopup(false);
         }
-
-        if (timeUntilExpiration === 0) {
-          setShowPopup(false);
-          dispatch(removeUser());
-          dispatch(logOutUser());
-          <Navigate to={AppRoutes.SIGN_IN} />;
-        }
       } else {
         setShowPopup(false);
+        dispatch(removeUser());
+        dispatch(logOutUser());
+        <Navigate to={AppRoutes.SIGN_IN}/>;
       }
     };
     const intervalId = setInterval(checkTokenExpiration, 1000);
@@ -54,7 +56,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      {showPopup && <Popup onContinue={refreshAccessToken} show={showPopup}/>}
+      {showPopup && <Popup onContinue={refreshAccessToken}/>}
       <RouterProvider router={AppRouter()} />
     </Provider>
   );

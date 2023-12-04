@@ -1,36 +1,51 @@
 
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import { Box } from '@mui/system';
-import { Button } from '@mui/base';
 import { Grid } from '@mui/material';
+import { Navigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 
 import { COLORS } from '../../values/colors';
 import StyledButton from '../StyledButton/StyledButton';
 
+import { removeUser } from 'src/store/slices/userSlice';
+import { logOutUser } from 'src/store/slices/authenticationSlice';
+import { AppRoutes } from 'src/types/routes';
+
+
 type PopupProps = {
   onContinue: () => void;
-  show: boolean;
 };
 
-const Popup: React.FC<PopupProps> = ({ onContinue, show }) => {
+const Popup: React.FC<PopupProps> = ({ onContinue }) => {
+  const dispatch = useDispatch();
   const [countdown, setCountdown] = useState(30);
+
 
   useEffect(() => {
     const countdownTimer = setInterval(() => {
-      setCountdown((prevCountdown) => (prevCountdown > 0 ? prevCountdown - 1 : 30));
+      setCountdown((prevCountdown) => {
+        if (prevCountdown > 0) {
+          return prevCountdown - 1;
+        } else {
+          dispatch(removeUser());
+          dispatch(logOutUser());
+          <Navigate to={AppRoutes.SIGN_IN} />;
+          clearInterval(countdownTimer);
+          return 0;
+        }
+      });
     }, 1000);
 
     return () => clearInterval(countdownTimer);
-  }, []);
+  }, [dispatch]);
 
   const handleContinue = () => {
     clearInterval(30);
     onContinue();
   };
 
-  return show
-    ? ReactDOM.createPortal(
+  return (
       <Box
       sx={{
         position: 'fixed',
@@ -67,11 +82,11 @@ const Popup: React.FC<PopupProps> = ({ onContinue, show }) => {
           </Grid>
         </Grid>
       </Box>
-    </Box>,
-        document.body
-      )
-    : null;
+    </Box>
+  );
 };
 
 export default Popup;
+
+
 
