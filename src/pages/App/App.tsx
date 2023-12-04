@@ -31,8 +31,7 @@ const App = () => {
         const parsedTokenClaims = JSON.parse(decodedTokenPayload);
         const currentTime = Math.floor(Date.now() / 1000);
         const timeUntilExpiration = parsedTokenClaims.exp - currentTime;
-
-        if (timeUntilExpiration === 0) {
+        if (timeUntilExpiration <= 0) {
           setShowPopup(false);
           dispatch(removeUser());
           dispatch(logOutUser());
