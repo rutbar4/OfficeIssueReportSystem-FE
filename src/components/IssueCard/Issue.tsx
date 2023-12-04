@@ -127,7 +127,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
                     fontWeight: 500,
                   }}
                 >
-                  {issueName}
+                  {issueName.charAt(0).toUpperCase() + issueName.slice(1)}
                 </Typography>
               </Box>
             </Grid>
