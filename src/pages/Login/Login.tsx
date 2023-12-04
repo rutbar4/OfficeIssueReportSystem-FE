@@ -21,6 +21,7 @@ const loginValidationSchema = Yup.object().shape({
 
 const Login = () => {
   const [showError, setShowError] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,8 +40,14 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
         setShowError(true);
+        setShowForgotPassword(false);
       })
       .finally(() => helpers.setSubmitting(false));
+  };
+
+  const forgotPasswordClick = () => {
+    setShowForgotPassword(true);
+    setShowError(false);
   };
 
   return (
@@ -58,6 +65,19 @@ const Login = () => {
                 <Box sx={{ paddingBottom: '3rem', paddingTop: '3rem' }}>
                   <Alert severity="error">
                     <Typography variant="h6">Login failed, please check your credentials and try again.</Typography>
+                  </Alert>
+                </Box>
+              ) : !props.isSubmitting && showForgotPassword ? (
+                <Box sx={{ paddingBottom: '3rem', paddingTop: '3rem' }}>
+                  <Alert severity="warning">
+                    <Typography variant="h6">
+                      If you&#39;ve forgotten your password, please contact your office&#39;s administrator. A list of
+                      contacts can be found on{' '}
+                      <Link href={EXTERNAL_LINKS.support} color={COLORS.blue}>
+                        our support page
+                      </Link>
+                      .
+                    </Typography>
                   </Alert>
                 </Box>
               ) : (
@@ -88,7 +108,7 @@ const Login = () => {
                 />
 
                 <Box style={{ paddingBottom: '10px', paddingTop: '10px' }}>
-                  <Link variant="h5" href={''} color={COLORS.blue}>
+                  <Link variant="h5" onClick={forgotPasswordClick} color={COLORS.blue}>
                     Forgot password?
                   </Link>
                 </Box>
