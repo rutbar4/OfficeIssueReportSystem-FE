@@ -24,9 +24,10 @@ interface IssueListProps {
   officeId: any | null;
   userId: any | null;
   sortParam: any | null;
+  searchValue: any | null;
 }
 
-const Tab = ({ type, userID, officeId, userId, sortParam }: IssueListProps) => {
+const Tab = ({ type, userID, officeId, userId, sortParam, searchValue }: IssueListProps) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const refreshKey = useSelector((state: RootState) => state.refresh);
 
@@ -70,32 +71,32 @@ const Tab = ({ type, userID, officeId, userId, sortParam }: IssueListProps) => {
   useEffect(() => {
     switch (type) {
       case 'open':
-        dispatch(getOpenIssues(page, officeId, userId, sortParam));
+        dispatch(getOpenIssues(page, officeId, userId, sortParam, searchValue));
         break;
       case 'closed':
-        dispatch(getClosedIssues(page, officeId, userId, sortParam));
+        dispatch(getClosedIssues(page, officeId, userId, sortParam, searchValue));
         break;
       case 'planned':
-        dispatch(getPlannedIssues(page, officeId, userId, sortParam));
+        dispatch(getPlannedIssues(page, officeId, userId, sortParam, searchValue));
         break;
       case 'resolved':
-        dispatch(getResolvedIssues(page, officeId, userId, sortParam));
+        dispatch(getResolvedIssues(page, officeId, userId, sortParam, searchValue));
         break;
       case 'user':
-        dispatch(getUserIssues(userID, page, officeId, userId, sortParam));
+        dispatch(getUserIssues(userID, page, officeId, userId, sortParam, searchValue));
         break;
       default:
-        dispatch(getIssues(page, officeId, userId, sortParam));
+        dispatch(getIssues(page, officeId, userId, sortParam, searchValue));
     }
-  }, [type, page, officeId, userId, sortParam]);
+  }, [type, page, officeId, userId, sortParam, searchValue]);
 
   const [pageCount, setPageCount] = React.useState(1);
 
   React.useEffect(() => {
-    fetchPageCount(type, userID, officeId, userId).then((count) => {
+    fetchPageCount(type, userID, officeId, userId, searchValue).then((count) => {
       setPageCount(count);
     });
-  }, [officeId, userId]);
+  }, [officeId, userId, searchValue]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
