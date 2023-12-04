@@ -61,17 +61,17 @@ export default function DrawerToolbar(props: issueDetailsProps) {
           p: 1,
         }}
       >
-        {isAdmin || user?.id === employeeId && (
-        <Box>
-          <IconButton onClick={toggleDeletePopup}>
-            <MoreVertIcon fontSize="large" />
-          </IconButton>
-          {isDropdownOpen && (
-            <div ref={PopupRef} className="Icona">
-              <DeleteModule id={issueId} title={title} />
-            </div>
-          )}
-        </Box>
+        {(isAdmin || user?.id === employeeId) && (
+          <Box>
+            <IconButton onClick={toggleDeletePopup}>
+              <MoreVertIcon fontSize="large" />
+            </IconButton>
+            {isDropdownOpen && (
+              <div ref={PopupRef} className="Icona">
+                <DeleteModule id={issueId} title={title} />
+              </div>
+            )}
+          </Box>
         )}
         <Box>
           <IconButton onClick={() => wrapperSetDaitailsOpen(false)}>

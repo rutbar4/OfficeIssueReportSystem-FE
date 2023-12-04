@@ -79,7 +79,7 @@ const OfficeDropdown = ({ anchorEl, onClose, selectedOffice, onOfficeChange }) =
                 color: '#000048',
               }}
             >
-              {office.name} , {office.country}
+              {office.name}, {office.country}
             </ListItem>
           ))}
         </List>
