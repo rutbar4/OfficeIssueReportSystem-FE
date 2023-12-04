@@ -82,10 +82,10 @@ const CommentForm: FC<CommentProps> = ({
       >
         <Stack direction="row" alignItems="center" spacing={2}>
           <Box p={{ xs: '0', sm: '4px' }}>
-            <Avatar src={employee.avatar} alt={`${employee.fullName} Photo`} sx={{ marginTop: 1 }} />
+            <Avatar src={comment.employee.avatar} alt={`${comment.employee.fullName} Photo`} sx={{ marginTop: 1 }} />
           </Box>
           <Typography variant="h6" sx={{ fontSize: '14px', fontWeight: 'bold', color: COLORS.blue }}>
-            {employee.fullName}
+            {comment.employee.fullName}
           </Typography>
           <Typography variant="h6" sx={{ color: COLORS.gray, paddingTop: '2px' }}>
             {formattedDate}
@@ -102,7 +102,7 @@ const CommentForm: FC<CommentProps> = ({
               onClick={issueStatus !== 'Closed' ? () => onUpvote?.(comment.id, issueId) : () => {}}
             />
             {!comment.parentId && (
-              <CircleIcon style={{ fontSize: '5px', color: COLORS.blue, marginLeft: 0, marginRight: 3 }} />
+              <CircleIcon style={{ fontSize: '5px', color: COLORS.blue, marginLeft: 6, marginRight: 0 }} />
             )}
             {!comment.parentId && (
               <Button
@@ -115,6 +115,7 @@ const CommentForm: FC<CommentProps> = ({
                   color: COLORS.blue,
                   borderRadius: '17px',
                   maxHeight: '24px',
+                  marginLeft: '-2px',
                 }}
               >
                 Reply

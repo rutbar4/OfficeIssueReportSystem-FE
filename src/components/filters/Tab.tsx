@@ -12,17 +12,21 @@ import {
   getUserIssues,
 } from 'src/actions/issues/IssuesAction';
 import { RootState } from 'src/store/store';
-import { Pagination } from '@mui/material';
+import { Alert, AlertTitle, Box, CircularProgress, LinearProgress, Pagination, Typography } from '@mui/material';
 import { fetchPageCount } from 'src/api/PageCount';
+import { COLORS } from 'src/values/colors.js';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
+import { fontWeight } from '@mui/system';
 
 interface IssueListProps {
   type: string | null;
   userID: string;
   officeId: any | null;
   userId: any | null;
+  sortParam: any | null;
 }
 
-const Tab = ({ type, userID, officeId, userId }: IssueListProps) => {
+const Tab = ({ type, userID, officeId, userId, sortParam }: IssueListProps) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const refreshKey = useSelector((state: RootState) => state.refresh);
 
@@ -66,24 +70,24 @@ const Tab = ({ type, userID, officeId, userId }: IssueListProps) => {
   useEffect(() => {
     switch (type) {
       case 'open':
-        dispatch(getOpenIssues(page, officeId, userId));
+        dispatch(getOpenIssues(page, officeId, userId, sortParam));
         break;
       case 'closed':
-        dispatch(getClosedIssues(page, officeId, userId));
+        dispatch(getClosedIssues(page, officeId, userId, sortParam));
         break;
       case 'planned':
-        dispatch(getPlannedIssues(page, officeId, userId));
+        dispatch(getPlannedIssues(page, officeId, userId, sortParam));
         break;
       case 'resolved':
-        dispatch(getResolvedIssues(page, officeId, userId));
+        dispatch(getResolvedIssues(page, officeId, userId, sortParam));
         break;
       case 'user':
-        dispatch(getUserIssues(userID, page, officeId, userId));
+        dispatch(getUserIssues(userID, page, officeId, userId, sortParam));
         break;
       default:
-        dispatch(getIssues(page, officeId, userId));
+        dispatch(getIssues(page, officeId, userId, sortParam));
     }
-  }, [type, page, officeId, userId]);
+  }, [type, page, officeId, userId, sortParam]);
 
   const [pageCount, setPageCount] = React.useState(1);
 
@@ -104,9 +108,37 @@ const Tab = ({ type, userID, officeId, userId }: IssueListProps) => {
   return (
     <div>
       {issues.loading ? (
-        <p>Loading...</p>
+        <Box sx={{ width: '100%', display: 'flex', marginTop: '25px', paddingLeft: '15px', alignItems: 'center' }}>
+          <CircularProgress sx={{ fontSize: '45px', color: COLORS.blue, marginRight: '15px' }} />
+          <Box>
+            <Typography variant="h5" color={COLORS.blue}>
+              Loading issues
+            </Typography>
+            <Typography variant="h6" color={COLORS.gray}>
+              Please wait!
+            </Typography>
+          </Box>
+        </Box>
       ) : issues.issues.length === 0 ? (
-        <p>EMPTY</p>
+        <Box
+          sx={{
+            width: '100%',
+            marginTop: '25px',
+            paddingLeft: '15px',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <SearchOffIcon sx={{ fontSize: '45px', color: COLORS.blue, marginRight: '15px' }} />
+          <Box>
+            <Typography variant="h5" color={COLORS.blue}>
+              No issues found
+            </Typography>
+            <Typography variant="h6" color={COLORS.gray}>
+              Try changing status tabs or filters
+            </Typography>
+          </Box>
+        </Box>
       ) : (
         issues.issues.map((issue) => (
           <IssueCard
@@ -121,15 +153,29 @@ const Tab = ({ type, userID, officeId, userId }: IssueListProps) => {
           />
         ))
       )}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Pagination
-          sx={{ '& .MuiPaginationItem-root': { fontSize: '14px' } }}
-          count={pageCount}
-          page={page}
-          onChange={handleChange}
-          color={'primary'}
-        />
-      </div>
+      {issues.issues.length !== 0 && (
+        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '30px' }}>
+          <Pagination
+            sx={{
+              '& .MuiPaginationItem-root': {
+                fontSize: '14px',
+                color: COLORS.blue + ' !important',
+                fontWeight: 'bold',
+                backgroundColor: '#FFFFFF !important',
+              },
+              '& .Mui-selected': {
+                backgroundColor: COLORS.cyan + ' !important',
+                border: 'none !important',
+              },
+            }}
+            count={pageCount}
+            page={page}
+            onChange={handleChange}
+            color="primary"
+            variant="outlined"
+          />
+        </div>
+      )}
     </div>
   );
 };

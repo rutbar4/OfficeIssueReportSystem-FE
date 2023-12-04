@@ -8,13 +8,16 @@ import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IssueTab from './Tab';
 
-import { User } from 'src/models/BasicUserModel';
 import { RootState } from 'src/store/store';
 import EmployeeSelectMenu from 'src/components/filters/EmployeeSelectMenu';
 import OfficeSelectMenu from 'src/components/filters/OfficeSelectMenu';
 import { useEffect, useState } from 'react';
 import { Office } from 'src/models/OfficeModel';
+import { User } from 'src/models/BasicUserModel';
+import { SortParameters } from 'src/models/SortParametersModel';
 import { Grid } from '@mui/material';
+import SortSelectMenu from './SortSelectMenu';
+import { COLORS } from 'src/values/colors.js';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -76,6 +79,7 @@ function a11yProps(index: number) {
 export default function BasicTabs() {
   const [selectedOffice, setOffice] = React.useState<Office | null>(null);
   const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
+  const [sort, setSort] = React.useState<SortParameters | null>(null);
   const [value, setValue] = React.useState(0);
   const userID = useSelector((state: RootState) => state.user.user?.id) || 'null';
   const refreshKey = useSelector((state: RootState) => state.refresh);
@@ -94,7 +98,17 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%' }} key={refreshKey}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <ThemeProvider theme={customTabTheme}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: COLORS.cyan,
+                height: '3px',
+              },
+            }}
+          >
             <Tab {...a11yProps(0)} label="All issues" />
             <Tab {...a11yProps(1)} label="Open" />
             <Tab {...a11yProps(2)} label="Planned" />
@@ -104,31 +118,77 @@ export default function BasicTabs() {
           </Tabs>
         </ThemeProvider>
       </Box>
-      <Grid container sx={{ display: 'flex', marginTop: '15px' }} spacing={2}>
+      <Grid container sx={{ display: 'flex', marginTop: '15px', paddingBottom: '20px' }} spacing={2}>
         <Grid item>
           <OfficeSelectMenu setOffice={setOffice} />
         </Grid>
         <Grid item>
           <EmployeeSelectMenu setSelectedUser={setSelectedUser} />
         </Grid>
+        <Grid item sx={{ marginLeft: 'auto' }}>
+          <Grid container spacing={2} sx={{ alignContent: 'center', alignItems: 'center' }}>
+            <Grid item>
+              <div>Sort by:</div>
+            </Grid>
+            <Grid item>
+              <SortSelectMenu setSort={setSort} />
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
       <CustomTabPanel value={value} index={0}>
-        <IssueTab type={null} userID={userID} officeId={selectedOffice?.id} userId={selectedUser?.id} />
+        <IssueTab
+          type={null}
+          userID={userID}
+          officeId={selectedOffice?.id}
+          userId={selectedUser?.id}
+          sortParam={sort?.parameter}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <IssueTab type={'open'} userID={userID} officeId={selectedOffice?.id} userId={selectedUser?.id} />
+        <IssueTab
+          type={'open'}
+          userID={userID}
+          officeId={selectedOffice?.id}
+          userId={selectedUser?.id}
+          sortParam={sort?.parameter}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <IssueTab type={'planned'} userID={userID} officeId={selectedOffice?.id} userId={selectedUser?.id} />
+        <IssueTab
+          type={'planned'}
+          userID={userID}
+          officeId={selectedOffice?.id}
+          userId={selectedUser?.id}
+          sortParam={sort?.parameter}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <IssueTab type={'resolved'} userID={userID} officeId={selectedOffice?.id} userId={selectedUser?.id} />
+        <IssueTab
+          type={'resolved'}
+          userID={userID}
+          officeId={selectedOffice?.id}
+          userId={selectedUser?.id}
+          sortParam={sort?.parameter}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <IssueTab type={'closed'} userID={userID} officeId={selectedOffice?.id} userId={selectedUser?.id} />
+        <IssueTab
+          type={'closed'}
+          userID={userID}
+          officeId={selectedOffice?.id}
+          userId={selectedUser?.id}
+          sortParam={sort?.parameter}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <IssueTab type={'user'} userID={userID} officeId={selectedOffice?.id} userId={selectedUser?.id} />
+        <IssueTab
+          type={'user'}
+          userID={userID}
+          officeId={selectedOffice?.id}
+          userId={selectedUser?.id}
+          sortParam={sort?.parameter}
+        />
       </CustomTabPanel>
     </Box>
   );

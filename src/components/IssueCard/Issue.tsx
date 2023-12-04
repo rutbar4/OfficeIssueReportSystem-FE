@@ -1,7 +1,8 @@
+/* eslint-disable react/self-closing-comp */
 import React, { useCallback, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material';
+import { colors, styled } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
@@ -26,10 +27,12 @@ const BoxContainer = styled(Box)`
   align-items: left;
   height: 100%;
   padding: 20px;
-  padding-right: 50px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
   margin-bottom: 10px;
+  background-color: #ffffff;
 `;
 
 type CustomBoxProps = {
@@ -82,122 +85,148 @@ const CustomBox: React.FC<CustomBoxProps> = ({
   const [wasVoted, setInitialVoteState] = useState(false);
   const [isError, setError] = useState(false);
   const [isVoted, setVoted] = useState(wasVoted);
+
+  const issueDate = new Date(date);
+  const day = issueDate.getUTCDate();
+  const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(issueDate);
+  const year = issueDate.getUTCFullYear();
+  const hour = issueDate.getUTCHours();
+  const minute = issueDate.getUTCMinutes();
+
+  const formattedDate = `${day} ${month} ${year}, ${hour.toString().padStart(2, '0')}:${minute
+    .toString()
+    .padStart(2, '0')}`;
+
   return (
     <>
       <BoxContainer
         onClick={(e) => {
           toggleDrawer(true, setIssueDetailsOpen, e);
         }}
+        sx={{
+          '&:hover': {
+            backgroundColor: '#F4F4F4',
+            cursor: 'pointer',
+          },
+        }}
       >
-        <Grid container>
-          <Grid item xs={6}>
-            <Box>
+        <Grid container alignItems="center">
+          <Grid item xs={12} sm={7}>
+            <Grid item>
+              <Box>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    WebkitLineClamp: '1',
+                    WebkitBoxOrient: 'vertical',
+                    color: COLORS.blue,
+                    marginBottom: '7px',
+                    fontWeight: 500,
+                  }}
+                >
+                  {issueName.charAt(0).toUpperCase() + issueName.slice(1)}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item alignItems="start">
               <Typography
-                variant="h4"
                 sx={{
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   display: '-webkit-box',
-                  WebkitLineClamp: '1',
+                  WebkitLineClamp: '2',
                   WebkitBoxOrient: 'vertical',
-                  color: COLORS.blue,
-                  marginTop: 2,
-                  marginBottom: 2,
-                  fontWeight: 500,
+                  fontSize: '14px',
+                  width: '90%',
+                  color: COLORS.gray,
                 }}
               >
-                {issueName}
+                <span dangerouslySetInnerHTML={{ __html: issueDescription }} />
               </Typography>
-            </Box>
+            </Grid>
+            <Grid item>
+              <Typography
+                sx={{
+                  fontSize: '15px',
+                  color: '#999999',
+                  marginTop: '15px',
+                  bottom: 0,
+                }}
+              >
+                {formattedDate}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={7}>
-                <div style={{ display: 'flex', flexDirection: 'row', gap: '120px' }}>
-                  <Typography
-                    sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      display: '-webkit-box',
-                      WebkitLineClamp: '2',
-                      WebkitBoxOrient: 'vertical',
-                      height: '39px',
-                      width: '573px',
-                      fontSize: '14px',
-                      color: COLORS.gray,
-                    }}
-                  >
-                    <span dangerouslySetInnerHTML={{ __html: issueDescription }} />
-                  </Typography>
-                </div>
+          <Grid item xs={12} sm={5} display="flex" flexDirection="column" justifyContent="flex-end" alignItems="center">
+            <Grid container alignItems="center" justifyContent="space-between">
+              <Grid item xs={3}>
+                <Chip
+                  label={issueStatus}
+                  sx={{ borderRadius: '17px', fontSize: '14px', height: '28px' }}
+                  style={{
+                    backgroundColor:
+                      issueStatus === 'Open'
+                        ? '#CFE7D7'
+                        : issueStatus === 'In progress'
+                        ? '#DAE9FF'
+                        : issueStatus === 'Pending'
+                        ? '#FFF7DA'
+                        : issueStatus === 'Blocked'
+                        ? '#FFDAE3'
+                        : '#EDEFF1',
+                    color:
+                      issueStatus === 'Open'
+                        ? COLORS.blue
+                        : issueStatus === 'In progress'
+                        ? COLORS.blue
+                        : issueStatus === 'Pending'
+                        ? COLORS.blue
+                        : issueStatus === 'Blocked'
+                        ? COLORS.blue
+                        : '#A9A9AA',
+                  }}
+                />
               </Grid>
-              <Grid item xs={5} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-                <Grid container alignItems="center">
-                  <Grid item xs={3}>
-                    <Chip
-                      label={issueStatus}
-                      sx={{ borderRadius: '17px', fontSize: '15px' }}
-                      color={
-                        issueStatus === 'Open'
-                          ? 'success'
-                          : issueStatus === 'In progress'
-                          ? 'primary'
-                          : issueStatus === 'Blocked'
-                          ? 'error'
-                          : 'default'
-                      }
+              <Grid item xs={2}>
+                <UpvoteCount voteCount={voteCount} key={issueId} />
+              </Grid>
+              <Grid item xs={2}>
+                <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap">
+                  <Grid item>
+                    <ModeCommentOutlinedIcon
+                      sx={{ fontSize: 20, marginRight: '5px', color: '#999999', marginTop: '2px' }}
                     />
                   </Grid>
-                  <Grid item xs={3}>
-                    <UpvoteCount voteCount={voteCount} key={issueId} />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Grid container flexDirection="row" alignItems="center" flexWrap="nowrap" justifyContent="left">
-                      <Grid item>
-                        <ModeCommentOutlinedIcon sx={{ fontSize: 20, marginRight: '5px', color: 'grey' }} />
-                      </Grid>
-                      <Grid item>
-                        <Typography
-                          sx={{
-                            fontSize: '15px',
-                            color: COLORS.gray,
-                          }}
-                        >
-                          {commentCount}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={3}>
-                    {/* needs id from sesion */}
-                    <VoteToggleButton
-                      issueId={issueId}
-                      key={issueId}
-                      handleVoteCount={handleVoteCount}
-                      put={'Vote'}
-                      wasVoted={wasVoted}
-                      isError={isError}
-                      setError={setError}
-                      isVoted={isVoted}
-                      setVoted={setVoted}
-                    />
+                  <Grid item>
+                    <Typography
+                      sx={{
+                        fontSize: '15px',
+                        color: COLORS.gray,
+                      }}
+                    >
+                      {commentCount}
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container alignItems="flex-end">
-              <Grid item>
-                <Typography
-                  sx={{
-                    fontSize: '15px',
-                    color: COLORS.gray,
-                    marginTop: 1,
-                  }}
-                >
-                  {date}
-                </Typography>
+              <Grid item xs={2}>
+                {/* needs id from session */}
+                <div style={{ float: 'right' }}>
+                  <VoteToggleButton
+                    issueId={issueId}
+                    key={issueId}
+                    handleVoteCount={handleVoteCount}
+                    put={'Vote'}
+                    wasVoted={wasVoted}
+                    isError={isError}
+                    setError={setError}
+                    isVoted={isVoted}
+                    setVoted={setVoted}
+                  />
+                </div>
               </Grid>
             </Grid>
           </Grid>

@@ -25,9 +25,14 @@ const CommentUpvoteButton: React.FC<CommentUpvoteButtonProps> = ({ isUpVoted, vo
         backgroundColor: votedColor,
         padding: 0,
         scale: '0.75',
-        borderRadius: '16px',
+        borderRadius: '17px',
         outline: 'none',
         border: 'none',
+        fontSize: '12px',
+        width: '20px',
+        overflow: 'hidden',
+        fontWeight: 'bold',
+        ':hover': { backgroundColor: isUpVoted === true ? COLORS.hoverLightBlue : COLORS.hoverUnvotedLightBlue }
       }}
     >
       <UpvoteChip count={votes} />
@@ -36,3 +41,4 @@ const CommentUpvoteButton: React.FC<CommentUpvoteButtonProps> = ({ isUpVoted, vo
 };
 
 export default CommentUpvoteButton;
+
