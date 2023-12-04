@@ -7,7 +7,7 @@ import FilePreviewElement from './FilePreviewElement';
 
 import HTTP from 'src/api';
 import Backend from 'src/api/BackendConfig/BackendConfig';
-const AttachmentsFieldDetails = ({ imageList, updateImageList, issueID }) => {
+const AttachmentsFieldDetails = ({ imageList, updateImageList, issueID, isDeletable }) => {
   const deleteUpload = async (url) => {
     try {
       const response = await HTTP.delete(`${Backend.backendURL}issue/deletePicture`, {
@@ -44,7 +44,13 @@ const AttachmentsFieldDetails = ({ imageList, updateImageList, issueID }) => {
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 8, md: 12 }} style={{}}>
         {imageList.map((url) => (
           <Grid item key={url} xs={5} style={{ width: '150px', height: '120px', margin: '20px' }}>
-            <FilePreviewElement key={url} fileName={'file'} link={url} removeUpload={deleteUpload} />
+            <FilePreviewElement
+              key={url}
+              fileName={'file'}
+              link={url}
+              removeUpload={deleteUpload}
+              isDeletable={isDeletable}
+            />
           </Grid>
         ))}
       </Grid>
@@ -55,6 +61,11 @@ const AttachmentsFieldDetails = ({ imageList, updateImageList, issueID }) => {
 AttachmentsFieldDetails.propTypes = {
   imageList: PropTypes.arrayOf(PropTypes.string).isRequired,
   updateImageList: PropTypes.func.isRequired,
+  isDeletable: PropTypes.bool,
+};
+
+AttachmentsFieldDetails.defaultProps = {
+  isDeletable: true,
 };
 
 export default AttachmentsFieldDetails;

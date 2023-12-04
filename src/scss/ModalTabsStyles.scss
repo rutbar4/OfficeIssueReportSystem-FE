@@ -27,31 +27,32 @@
 }
 .cancelButton {
     width: 81px !important;
-    height: 40px !important;
+    height: 35px !important;
     padding: 8px 24px !important;
     border-radius: 100px !important;
     gap: 8px !important;
     background: white;
+    border-color: #dddddd !important;
 }
 .saveButton {
     width: 81px !important;
-    height: 40px !important;
+    height: 35px !important;
     padding: 8px 24px !important;
     border-radius: 100px !important;
     gap: 8px !important;
     background: #000048 !important;
 }
 .TabFooter {
-    position: absolute !important;
     width: 100% !important;
-    height: 64px !important;
     bottom: 0 !important;
-    left: 0 !important;
-    padding: 12px 24px !important;
     border-radius: 0 0 12px 12px !important;
     border: 1px 0 0 0 !important;
     gap: 8px !important;
     border-top: 1px solid #dddddd !important;
     display: flex !important;
     justify-content: flex-end !important;
+    background-color: #ffffff;
+    right: 0;
+    margin-top: 20px;
+    padding-top: 10px;
 }
