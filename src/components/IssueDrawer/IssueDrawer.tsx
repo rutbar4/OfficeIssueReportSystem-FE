@@ -46,14 +46,6 @@ export default function IssueDrawer({
     }
   }, [issueDetailsOpen]);
 
-  const date = new Date(issueDetailData.dateCreated);
-  const formattedDate = date.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-  issueDetailData.dateCreated = formattedDate;
-
   return (
     <div>
       <React.Fragment key={'right'}>

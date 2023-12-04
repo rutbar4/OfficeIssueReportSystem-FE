@@ -24,7 +24,6 @@ import RichTextComponent from 'src/components/formFields/RichTextCompDesc';
 import HTTP from 'src/api';
 import Backend from 'src/api/BackendConfig/BackendConfig';
 
-
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -66,7 +65,7 @@ function CustomTabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ pt: 3 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -231,9 +230,11 @@ export default function BasicTabs({
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <ThemeProvider theme={customTabTheme}>
-          <Tabs value={value} onChange={handleChange}
-           aria-label="basic tabs example"
-           TabIndicatorProps={{
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            TabIndicatorProps={{
               style: {
                 backgroundColor: COLORS.cyan,
                 height: '3px',
@@ -276,18 +277,35 @@ export default function BasicTabs({
             </div>
           </div>
         )}
-        <div className="AttachmentsLine" style={{ marginTop: '50px', display: 'flex', alignItems: 'center' }}>
+        <div
+          className="AttachmentsLine"
+          style={{
+            marginTop: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between', // To push elements to the sides
+            width: '100%',
+          }}
+        >
           <div style={{ marginTop: '-50px' }}>
             <Typography className="Description">Attachments</Typography>
           </div>
-
-          <div style={{ marginLeft: '448px', marginTop: '-50px' }}>
-            <a>
-              <MiniDropZone imageListF={imageList} setImagesInForm={setImageList} />
-            </a>
-          </div>
+          {(isAdmin || user?.id === employeeId) && (
+            <div style={{ marginTop: '-50px', right: 0, cursor: 'pointer', marginLeft: 'auto' }}>
+              <a>
+                <MiniDropZone imageListF={imageList} setImagesInForm={setImageList} />
+              </a>
+            </div>
+          )}
         </div>
-        <AttachmentsField imageList={imageList} updateImageList={setImageList} issueID={issueId} />
+        <div style={{ scale: '0.7', marginLeft: '-25%', marginTop: '-30px' }}>
+          <AttachmentsField
+            imageList={imageList}
+            updateImageList={setImageList}
+            issueID={issueId}
+            isDeletable={isAdmin || user?.id === employeeId}
+          />
+        </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <Comments
@@ -298,15 +316,17 @@ export default function BasicTabs({
           issueStatus={status}
         />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Busimi Logai
-      </CustomTabPanel>
       {(isFooterVisible === true || isAddedPicture === true) && isDescriptionTab === true && !richTextError && (
         <div className="TabFooter">
-          <Button variant="outlined" className="cancelButton" onClick={handleCancel}>
+          <Button variant="outlined" className="cancelButton" onClick={handleCancel} sx={{ textTransform: 'none' }}>
             <Typography className="cancel">Cancel</Typography>
           </Button>
-          <Button variant="contained" className="saveButton" onClick={handleSaveDescription}>
+          <Button
+            variant="contained"
+            className="saveButton"
+            onClick={handleSaveDescription}
+            sx={{ textTransform: 'none' }}
+          >
             <Typography className="delete-issue">Save</Typography>
           </Button>
         </div>

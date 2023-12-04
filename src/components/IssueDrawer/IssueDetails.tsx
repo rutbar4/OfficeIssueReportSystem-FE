@@ -17,19 +17,18 @@ import Tabs from 'src/components/IssueDrawer/ModalTabs';
 import StatusDropdown from 'src/components/IssueDrawer/StatusDropdown';
 import OfficeDropdown from 'src/components/IssueDrawer/OfficeDropdown';
 import { RootState } from 'src/store/store';
+import { BiSolidUpArrowAlt } from 'react-icons/bi';
 
 const tableStyle = {
   border: 'none',
   fontSize: '14px',
-  itemsAllign: 'left',
-  padding: '3px',
+  alignItems: 'left',
+  padding: '2px',
   overFlow: 'hidden',
-  Width: '10px',
 };
 const firstCellStyle = {
-  color: '#B3B3B3',
-  width: '170px',
-
+  color: COLORS.gray,
+  fontSize: '15px',
 };
 
 interface issueDetailsProps {
@@ -125,28 +124,44 @@ function IssueDetails(props: issueDetailsProps) {
   const user = useSelector((state: RootState) => state.user.user);
   const isAdmin = (user?.roles as role[])?.includes('ADMIN') || false;
 
+  let formattedDate = 'Loading...';
+
+  if (reported !== 'Loading...') {
+    const issueDate = new Date(reported);
+    const day = issueDate.getUTCDate();
+    const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(issueDate);
+    const year = issueDate.getUTCFullYear();
+    const hour = issueDate.getUTCHours();
+    const minute = issueDate.getUTCMinutes();
+
+    formattedDate = `${day} ${month} ${year}, ${hour.toString().padStart(2, '0')}:${minute
+      .toString()
+      .padStart(2, '0')}`;
+  }
+
   return (
     <Box sx={{ width: '100%', maxWidth: 650, bgcolor: 'background.paper' }}>
-      <Typography variant="h1" sx={{ color: COLORS.sapphire }}>
-        {title}
+      <Typography variant="h2" sx={{ color: COLORS.blue, paddingBottom: '20px' }}>
+        {title.charAt(0).toUpperCase() + title.slice(1)}
       </Typography>
-      <Divider variant="middle" />
-      <Table sx={{ tableLayout: 'fixed', width: 650 }}>
+      <Divider />
+      <Table sx={{ tableLayout: 'unset', width: 650 }}>
         <TableBody sx={{ border: 0 }}>
-        <TableRow style={{ height: '30px' }} />
+          <TableRow style={{ height: '30px' }} />
           <TableRow>
-            <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Reported by</TableCell>
+            <TableCell style={{ ...tableStyle, ...firstCellStyle }} width="20%">
+              Reported by
+            </TableCell>
             <TableCell style={tableStyle}>
-              <UserChip
-                userName={reportedBy}
-                imageLink={reportedByAvatar}
-              />
+              <UserChip userName={reportedBy} imageLink={reportedByAvatar} />
             </TableCell>
           </TableRow>
           <TableRow style={{ height: '10px' }} />
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Reported</TableCell>
-            <TableCell style={tableStyle}>{reported}</TableCell>
+            <TableCell style={{ ...tableStyle, color: COLORS.blue, fontSize: '16px', paddingLeft: '4px' }}>
+              {formattedDate}
+            </TableCell>
           </TableRow>
           <TableRow style={{ height: '10px' }} />
           <TableRow>
@@ -159,23 +174,34 @@ function IssueDetails(props: issueDetailsProps) {
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Upvotes</TableCell>
             <TableCell style={tableStyle}>
-              <VoteToggleButton
-                issueId={props.id}
-                key={props.id}
-                handleVoteCount={handleVoteCount}
-                put={upvotes}
-                wasVoted={wasVoted}
-                isError={isError}
-                setError={setError}
-                isVoted={isVoted}
-                setVoted={setVoted}
-              ></VoteToggleButton>
+              <Box sx={{ scale: '0.85', textAlign: 'left', alignItems: 'left', padding: 0, marginLeft: -5 }}>
+                {status !== 'Closed' ? (
+                  <VoteToggleButton
+                    issueId={props.id}
+                    key={props.id}
+                    handleVoteCount={handleVoteCount}
+                    put={upvotes}
+                    wasVoted={wasVoted}
+                    isError={isError}
+                    setError={setError}
+                    isVoted={isVoted}
+                    setVoted={setVoted}
+                  />
+                ) : (
+                  <div style={{ fontSize: '20px', color: COLORS.gray, fontWeight: 'bold', display: 'flex' }}>
+                    <BiSolidUpArrowAlt color={COLORS.gray} size={'27px'} /> {upvotes}
+                  </div>
+                )}
+              </Box>
             </TableCell>
           </TableRow>
           <TableRow style={{ height: '10px' }} />
           <TableRow>
             <TableCell style={{ ...tableStyle, ...firstCellStyle }}>Office</TableCell>
-            <TableCell style={{ ...tableStyle, cursor: 'pointer' }} onClick={handleOfficeCellClick}>
+            <TableCell
+              style={{ ...tableStyle, cursor: 'pointer', color: COLORS.blue, fontSize: '16px', paddingLeft: '4px' }}
+              onClick={handleOfficeCellClick}
+            >
               {selectedOffice}
             </TableCell>
           </TableRow>
