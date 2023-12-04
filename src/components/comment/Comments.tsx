@@ -84,7 +84,7 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
           <Paper
             key={rootComment.id}
             elevation={0}
-            sx={{ marginLeft: -10, marginRight: 'auto', width: '100%', marginTop: 0, padding: 0 }}
+            sx={{ marginLeft: -7, marginRight: 'auto', width: '100%', marginTop: 0, padding: 0 }}
           >
             <CommentForm
               issueId={issueId}
@@ -109,7 +109,7 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
             right: '27px',
             width: '550',
             backgroundColor: COLORS.white,
-            marginLeft: -10,
+            marginLeft: -5,
             padding: 0,
           }}
         >

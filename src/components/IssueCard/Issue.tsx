@@ -12,6 +12,7 @@ import { COLORS } from '../../values/colors';
 import VoteToggleButton from './IssueCardComponents/VoteToggleButton';
 import { GetVoteCount } from '../../api/VoteApi';
 import { IsVoted } from '../../api/VoteApi';
+import StatusChip from 'src/components/Chip/StatusChip';
 
 const toggleDrawer = (open, setState, event) => {
   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -163,32 +164,7 @@ const CustomBox: React.FC<CustomBoxProps> = ({
           <Grid item xs={12} sm={5} display="flex" flexDirection="column" justifyContent="flex-end" alignItems="center">
             <Grid container alignItems="center" justifyContent="space-between">
               <Grid item xs={3}>
-                <Chip
-                  label={issueStatus}
-                  sx={{ borderRadius: '17px', fontSize: '14px', height: '28px' }}
-                  style={{
-                    backgroundColor:
-                      issueStatus === 'Open'
-                        ? '#CFE7D7'
-                        : issueStatus === 'In progress'
-                        ? '#DAE9FF'
-                        : issueStatus === 'Pending'
-                        ? '#FFF7DA'
-                        : issueStatus === 'Blocked'
-                        ? '#FFDAE3'
-                        : '#EDEFF1',
-                    color:
-                      issueStatus === 'Open'
-                        ? COLORS.blue
-                        : issueStatus === 'In progress'
-                        ? COLORS.blue
-                        : issueStatus === 'Pending'
-                        ? COLORS.blue
-                        : issueStatus === 'Blocked'
-                        ? COLORS.blue
-                        : '#A9A9AA',
-                  }}
-                />
+                <StatusChip issueStatus={issueStatus} />
               </Grid>
               <Grid item xs={2}>
                 <UpvoteCount voteCount={voteCount} key={issueId} />
@@ -214,19 +190,21 @@ const CustomBox: React.FC<CustomBoxProps> = ({
               </Grid>
               <Grid item xs={2}>
                 {/* needs id from session */}
-                <div style={{ float: 'right' }}>
-                  <VoteToggleButton
-                    issueId={issueId}
-                    key={issueId}
-                    handleVoteCount={handleVoteCount}
-                    put={'Vote'}
-                    wasVoted={wasVoted}
-                    isError={isError}
-                    setError={setError}
-                    isVoted={isVoted}
-                    setVoted={setVoted}
-                  />
-                </div>
+                {issueStatus !== 'Closed' && (
+                  <div style={{ float: 'right' }}>
+                    <VoteToggleButton
+                      issueId={issueId}
+                      key={issueId}
+                      handleVoteCount={handleVoteCount}
+                      put={'Vote'}
+                      wasVoted={wasVoted}
+                      isError={isError}
+                      setError={setError}
+                      isVoted={isVoted}
+                      setVoted={setVoted}
+                    />
+                  </div>
+                )}
               </Grid>
             </Grid>
           </Grid>
