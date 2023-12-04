@@ -27,6 +27,7 @@ import { AppRoutes } from 'src/types/routes';
 import {  Country } from 'src/models/AddressModel';
 import { fetchAllCountries } from 'src/api/CountryApi';
 import {addUser, getUserFromLocalStorage} from '../../store/slices/userSlice';
+import ProfileImageDropZone from '../formFields/ProfileImageDropZone';
 
 const labelColor = { color: '#6B706D' };
 
@@ -54,9 +55,14 @@ const UserProfile = () => {
   const [error, setError] = useState('');
 
   const user = useSelector((state:RootState) => state.user.user);
-  const jwt = useSelector((state:RootState) => state.user.jwt)
+  const jwt = useSelector((state:RootState) => state.user.jwt);
   const dispatch = useDispatch();
+  const [ userPicture, setUserPicture] = useState(user?.avatar);
 
+  const onUserPictureUpdate = (imagesList) => {
+      const picture = imagesList[0];
+      setUserPicture(picture);
+  };
 
   useEffect(() => {
     fetchAllCountries()
@@ -66,7 +72,8 @@ const UserProfile = () => {
   }, []);
 
   const onUserUpdate = (values) => {
-      console.log(values);
+      console.log('VALUES:', values);
+      console.log('URL:', userPicture);
       updateUser( {
           id: user?.id,
           address: {
@@ -76,7 +83,7 @@ const UserProfile = () => {
               postcode : values.postcode,
               countryId : countries.find((country) => country.name === values.country)?.id
           },
-          avatar : 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/220px-SNice.svg.png'
+          avatar : userPicture
       }). then(({data}) => {
           {
               dispatch(
@@ -141,13 +148,19 @@ const UserProfile = () => {
                                       </Typography>
                                       <div onClick={handleImageChange} style={{ cursor: 'pointer', position: 'relative', width: '320px', height: '320px' }}>
 
-                                          { user?.avatar ? <img src={user?.avatar} alt="Selected" style={{ width: '100%', height: '100%', borderRadius: '6px',
-                                              borderColor: COLORS.lighterGray,
-                                              borderWidth: '1px',
-                                              borderStyle: 'solid',
-                                              outlineColor: COLORS.blue,
-                                              outlineWidth: '4px', }}
-                                                           /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                                          { user?.avatar ?
+                                              <div>
+                                                  <img src={userPicture} alt="Selected" style={{ width: '100%', height: '100%', borderRadius: '6px',
+                                                      borderColor: COLORS.lighterGray,
+                                                      borderWidth: '1px',
+                                                      borderStyle: 'solid',
+                                                      outlineColor: COLORS.blue,
+                                                      outlineWidth: '4px', }}
+                                                  />
+                                                  <ProfileImageDropZone setImageInForm={onUserPictureUpdate}/>
+                                              </div>
+
+                                               : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
                                               <label style={labelColor} id="photoLabel">
                                                   Select Photo
                                               </label>
