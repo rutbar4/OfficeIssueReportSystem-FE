@@ -128,10 +128,10 @@ export default function BasicTabs() {
         </Box>
         <Grid container sx={{ display: 'flex', marginTop: '15px', paddingBottom: '20px' }} spacing={2}>
           <Grid item>
-            <OfficeSelectMenu setOffice={setOffice} />
+            <OfficeSelectMenu setOffice={setOffice} selectedOffice={selectedOffice} />
           </Grid>
           <Grid item>
-            <EmployeeSelectMenu setSelectedUser={setSelectedUser} />
+            <EmployeeSelectMenu setSelectedUser={setSelectedUser} selectedUser={selectedUser}/>
           </Grid>
           <Grid item sx={{ marginLeft: 'auto' }}>
             <Grid container spacing={2} sx={{ alignContent: 'center', alignItems: 'center' }}>

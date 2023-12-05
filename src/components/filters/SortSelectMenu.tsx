@@ -9,7 +9,7 @@ import { SortParameters } from 'src/models/SortParametersModel';
 
 export default function SortSelectMenu({ setSort }) {
   const sortValues = [
-    { label: 'Recently updated first', parameter: '' },
+    { label: 'Recently created first', parameter: '' },
     { label: 'Most votes first', parameter: 'upvoteCount DESC' },
     { label: 'Least votes first', parameter: 'upvoteCount ASC' },
     { label: 'Title name alphabetically', parameter: 'issue_name' },
@@ -26,6 +26,7 @@ export default function SortSelectMenu({ setSort }) {
       clearIcon={<CloseIcon style={{ marginTop: 2 }} />}
       popupIcon={<ArrowDropDownIcon style={{ marginTop: 2 }} />}
       disablePortal
+      disableClearable
       id="sort-selection"
       options={sortValues}
       defaultValue={{ label: 'Recently updated first', parameter: '' }}
