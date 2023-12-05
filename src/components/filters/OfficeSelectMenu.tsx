@@ -6,10 +6,14 @@ import { fetchAllOffices } from 'src/api/OfficeApi';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Office } from 'src/models/OfficeModel';
-import { COLORS } from 'src/values/colors.js';
+import { COLORS } from 'src/values/colors.js';import { RootState } from 'src/store/store';
+import { useSelector } from 'react-redux';
+
 
 export default function OfficeSelectMenu({ setOffice, selectedOffice }) {
   const [offices, getOffices] = useState<Office[]>([]);
+
+  const userOffice = useSelector((state: RootState) => state.user.user?.office);
 
   useEffect(() => {
     const fetchOffices = async () => {
@@ -33,7 +37,7 @@ export default function OfficeSelectMenu({ setOffice, selectedOffice }) {
       size="small"
       id="employee-selection"
       options={offices}
-      value={selectedOffice ? selectedOffice : { name: 'All Offices', id: '' }}
+      value={selectedOffice ? selectedOffice : userOffice}
       getOptionLabel={(office: Office) => office.name}
       ListboxProps={{ style: { fontSize: '14px' } }}
       sx={{ width: '200px' }}
