@@ -37,7 +37,7 @@ export default function OfficeSelectMenu({ setOffice, selectedOffice }) {
       size="small"
       id="employee-selection"
       options={offices}
-      value={selectedOffice ? selectedOffice : userOffice}
+      value={selectedOffice ? selectedOffice : { name: 'All Offices', id: '' }}
       getOptionLabel={(office: Office) => office.name}
       ListboxProps={{ style: { fontSize: '14px' } }}
       sx={{ width: '200px' }}
