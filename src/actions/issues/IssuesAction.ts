@@ -24,7 +24,7 @@ const CreateIssueAction = (
   endPoint,
   page: number,
   officeId: UUID,
-  userId: UUID,
+  userId: UUID|null,
   sortParam: string,
   searchValue: string
 ) => {
@@ -59,8 +59,8 @@ const CreateIssueAction = (
   };
 };
 
-export const getUserIssues = (userID, page, officeId, userId, sortParam, searchValue) => {
-  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`, page, officeId, userId, sortParam, searchValue);
+export const getUserIssues = (userID, page, officeId, sortParam, searchValue) => {
+  return CreateIssueAction(actions.GET_USER_ISSUES, `issue/reportedBy/${userID}`, page, officeId, null, sortParam, searchValue);
 };
 
 export const getClosedIssues = (page, officeId, userId, sortParam, searchValue) => {

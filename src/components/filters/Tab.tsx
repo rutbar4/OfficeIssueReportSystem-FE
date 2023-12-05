@@ -92,7 +92,7 @@ const Tab = ({ type, userID, officeId, userId, sortParam, searchValue, setShowEm
         break;
       case 'user': {
         setShowEmployeeFilter(false);
-        dispatch(getUserIssues(userID, page, officeId, userId, sortParam, searchValue));
+        dispatch(getUserIssues(userID, page, officeId, sortParam, searchValue));
         break;
       }
       default: {
