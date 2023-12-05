@@ -8,13 +8,14 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Office } from 'src/models/OfficeModel';
 import { COLORS } from 'src/values/colors.js';
 
-export default function OfficeSelectMenu({ setOffice }) {
+export default function OfficeSelectMenu({ setOffice, selectedOffice }) {
   const [offices, getOffices] = useState<Office[]>([]);
 
   useEffect(() => {
     const fetchOffices = async () => {
       const fetchedOffices = await fetchAllOffices();
-      getOffices(fetchedOffices);
+      const newOffices = [{ name: 'All Offices', id: '' }].concat(fetchedOffices);
+      getOffices(newOffices);
     };
 
     fetchOffices();
@@ -32,7 +33,7 @@ export default function OfficeSelectMenu({ setOffice }) {
       size="small"
       id="employee-selection"
       options={offices}
-      defaultValue={{ name: 'All Offices', id: '' }}
+      value={selectedOffice ? selectedOffice : { name: 'All Offices', id: '' }}
       getOptionLabel={(office: Office) => office.name}
       ListboxProps={{ style: { fontSize: '14px' } }}
       sx={{ width: '200px' }}
@@ -42,7 +43,7 @@ export default function OfficeSelectMenu({ setOffice }) {
           InputProps={{ ...params.InputProps, style: { fontSize: '14px', color: COLORS.blue } }}
           InputLabelProps={{ style: { fontSize: '12px' } }}
           label="Office"
-          placeholder="Office"
+          placeholder="Start typing..."
           sx={{
             fieldset: {
               borderRadius: '20px',

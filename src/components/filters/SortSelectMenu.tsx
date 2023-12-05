@@ -26,6 +26,7 @@ export default function SortSelectMenu({ setSort }) {
       clearIcon={<CloseIcon style={{ marginTop: 2 }} />}
       popupIcon={<ArrowDropDownIcon style={{ marginTop: 2 }} />}
       disablePortal
+      disableClearable
       id="sort-selection"
       options={sortValues}
       defaultValue={{ label: 'Recently updated first', parameter: '' }}
