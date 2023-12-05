@@ -25,9 +25,10 @@ interface IssueListProps {
   userId: any | null;
   sortParam: any | null;
   searchValue: any | null;
+  setShowEmployeeFilter: any;
 }
 
-const Tab = ({ type, userID, officeId, userId, sortParam, searchValue }: IssueListProps) => {
+const Tab = ({ type, userID, officeId, userId, sortParam, searchValue, setShowEmployeeFilter }: IssueListProps) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const refreshKey = useSelector((state: RootState) => state.refresh);
 
@@ -70,23 +71,34 @@ const Tab = ({ type, userID, officeId, userId, sortParam, searchValue }: IssueLi
 
   useEffect(() => {
     switch (type) {
-      case 'open':
+      case 'open': {
+        setShowEmployeeFilter(true);
         dispatch(getOpenIssues(page, officeId, userId, sortParam, searchValue));
         break;
-      case 'closed':
+      }
+      case 'closed': {
+        setShowEmployeeFilter(true);
         dispatch(getClosedIssues(page, officeId, userId, sortParam, searchValue));
         break;
-      case 'planned':
+      }
+      case 'planned': {
+        setShowEmployeeFilter(true);
         dispatch(getPlannedIssues(page, officeId, userId, sortParam, searchValue));
         break;
+      }
       case 'resolved':
+        setShowEmployeeFilter(true);
         dispatch(getResolvedIssues(page, officeId, userId, sortParam, searchValue));
         break;
-      case 'user':
+      case 'user': {
+        setShowEmployeeFilter(false);
         dispatch(getUserIssues(userID, page, officeId, userId, sortParam, searchValue));
         break;
-      default:
+      }
+      default: {
+        setShowEmployeeFilter(true);
         dispatch(getIssues(page, officeId, userId, sortParam, searchValue));
+      }
     }
   }, [type, page, officeId, userId, sortParam, searchValue]);
 
