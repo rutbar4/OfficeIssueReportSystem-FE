@@ -29,7 +29,7 @@ export default function SortSelectMenu({ setSort }) {
       disableClearable
       id="sort-selection"
       options={sortValues}
-      defaultValue={{ label: 'Recently updated first', parameter: '' }}
+      defaultValue={{ label: 'Recently created first', parameter: '' }}
       getOptionLabel={(sortValues: SortParameters) => sortValues.label}
       ListboxProps={{ style: { fontSize: '14px' } }}
       sx={{ width: 250 }}
