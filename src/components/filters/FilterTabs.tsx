@@ -80,6 +80,8 @@ function a11yProps(index: number) {
 
 // eslint-disable-next-line react/no-multi-comp
 export default function BasicTabs() {
+  const userOfficeTemp = useSelector((state: RootState) => state.user.user?.office);
+  const userOffice = { id: userOfficeTemp?.id, name: userOfficeTemp?.name } as Office;
   const [selectedOffice, setOffice] = React.useState<Office | null>(null);
   const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
   const [sort, setSort] = React.useState<SortParameters | null>(null);
@@ -87,6 +89,7 @@ export default function BasicTabs() {
   const [search, setSearch] = React.useState<String | null>(null);
   const userID = useSelector((state: RootState) => state.user.user?.id) || 'null';
   const refreshKey = useSelector((state: RootState) => state.refresh);
+  const [showEmployeeFilter, setShowEmployeeFilter] = React.useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -97,7 +100,7 @@ export default function BasicTabs() {
 
   useEffect(() => {
     setValue(0);
-    setOffice(null);
+    setOffice(userOffice);
     setSelectedUser(null);
   }, [refreshKey]);
 
@@ -130,9 +133,12 @@ export default function BasicTabs() {
           <Grid item>
             <OfficeSelectMenu setOffice={setOffice} selectedOffice={selectedOffice} />
           </Grid>
-          <Grid item>
-            <EmployeeSelectMenu setSelectedUser={setSelectedUser} selectedUser={selectedUser}/>
-          </Grid>
+          {showEmployeeFilter == true && (
+            <Grid item>
+              <EmployeeSelectMenu setSelectedUser={setSelectedUser} selectedUser={selectedUser} />
+            </Grid>
+          )}
+
           <Grid item sx={{ marginLeft: 'auto' }}>
             <Grid container spacing={2} sx={{ alignContent: 'center', alignItems: 'center' }}>
               <Grid item>
@@ -175,6 +181,7 @@ export default function BasicTabs() {
             userId={selectedUser?.id}
             sortParam={sort?.parameter}
             searchValue={search}
+            setShowEmployeeFilter={setShowEmployeeFilter}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
@@ -185,6 +192,7 @@ export default function BasicTabs() {
             userId={selectedUser?.id}
             sortParam={sort?.parameter}
             searchValue={search}
+            setShowEmployeeFilter={setShowEmployeeFilter}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
@@ -195,6 +203,7 @@ export default function BasicTabs() {
             userId={selectedUser?.id}
             sortParam={sort?.parameter}
             searchValue={search}
+            setShowEmployeeFilter={setShowEmployeeFilter}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
@@ -205,6 +214,7 @@ export default function BasicTabs() {
             userId={selectedUser?.id}
             sortParam={sort?.parameter}
             searchValue={search}
+            setShowEmployeeFilter={setShowEmployeeFilter}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
@@ -215,6 +225,7 @@ export default function BasicTabs() {
             userId={selectedUser?.id}
             sortParam={sort?.parameter}
             searchValue={search}
+            setShowEmployeeFilter={setShowEmployeeFilter}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={5}>
@@ -225,6 +236,7 @@ export default function BasicTabs() {
             userId={selectedUser?.id}
             sortParam={sort?.parameter}
             searchValue={search}
+            setShowEmployeeFilter={setShowEmployeeFilter}
           />
         </CustomTabPanel>
       </Box>
