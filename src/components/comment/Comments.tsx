@@ -1,6 +1,6 @@
 // eslint-disable-next-line react/jsx-filename-extension
 import { FC, useState } from 'react';
-import { Box, Container, Divider, Paper } from '@mui/material';
+import { Box, Container, Divider, Paper, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
 import CommentForm from './Comment';
@@ -86,6 +86,11 @@ const Comments: FC<CommentsProps> = ({ issueId, currentUser, issueComments, upda
             elevation={0}
             sx={{ marginLeft: -7, marginRight: 'auto', width: '100%', marginTop: 0, padding: 0 }}
           >
+            {issueStatus === 'Closed' && (
+              <Typography variant="h6" sx={{ marginLeft: 5, marginBottom: 3, fontSize: '14px', fontWeight: 'bold', color: COLORS.blue }}>
+              You cannot comment or vote on closed issues.
+            </Typography>
+            )}
             <CommentForm
               issueId={issueId}
               comment={rootComment}
