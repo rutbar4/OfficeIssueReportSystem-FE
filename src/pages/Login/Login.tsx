@@ -59,7 +59,7 @@ const Login = () => {
             <Box>
               <Typography variant="h2" color={COLORS.blue}>
                 Welcome to <br />
-                Devbridge Office Portal
+                Cognizant Office Portal
               </Typography>
               {!props.isSubmitting && showError ? (
                 <Box sx={{ paddingBottom: '3rem', paddingTop: '3rem' }}>
@@ -108,7 +108,7 @@ const Login = () => {
                 />
 
                 <Box style={{ paddingBottom: '10px', paddingTop: '10px' }}>
-                  <Link variant="h5" onClick={forgotPasswordClick} color={COLORS.blue}>
+                  <Link variant="h5" onClick={forgotPasswordClick} color={COLORS.blue} sx={{ cursor: 'pointer' }}>
                     Forgot password?
                   </Link>
                 </Box>
