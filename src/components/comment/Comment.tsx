@@ -69,6 +69,7 @@ const CommentForm: FC<CommentProps> = ({
         paddingBottom: 0,
       }}
     >
+
       <CardContent
         sx={{
           flex: '1 1 auto',
@@ -80,6 +81,7 @@ const CommentForm: FC<CommentProps> = ({
           width: '100%',
         }}
       >
+
         <Stack direction="row" alignItems="center" spacing={2}>
           <Box p={{ xs: '0', sm: '4px' }}>
             <Avatar src={comment.employee.avatar} alt={`${comment.employee.fullName} Photo`} sx={{ marginTop: 1 }} />
@@ -101,10 +103,11 @@ const CommentForm: FC<CommentProps> = ({
               votes={comment.votes}
               onClick={issueStatus !== 'Closed' ? () => onUpvote?.(comment.id, issueId) : () => {}}
             />
-            {!comment.parentId && (
+
+            {!comment.parentId && issueStatus !== 'Closed' && (
               <CircleIcon style={{ fontSize: '5px', color: COLORS.blue, marginLeft: 6, marginRight: 0 }} />
             )}
-            {!comment.parentId && (
+            {!comment.parentId && issueStatus !== 'Closed' && (
               <Button
                 variant="text"
                 onClick={() => (isReplying ? setActiveComment(null) : setActiveComment(comment.id))}
@@ -121,6 +124,7 @@ const CommentForm: FC<CommentProps> = ({
                 Reply
               </Button>
             )}
+
           </Box>
           {isReplying && issueStatus !== 'Closed' && (
             <Box sx={{ display: 'flex', marginLeft: '20px' }}>
