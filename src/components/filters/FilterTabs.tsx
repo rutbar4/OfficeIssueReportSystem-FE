@@ -7,10 +7,13 @@ import 'src/scss/ModalTabsStyles.scss';
 import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IssueTab from './Tab';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import { RootState } from 'src/store/store';
 import EmployeeSelectMenu from 'src/components/filters/EmployeeSelectMenu';
 import OfficeSelectMenu from 'src/components/filters/OfficeSelectMenu';
+import TextField from '@mui/material/TextField';
 import { useEffect, useState } from 'react';
 import { Office } from 'src/models/OfficeModel';
 import { User } from 'src/models/BasicUserModel';
@@ -81,11 +84,15 @@ export default function BasicTabs() {
   const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
   const [sort, setSort] = React.useState<SortParameters | null>(null);
   const [value, setValue] = React.useState(0);
+  const [search, setSearch] = React.useState<String | null>(null);
   const userID = useSelector((state: RootState) => state.user.user?.id) || 'null';
   const refreshKey = useSelector((state: RootState) => state.refresh);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
   };
 
   useEffect(() => {
@@ -95,101 +102,132 @@ export default function BasicTabs() {
   }, [refreshKey]);
 
   return (
-    <Box sx={{ width: '100%' }} key={refreshKey}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <ThemeProvider theme={customTabTheme}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: COLORS.cyan,
-                height: '3px',
-              },
-            }}
-          >
-            <Tab {...a11yProps(0)} label="All issues" />
-            <Tab {...a11yProps(1)} label="Open" />
-            <Tab {...a11yProps(2)} label="Planned" />
-            <Tab {...a11yProps(3)} label="Resolved" />
-            <Tab {...a11yProps(5)} label="Closed" />
-            <Tab {...a11yProps(6)} label="Reported by me" />
-          </Tabs>
-        </ThemeProvider>
-      </Box>
-      <Grid container sx={{ display: 'flex', marginTop: '15px', paddingBottom: '20px' }} spacing={2}>
-        <Grid item>
-          <OfficeSelectMenu setOffice={setOffice} />
-        </Grid>
-        <Grid item>
-          <EmployeeSelectMenu setSelectedUser={setSelectedUser} />
-        </Grid>
-        <Grid item sx={{ marginLeft: 'auto' }}>
-          <Grid container spacing={2} sx={{ alignContent: 'center', alignItems: 'center' }}>
-            <Grid item>
-              <div>Sort by:</div>
-            </Grid>
-            <Grid item>
-              <SortSelectMenu setSort={setSort} />
+    <>
+      <Box sx={{ width: '100%' }} key={refreshKey}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <ThemeProvider theme={customTabTheme}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: COLORS.cyan,
+                  height: '3px',
+                },
+              }}
+            >
+              <Tab {...a11yProps(0)} label="All issues" />
+              <Tab {...a11yProps(1)} label="Open" />
+              <Tab {...a11yProps(2)} label="Planned" />
+              <Tab {...a11yProps(3)} label="Resolved" />
+              <Tab {...a11yProps(5)} label="Closed" />
+              <Tab {...a11yProps(6)} label="Reported by me" />
+            </Tabs>
+          </ThemeProvider>
+        </Box>
+        <Grid container sx={{ display: 'flex', marginTop: '15px', paddingBottom: '20px' }} spacing={2}>
+          <Grid item>
+            <OfficeSelectMenu setOffice={setOffice} />
+          </Grid>
+          <Grid item>
+            <EmployeeSelectMenu setSelectedUser={setSelectedUser} />
+          </Grid>
+          <Grid item sx={{ marginLeft: 'auto' }}>
+            <Grid container spacing={2} sx={{ alignContent: 'center', alignItems: 'center' }}>
+              <Grid item>
+                <div>Sort by:</div>
+              </Grid>
+              <Grid item>
+                <SortSelectMenu setSort={setSort} />
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="outlined-basic"
+                  placeholder="Search"
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    input: { color: COLORS.blue, fontSize: '14px' },
+                    placeholder: { fontSize: '14px', color: COLORS.blue },
+                    fieldset: {
+                      borderRadius: '30px',
+                    },
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onKeyUp={handleSearch}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      <CustomTabPanel value={value} index={0}>
-        <IssueTab
-          type={null}
-          userID={userID}
-          officeId={selectedOffice?.id}
-          userId={selectedUser?.id}
-          sortParam={sort?.parameter}
-        />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <IssueTab
-          type={'open'}
-          userID={userID}
-          officeId={selectedOffice?.id}
-          userId={selectedUser?.id}
-          sortParam={sort?.parameter}
-        />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <IssueTab
-          type={'planned'}
-          userID={userID}
-          officeId={selectedOffice?.id}
-          userId={selectedUser?.id}
-          sortParam={sort?.parameter}
-        />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        <IssueTab
-          type={'resolved'}
-          userID={userID}
-          officeId={selectedOffice?.id}
-          userId={selectedUser?.id}
-          sortParam={sort?.parameter}
-        />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
-        <IssueTab
-          type={'closed'}
-          userID={userID}
-          officeId={selectedOffice?.id}
-          userId={selectedUser?.id}
-          sortParam={sort?.parameter}
-        />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={5}>
-        <IssueTab
-          type={'user'}
-          userID={userID}
-          officeId={selectedOffice?.id}
-          userId={selectedUser?.id}
-          sortParam={sort?.parameter}
-        />
-      </CustomTabPanel>
-    </Box>
+        <CustomTabPanel value={value} index={0}>
+          <IssueTab
+            type={null}
+            userID={userID}
+            officeId={selectedOffice?.id}
+            userId={selectedUser?.id}
+            sortParam={sort?.parameter}
+            searchValue={search}
+          />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <IssueTab
+            type={'open'}
+            userID={userID}
+            officeId={selectedOffice?.id}
+            userId={selectedUser?.id}
+            sortParam={sort?.parameter}
+            searchValue={search}
+          />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          <IssueTab
+            type={'planned'}
+            userID={userID}
+            officeId={selectedOffice?.id}
+            userId={selectedUser?.id}
+            sortParam={sort?.parameter}
+            searchValue={search}
+          />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
+          <IssueTab
+            type={'resolved'}
+            userID={userID}
+            officeId={selectedOffice?.id}
+            userId={selectedUser?.id}
+            sortParam={sort?.parameter}
+            searchValue={search}
+          />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={4}>
+          <IssueTab
+            type={'closed'}
+            userID={userID}
+            officeId={selectedOffice?.id}
+            userId={selectedUser?.id}
+            sortParam={sort?.parameter}
+            searchValue={search}
+          />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={5}>
+          <IssueTab
+            type={'user'}
+            userID={userID}
+            officeId={selectedOffice?.id}
+            userId={selectedUser?.id}
+            sortParam={sort?.parameter}
+            searchValue={search}
+          />
+        </CustomTabPanel>
+      </Box>
+    </>
   );
 }
