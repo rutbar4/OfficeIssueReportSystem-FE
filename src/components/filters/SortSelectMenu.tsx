@@ -9,7 +9,7 @@ import { SortParameters } from 'src/models/SortParametersModel';
 
 export default function SortSelectMenu({ setSort }) {
   const sortValues = [
-    { label: 'Recently updated first', parameter: '' },
+    { label: 'Recently created first', parameter: '' },
     { label: 'Most votes first', parameter: 'upvoteCount DESC' },
     { label: 'Least votes first', parameter: 'upvoteCount ASC' },
     { label: 'Title name alphabetically', parameter: 'issue_name' },
