@@ -59,7 +59,7 @@ const Login = () => {
             <Box>
               <Typography variant="h2" color={COLORS.blue}>
                 Welcome to <br />
-                Devbridge Office Portal
+                Cognizant Office Portal
               </Typography>
               {!props.isSubmitting && showError ? (
                 <Box sx={{ paddingBottom: '3rem', paddingTop: '3rem' }}>
