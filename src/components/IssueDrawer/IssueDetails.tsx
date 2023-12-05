@@ -85,7 +85,7 @@ function IssueDetails(props: issueDetailsProps) {
     setSelectedStatus(status);
   }, [status]);
   const handleStatusCellClick = (event) => {
-    if (isAdmin || employeeId === user?.id) {
+    if (isAdmin) {
       setStatusDropdownAnchor(event.currentTarget);
     }
   };
